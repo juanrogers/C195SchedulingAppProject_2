@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxWidth="1000.0" prefHeight="556.0" prefWidth="1000.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.appointmentsscreencontroller">
+    <children>
+        <Label fx:id="appointmentsLabel" layoutX="10.0" layoutY="10.0" text="APPOINTMENTS">
+            <font>
+                <Font name="Cochin" size="30.0" />
+            </font>
+        </Label>
+        <Button fx:id="backToMainMenuButton" layoutX="800.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="BACK TO MAIN MENU">
+            <font>
+                <Font name="Cochin" size="14.0" />
+            </font>
+        </Button>
+        <TableView fx:id="appointmentsTable" layoutX="10.0" layoutY="200.0" prefHeight="338.0" prefWidth="980.0">
+            <columns>
+                <TableColumn fx:id="appointmentIdCol" minWidth="100.0" prefWidth="108.89" text="Appointment ID" />
+                <TableColumn fx:id="titleCol" prefWidth="108.89" text="Title" />
+                <TableColumn fx:id="descriptionCol" prefWidth="108.89" text="Description" />
+                <TableColumn fx:id="locationCol" prefWidth="108.89" text="Location" />
+                <TableColumn fx:id="contactCol" prefWidth="108.89" text="Contact" />
+                <TableColumn fx:id="typeCol" prefWidth="108.89" text="Type" />
+                <TableColumn fx:id="startCol" prefWidth="108.89" text="Start" />
+                <TableColumn fx:id="endCol" prefWidth="108.89" text="End" />
+                <TableColumn fx:id="customerIdCol" prefWidth="108.88" text="Customer ID" />
+            </columns>
+        </TableView>
+        <Button fx:id="deleteAppointmentButton" layoutX="705.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToDeleteAppointment" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="DELETE APPOINTMENT">
+            <font>
+                <Font name="Cochin" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="updateAppointmentButton" layoutX="390.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToUpdateAppointment" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="UPDATE APPOINTMENT">
+            <font>
+                <Font name="Cochin" size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="addAppointmentButton" layoutX="110.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToAddAppointment" prefHeight="30.0" prefWidth="170.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="ADD APPOINTMENT">
+            <font>
+                <Font name="Cochin" size="13.0" />
+            </font>
+        </Button>
+        <Label fx:id="viewByLabel" layoutX="10.0" layoutY="160.0" text="VIEW BY:">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </Label>
+        <RadioButton fx:id="viewByWeekRadioButton" layoutX="126.0" layoutY="160.0" mnemonicParsing="false" onAction="#onActionViewByWeek" text="CURRENT WEEK">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+            <toggleGroup>
+                <ToggleGroup fx:id="viewToggleGroup" />
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="viewByMonthRadioButton" layoutX="410.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewByMonth" text="CURRENT MONTH" toggleGroup="$viewToggleGroup">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="viewAllRadioButton" layoutX="711.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewAll" text="ALL" toggleGroup="$viewToggleGroup">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </RadioButton>
+    </children>
+</AnchorPane>

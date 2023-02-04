@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.customersscreencontroller">
+    <children>
+        <Button fx:id="addCustomerButton" layoutX="110.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionGoToAddCustomer" prefHeight="30.0" prefWidth="170.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="ADD CUSTOMER">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </Button>
+        <Label fx:id="customersLabel" layoutX="10.0" layoutY="10.0" text="CUSTOMERS">
+            <font>
+                <Font name="Cochin" size="30.0" />
+            </font>
+        </Label>
+        <Button fx:id="backToMainMenuButton" layoutX="800.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="BACK TO MAIN MENU">
+            <font>
+                <Font name="Cochin" size="14.0" />
+            </font>
+        </Button>
+        <TableView fx:id="customerTable" layoutX="10.0" layoutY="200.0" prefHeight="390.0" prefWidth="980.0">
+            <columns>
+                <TableColumn fx:id="customerIdCol" minWidth="100.0" prefWidth="163.33" text="Customer ID" />
+                <TableColumn fx:id="customerNameCol" prefWidth="163.33" text="Customer Name" />
+                <TableColumn fx:id="addressCol" prefWidth="163.33" text="Address" />
+                <TableColumn fx:id="divisionCol" prefWidth="163.33" text="Division" />
+                <TableColumn fx:id="postalCodeCol" prefWidth="163.33" text="Postal Code" />
+                <TableColumn fx:id="phoneCol" prefWidth="163.35" text="Phone" />
+            </columns>
+        </TableView>
+        <Button fx:id="deleteCustomerButton" layoutX="700.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionDeleteCustomer" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="DELETE CUSTOMER">
+            <font>
+                <Font name="Cochin" size="15.0" />
+            </font>
+        </Button>
+        <Button fx:id="updateCustomerButton" layoutX="390.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionGoToUpdateCustomer" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="UPDATE CUSTOMER">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

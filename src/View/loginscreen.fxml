@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="330.0" prefWidth="400.0" style="-fx-border-width: 5; -fx-border-color: teal;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.loginscreencontroller">
+    <children>
+        <Button fx:id="signinButton" layoutX="147.0" layoutY="214.0" mnemonicParsing="false" onAction="#onActionSignin" prefHeight="31.0" prefWidth="97.0" style="-fx-border-width: 3; -fx-border-color: teal;" text="SIGN IN">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font></Button>
+        <Label fx:id="schedulingAssistantLabel" layoutX="24.0" layoutY="20.0" opacity="0.35" text="SCHEDULING ASSISTANT">
+            <font>
+                <Font name="Cochin" size="27.0" />
+            </font>
+            <effect>
+                <SepiaTone />
+            </effect>
+        </Label>
+        <Button fx:id="exitButton" layoutX="316.0" layoutY="286.0" mnemonicParsing="false" onAction="#onActionExit" prefHeight="30.0" prefWidth="64.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="EXIT">
+            <font>
+                <Font name="Cochin" size="15.0" />
+            </font></Button>
+        <Label fx:id="loginLabel" layoutX="144.0" layoutY="65.0" prefHeight="40.0" prefWidth="117.0" text="LOGIN">
+            <font>
+                <Font name="Cochin" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="zoneIdLabel" layoutX="14.0" layoutY="292.0" text="YOUR ZONE ID :">
+            <font>
+                <Font name="Cochin" size="15.0" />
+            </font></Label>
+        <Label fx:id="zoneIdSwitchLabel" layoutX="144.0" layoutY="293.0" text="ZoneID">
+            <font>
+                <Font name="Copperplate" size="17.0" />
+            </font></Label>
+        <GridPane layoutX="55.0" layoutY="124.0" prefHeight="60.0" prefWidth="293.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="usernameLabel" prefHeight="17.0" prefWidth="110.0" text="USERNAME">
+                    <font>
+                        <Font name="Cochin" size="13.0" />
+                    </font>
+                </Label>
+                <Label fx:id="passwordLabel" prefHeight="17.0" prefWidth="110.0" text="PASSWORD" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="Cochin" size="13.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="usernameTxtFld" onAction="#onActionUsernameTxtFld" prefHeight="26.0" prefWidth="147.0" GridPane.columnIndex="1" />
+                <TextField fx:id="passwordTxtFld" onAction="#onActionPasswordTxtFld" prefHeight="26.0" prefWidth="147.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>
