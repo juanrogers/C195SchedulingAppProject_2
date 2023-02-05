@@ -289,7 +289,7 @@ public class addappointmentscreencontroller implements Initializable {
 
 
     /**
-     * This method initializes the appointment screen and populates customer table, contact and user dropdown boxes, and converts time between local time and EST.
+     * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
      *
      * @param url the location.
      * @param resourceBundle the resources.

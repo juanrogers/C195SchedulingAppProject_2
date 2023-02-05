@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.addcustomerscreencontroller">
+    <children>
+        <Label fx:id="addCustomerLabel" layoutX="85.0" layoutY="20.0" prefWidth="240.0" text="ADD CUSTOMER">
+            <font>
+                <Font name="Cochin" size="28.0" />
+            </font>
+        </Label>
+        <VBox alignment="CENTER_RIGHT" layoutX="61.0" layoutY="117.0" prefHeight="200.0" prefWidth="121.0" spacing="25.0">
+            <children>
+                <Label fx:id="customerIdLabel" prefHeight="25.0" text="Customer ID:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="customerNameLabel" prefHeight="25.0" text="Customer Name:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="addressLabel" prefHeight="25.0" text="Address:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="countryLabel" prefHeight="25.0" text="Country:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="divWSwitchableLabel" prefHeight="25.0" text="Division:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="postalCodeLabel" prefHeight="25.0" text="Postal Code:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="phoneLabel" prefHeight="25.0" text="Phone:">
+                    <font>
+                        <Font name="Cochin" size="16.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <Button fx:id="saveAddCustomerButton" layoutX="75.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionSaveAddCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="SAVE">
+            <font>
+                <Font name="Cochin" size="14.0" />
+            </font>
+        </Button>
+        <Button fx:id="cancelAddCustomerButton" layoutX="245.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionCancelAddCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="CANCEL">
+            <font>
+                <Font name="Cochin" size="13.0" />
+            </font>
+        </Button>
+        <TextField fx:id="customerIdTxtFld" layoutX="189.0" layoutY="117.0" onAction="#onActionCustdTxtFld" />
+        <TextField fx:id="customerNameTxtFld" layoutX="189.0" layoutY="170.0" onAction="#onActionCustNameTxtFld" />
+        <TextField fx:id="addressTxtFld" layoutX="189.0" layoutY="218.0" onAction="#onActionAddrTxtFld" />
+        <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="166.0" />
+        <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="318.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="166.0" />
+        <TextField fx:id="postalCodeTxtFld" layoutX="189.0" layoutY="368.0" onAction="#onActionPostCodeTxtFld" />
+        <TextField fx:id="phoneTxtFld" layoutX="189.0" layoutY="418.0" onAction="#onActionPhoneTxtFld" />
+    </children>
+</AnchorPane>

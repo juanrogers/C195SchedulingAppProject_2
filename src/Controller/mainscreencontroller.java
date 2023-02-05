@@ -105,7 +105,7 @@ public class mainscreencontroller implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This will log you out, are you sure you want to continue?");
+        alert.setContentText("This will log you out of the application, do you want to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
