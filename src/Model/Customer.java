@@ -16,7 +16,6 @@ public class Customer {
     public int division_Id;
     //public String divisionName;
 
-
     /** This is the constructor used for building a customer.
      *
      * @param customer_Id The id of the customer.
@@ -26,7 +25,7 @@ public class Customer {
      * @param phone The phone number of the customer.
      * @param country_Id The country id for customer.
      * @param division_Id The division id for the customer.
-    //* @param divisionName The division name for the customer.
+    // @param divisionName The division name for the customer.
      */
     public Customer (int customer_Id, String customerName, String address, String postalCode, String phone, int country_Id, int division_Id) {
 
@@ -52,7 +51,7 @@ public class Customer {
 
 
     /**
-     * @return Getter for the customer_Id
+     * @return will return the customer_Id
      */
     public int getCustomer_Id() {
 
@@ -61,7 +60,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the customerName
+     * @return will return the customerName
      */
     public String getCustomerName() {
 
@@ -70,7 +69,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the address
+     * @return will return the address
      */
     public String getAddress() {
 
@@ -79,7 +78,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the division_Id
+     * @return will return the division_Id
      */
     public int getDivision_Id() {
 
@@ -88,7 +87,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the postalCode
+     * @return will return the postalCode
      */
     public String getPostalCode() {
 
@@ -97,7 +96,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the phone
+     * @return will return the phone
      */
     public String getPhone() {
 
@@ -106,7 +105,7 @@ public class Customer {
     }
 
     /**
-     * @return Getter for the divisionName
+     * @return will returnr the divisionName
      */
     //public String getDivisionName() {
 

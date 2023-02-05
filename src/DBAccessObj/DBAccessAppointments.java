@@ -15,7 +15,6 @@ import java.sql.*;
  * @author Ajuane Rogers*/
 public class DBAccessAppointments {
 
-
     /**
      * This method will return all appointments listed in the database.
      *
@@ -63,7 +62,6 @@ public class DBAccessAppointments {
         return listOfAppointments;
 
     }
-
 
 
 
@@ -212,7 +210,6 @@ public class DBAccessAppointments {
 
 
 
-
     /**
      * This method adds an appointment to the database.
      *
@@ -304,7 +301,6 @@ public class DBAccessAppointments {
 
 
 
-
     /**
      * This method will delete an appointment from the database.
      *
@@ -314,7 +310,7 @@ public class DBAccessAppointments {
 
         try {
 
-            String sqldeleteAppt = "DELETE FROM appointments where Appointment_ID = ?";
+            String sqldeleteAppt = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
             PreparedStatement deleteAppt = DBConnect.connection().prepareStatement(sqldeleteAppt);
 
@@ -331,7 +327,6 @@ public class DBAccessAppointments {
         }
 
     }
-
 
 
 
@@ -370,7 +365,6 @@ public class DBAccessAppointments {
         return typesOfApptsList;
 
     }
-
 
 
 

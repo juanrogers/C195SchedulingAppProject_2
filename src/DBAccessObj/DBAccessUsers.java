@@ -11,7 +11,6 @@ import Utility.DBConnect;
 
 
 
-
 /** This class handles the logic between the database and the users.
  *
  * @author Ajuane Rogers */
@@ -55,7 +54,6 @@ public class DBAccessUsers {
 
 
 
-
     /**
      * This method will validate the login credentials provided by the user.
      *
@@ -79,16 +77,22 @@ public class DBAccessUsers {
                     if (resultSet.getString("Password").equals(password)) {
 
                         return resultSet.getInt("User_ID");
+
                     }
+
                 }
+
             }
+
         }
+
         catch (SQLException e) {
 
             e.printStackTrace();
         }
 
         return -1;
+
     }
 
 }

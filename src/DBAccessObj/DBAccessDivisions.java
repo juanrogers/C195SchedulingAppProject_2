@@ -52,7 +52,6 @@ public class DBAccessDivisions {
 
 
 
-
     /**
      * This method returns all divisions located in the UK.
      *
@@ -105,7 +104,7 @@ public class DBAccessDivisions {
 
         try {
 
-            String sqlCANDivisions = "SELECT * from first_level_divisions WHERE COUNTRY_ID = 3";
+            String sqlCANDivisions = "SELECT * FROM first_level_divisions WHERE COUNTRY_ID = 3";
 
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlCANDivisions);
 

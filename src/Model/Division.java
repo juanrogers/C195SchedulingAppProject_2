@@ -11,7 +11,6 @@ public class Division {
     private String divisionName;
     private int country_Id;
 
-
     /** This is the constructor used for building a division.
      *
      * @param division_Id This holds the id of the division.
@@ -28,19 +27,14 @@ public class Division {
 
 
 
-
-
     /**
      * Getters listed below
      */
 
 
 
-
-
-
     /**
-     * @return Getter for the division_Id
+     * @return will return the division_Id
      */
     public int getDivision_Id() {
 
@@ -49,7 +43,7 @@ public class Division {
     }
 
     /**
-     * @return Getter for the divisionName
+     * @return will return the divisionName
      */
     public String getName() {
 
@@ -58,7 +52,7 @@ public class Division {
     }
 
     /**
-     * @return Getter for the country_Id
+     * @return will return the country_Id
      */
     public int getCountry_Id() {
 
@@ -67,8 +61,15 @@ public class Division {
     }
 
 
+
     /**
-     * @param division_Id Setter for the divisionId
+     * Setters listed below
+     */
+
+
+
+    /**
+     * @param division_Id Setter for the division_Id
      */
     public void setDivision_Id(int division_Id) {
 
@@ -94,9 +95,8 @@ public class Division {
 
     }
 
-
     /**
-     * @return This will return a division name for use within a combobox
+     * @return This will return a division name for use within a dropdown box.
      */
     @Override
     public String toString() {

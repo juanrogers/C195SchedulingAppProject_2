@@ -43,6 +43,7 @@ public class DBAccessCustomers {
 
                 Customer custs = new Customer(customer_Id, customerName, address, postalCode, phone, country_Id, division_Id);
                 listOfCustomers.add(custs);
+
             }
 
         }
@@ -50,9 +51,11 @@ public class DBAccessCustomers {
         catch (SQLException e) {
 
             e.printStackTrace();
+
         }
 
         return listOfCustomers;
+
     }
 
 
@@ -116,7 +119,7 @@ public class DBAccessCustomers {
             preState.setString(1, customerName);
             preState.setString(2, address);
             preState.setString(3, postalCode);
-            preState.setString(4, phone  );
+            preState.setString(4, phone);
             preState.setInt(5, divisionId);
             preState.setInt(6, customerId);
 
@@ -143,7 +146,7 @@ public class DBAccessCustomers {
 
         try {
 
-            String sqldeleteAppt = "DELETE FROM appointments where Customer_ID = ?";
+            String sqldeleteAppt = "DELETE FROM appointments WHERE Customer_ID = ?";
 
             PreparedStatement preStateDelAppt = DBConnect.connection().prepareStatement(sqldeleteAppt);
 
@@ -152,7 +155,7 @@ public class DBAccessCustomers {
             preStateDelAppt.execute();
 
 
-            String sqldeleteCust = "DELETE FROM customers where Customer_ID = ?";
+            String sqldeleteCust = "DELETE FROM customers WHERE Customer_ID = ?";
 
             PreparedStatement preStateDelCust = DBConnect.connection().prepareStatement(sqldeleteCust);
 

@@ -35,7 +35,7 @@ public class Contact {
 
 
     /**
-     * @return Getter for the contact_Id
+     * @return will return the contact_Id
      */
     public int getContact_Id() {
 
@@ -44,7 +44,7 @@ public class Contact {
     }
 
     /**
-     * @return Getter for the contactName
+     * @return will return the contactName
      */
     public String getContactName() {
 
@@ -53,7 +53,7 @@ public class Contact {
     }
 
     /**
-     * @return Getter for the contactEmail
+     * @return will return the contactEmail
      */
     public String getContactEmail() {
 
@@ -63,12 +63,9 @@ public class Contact {
 
 
 
-
     /**
      * Setters listed below
      */
-
-
 
 
 
@@ -101,7 +98,7 @@ public class Contact {
 
 
     /**
-     * @return This will return a contact name for use within a combobox.
+     * @return This will return a contact name for use within a dropdown box.
      */
     @Override
     public String toString() {

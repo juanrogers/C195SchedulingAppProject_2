@@ -1,5 +1,6 @@
 package Model;
 
+
 /** This class will be used to handle countries.
  *
  * @author Ajuane Rogers*/
@@ -23,16 +24,14 @@ public class Country {
 
 
 
-
     /**
      * Getters listed below
      */
 
 
 
-
     /**
-     * @return Getter for the country_Id
+     * @return will return the country_Id
      */
     public int getCountry_Id() {
 
@@ -40,9 +39,8 @@ public class Country {
 
     }
 
-
     /**
-     * @return Getter for the countryName
+     * @return will return the countryName
      */
     public String getCountryName() {
 
@@ -50,9 +48,8 @@ public class Country {
 
     }
 
-
     /**
-     * @return This will return a country name for use within a combobox.
+     * @return This will return a country name for use within a dropdown box.
      */
     @Override
     public String toString() {

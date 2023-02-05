@@ -27,17 +27,14 @@ public class User {
 
 
 
-
     /**
      * Getters listed below
      */
 
 
 
-
-
     /**
-     * @return Getter for the user_Id
+     * @return will return the user_Id
      */
     public int getUser_Id() {
 
@@ -46,7 +43,7 @@ public class User {
     }
 
     /**
-     * @return Getter for the userName
+     * @return will return the userName
      */
     public String getUserName() {
 
@@ -55,7 +52,7 @@ public class User {
     }
 
     /**
-     * @return Getter for the password
+     * @return will return the password
      */
     public String getPassword() {
 
@@ -65,14 +62,9 @@ public class User {
 
 
 
-
-
     /**
      * Setters listed below
      */
-
-
-
 
 
 
@@ -106,7 +98,7 @@ public class User {
 
 
     /**
-     * @return This will return a user_Id & userName for use within a combobox
+     * @return This will return a user_Id & userName for use within a dropdown box.
      */
     @Override
     public String toString() {

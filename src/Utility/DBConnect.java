@@ -24,6 +24,7 @@ public class DBConnect {
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
             System.out.println("Database connection: Successful!");
         }
+
         catch(Exception e) {
 
             System.out.println("Error:" + e.getMessage());
@@ -38,6 +39,7 @@ public class DBConnect {
             connection.close();
             System.out.println("Database connection: Closed!");
         }
+
         catch(Exception e) {
 
             System.out.println("Error:" + e.getMessage());

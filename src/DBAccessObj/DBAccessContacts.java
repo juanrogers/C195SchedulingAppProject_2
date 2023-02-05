@@ -26,7 +26,7 @@ public class DBAccessContacts {
 
         try {
 
-            String sqlGetContacts = "SELECT * from contacts";
+            String sqlGetContacts = "SELECT * FROM contacts";
 
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlGetContacts);
 

@@ -23,7 +23,7 @@ public class DBAccessCountries {
 
         try {
 
-            String sqlCountrylist = "SELECT * from countries";
+            String sqlCountrylist = "SELECT * FROM countries";
 
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlCountrylist);
 

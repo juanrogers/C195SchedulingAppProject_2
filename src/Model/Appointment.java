@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 /** This class will be used to handle appointments.
  *
  * @author Ajuane Rogers */
-
 public class Appointment {
 
     public int appointment_Id;
@@ -20,7 +19,6 @@ public class Appointment {
     public int user_Id;
     public int contact_Id;
     //public String contactName;
-
 
     /** This is the constructor used for building an appointment.
      *
@@ -53,7 +51,9 @@ public class Appointment {
     }
 
     public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
+
     }
+
 
 
     /**
@@ -62,9 +62,8 @@ public class Appointment {
 
 
 
-
     /**
-     * @return Getter for the appointment_Id
+     * @return will return the appointment_Id
      */
     public int getAppointment_Id() {
 
@@ -73,7 +72,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the title
+     * @return will return the title
      */
     public String getTitle() {
 
@@ -82,7 +81,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the description
+     * @return will return the description
      */
     public String getDescription() {
 
@@ -91,7 +90,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the location
+     * @return will return the location
      */
     public String getLocation() {
 
@@ -100,7 +99,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the type
+     * @return will return the type
      */
     public String getType() {
 
@@ -109,7 +108,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the start
+     * @return will return the start
      */
     public Timestamp getStart() {
 
@@ -118,7 +117,7 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the end
+     * @return will return the end
      */
     public Timestamp getEnd() {
 
@@ -162,11 +161,9 @@ public class Appointment {
 
 
 
-
     /**
      * Setters listed below
      */
-
 
 
 
