@@ -9,11 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import Model.Country;
+import Model.Customer;
 import Model.Division;
 
-import DBAccessObj.DBAccessCountries;
-import DBAccessObj.DBAccessCustomers;
-import DBAccessObj.DBAccessDivisions;
+import DBAccessObj.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,17 +21,17 @@ import java.util.ResourceBundle;
 
 
 
-/** This controller will be used as the logic for the add customer screen.
+/** This controller will be used as the logic for the update customer screen.
  *
- * @author Ajuane Rogers*/
-public class addcustomerscreencontroller implements Initializable {
+ * @author Ajuane Rogers */
+public class updatecustomerscreencontroller implements Initializable {
 
     /**
      * FX IDs for add customer screen
      *
      */
     @FXML
-    private Label addCustomerLabel;
+    private Label updateCustomerLabel;
     @FXML
     private Label customerIdLabel;
     @FXML
@@ -61,11 +60,29 @@ public class addcustomerscreencontroller implements Initializable {
     private TextField postalCodeTxtFld;
     @FXML
     private TextField phoneTxtFld;
+    @FXML
+    private Button saveUpdateCustomerButton;
+    @FXML
+    private Button cancelUpdateCustomerButton;
     //@FXML
     //private Label divisionLabel;
 
+
+
+    /**
+     * Variables for stages and scenes.
+     */
+    Stage stage;
+    Parent scene;
+
+
+
+    /**
+     * Declared methods (not yet defined)
+     *
+     */
     @FXML
-    void onActionCustdTxtFld (){
+    void onActionCustomerIdTxtFld(){
 
     };
 
@@ -75,17 +92,17 @@ public class addcustomerscreencontroller implements Initializable {
     };
 
     @FXML
-    void onActionAddrTxtFld (){
+    void onActionAddrTxtFld(){
 
     };
 
     @FXML
-    void onActionCoutDropDownBox (){
+    void onActionCoutDropDownBox(){
 
     };
 
     @FXML
-    void onActionDivDropDownBox (){
+    void onActionDivDropDownBox(){
 
     };
 
@@ -99,53 +116,22 @@ public class addcustomerscreencontroller implements Initializable {
 
     };
 
-
-
-    // Text field for customer id.
-    @FXML
-    //private TextField customerIdText;
-    /** Text field for customer name.
-    @FXML
-    //private TextField nameText;
-    /** Text field for customer address.
-    @FXML
-    //private TextField addressText;
-    /** Combobox for selecting a country.
-    @FXML
-    //private ComboBox<Country> countryComboBox;
-    /** Combobox for selecting a division.
-    @FXML
-    //private ComboBox<Division> divisionComboBox;
-    /** Text field for customer postal code.
-    @FXML
-    //private TextField postalCodeText;
-    /** Text field for customer phone number.
-    @FXML
-    //private TextField phoneText;
-    /** Label of divisions.
-    @FXML
-    //private Label divisionSwitchLabel;
-
-
-    /**
-     * Variables for stages and scenes
-     */
-    Stage stage;
-    Parent scene;
+    Customer customer;
 
 
 
-    /** This method will save the customer in database, and after customer is saved, will take user back to the customers screen.
+
+    /** This method will update the customer in database, and after customer is updated, will take user back to the customers screen.
      *
      * @param event clicking the save button.
      * @throws IOException
      */
     @FXML
-    void onActionSaveAddCustomer(ActionEvent event) throws IOException {
+    void onActionSaveUpdateCustomer(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("A new customer will be added.");
+        alert.setContentText("The customer will be updated, do you want to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -159,8 +145,7 @@ public class addcustomerscreencontroller implements Initializable {
 
             if (!customerName.isEmpty() && !address.isEmpty() && !postalCode.isEmpty() && !phone.isEmpty() && !(division == null)) {
 
-                DBAccessCustomers.addCustomer(customerName, address, postalCode, phone, division.getDivision_Id());
-
+                DBAccessCustomers.updateCustomer(customerName, address, postalCode, phone, division.getDivision_Id(), customer.getCustomer_Id());
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
@@ -184,17 +169,17 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
-    /** This method will cancel the add customer action, and send user back to the customer screen.
+    /** This method will cancel the "update customer" action, and send user back to the customers screen.
      *
-     * @param event clicking the cancel button.
+     * @param event clicking cancel button.
      * @throws IOException
      */
     @FXML
-    void onActionCancelAddCustomer(ActionEvent event) throws IOException {
+    void onActionCancelUpdateCustomer(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This action will close the add customer screen, do you want to continue?");
+        alert.setContentText("This action will close the update customer screen, do you want to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -221,21 +206,16 @@ public class addcustomerscreencontroller implements Initializable {
 
         Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
 
-
-
-
-
-
-
-
-       /* if (count.getCountry_Id() == 3) {
+        if (count.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
+
         }
 
         else if (count.getCountry_Id() == 2) {
 
             divWSwitchableLabel.setText("Sub-division: ");
+
         }
 
         else if (count.getCountry_Id() == 1) {
@@ -244,15 +224,16 @@ public class addcustomerscreencontroller implements Initializable {
 
         }
 
-
         if (count.getCountry_Id() == 3) {
 
             divisionDropDownBox.setItems(DBAccessDivisions.getCANDivisions());
 
         }
+
         else if (count.getCountry_Id() == 2) {
 
             divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
+
         }
 
         else if (count.getCountry_Id() == 1) {
@@ -260,16 +241,105 @@ public class addcustomerscreencontroller implements Initializable {
             divisionDropDownBox.setItems(DBAccessDivisions.getUSDivisions());
 
         }
+
         else {
 
             divisionDropDownBox.isDisabled();
 
-        } */
+        }
 
     }
 
+
+
     /**
-     * This method initializes the add customer screen and populates the country dropdown box, clears option in division combobox.
+     * This method will send the customer selected in table to update customer screen.
+     *
+     * @param customer customer to send
+     */
+    public void customerToBeSentToUpdate(Customer customer) {
+
+        this.customer = customer;
+
+        customerIdTxtFld.setText(Integer.toString(customer.getCustomer_Id()));
+        customerNameTxtFld.setText(customer.getCustomerName());
+        addressTxtFld.setText(customer.getAddress());
+
+        for (Country cout : countryDropDownBox.getItems()) {
+
+            if(customer.country_Id == cout.getCountry_Id()) {
+
+                countryDropDownBox.setValue(cout);
+
+                break;
+            }
+
+        }
+
+        Country cout = countryDropDownBox.getSelectionModel().getSelectedItem();
+
+        if (cout.getCountry_Id() == 3) {
+
+            divWSwitchableLabel.setText("Province: ");
+
+        }
+
+        else if (cout.getCountry_Id() == 2) {
+
+            divWSwitchableLabel.setText("Sub-division:");
+
+        }
+
+        else if (cout.getCountry_Id() == 1) {
+
+            divWSwitchableLabel.setText("State: ");
+
+        }
+
+        if (cout.getCountry_Id() == 3) {
+
+            divisionDropDownBox.setItems(DBAccessDivisions.getCANDivisions());
+
+        }
+
+        else if (cout.getCountry_Id() == 2) {
+
+           divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
+
+        }
+
+        else if (cout.getCountry_Id() == 1) {
+
+            divisionDropDownBox.setItems(DBAccessDivisions.getUSDivisions());
+
+        }
+
+        else {
+
+            divisionDropDownBox.isDisabled();
+
+        }
+
+        for(Division div : divisionDropDownBox.getItems()) {
+
+            if(customer.division_Id == div.getDivision_Id()) {
+
+               divisionDropDownBox.setValue(div);
+
+                break;
+            }
+
+        }
+
+        postalCodeTxtFld.setText(customer.getPostalCode());
+        phoneTxtFld.setText(customer.getPhone());
+
+    }
+
+
+
+    /**
+     * This method initializes the update customer screen and populate counttry dropdown box options.
      *
      * @param url the location.
      * @param resourceBundle the resources.
@@ -278,7 +348,6 @@ public class addcustomerscreencontroller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         countryDropDownBox.setItems(DBAccessCountries.getAllCountries());
-        divisionDropDownBox.getSelectionModel().clearSelection();
 
     }
 

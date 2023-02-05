@@ -140,7 +140,7 @@ public class appointmentsscreencontroller implements Initializable {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("ARE YOU SURE?");
-            alert.setContentText("The appointment will be deleted from the database, are you sure you want to continue? This action cannot be undone.");
+            alert.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
 
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -221,8 +221,8 @@ public class appointmentsscreencontroller implements Initializable {
             loader.setLocation(getClass().getResource("../view/updateappointmentscreen.fxml"));
             loader.load();
 
-            //UpdateAppointmentController ADMController = loader.getController();
-            // ADMController.sendAppointment(appointmentsTable.getSelectionModel().getSelectedItem());
+            updateappointmentscreencontroller ADMController = loader.getController();
+            ADMController.appointmentToBeSentToUpdate(appointmentsTable.getSelectionModel().getSelectedItem());
 
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();

@@ -99,6 +99,12 @@ public class addappointmentscreencontroller implements Initializable {
     Stage stage;
     Parent scene;
 
+
+
+    /**
+     * Declared methods (not yet defined)
+     *
+     */
     @FXML
     void onActionAppointmentIdTxtFld (ActionEvent event){
 
@@ -157,7 +163,7 @@ public class addappointmentscreencontroller implements Initializable {
 
 
     /**
-     * This method inputs customer Id text field from a selected customer in the table.
+     * This method will input a value into customer Id text field from a selected customer in the table.
      *
      * @param event clicking on customer in the table
      */
@@ -180,7 +186,7 @@ public class addappointmentscreencontroller implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("A new appointment will be added to the calendar.");
+        alert.setContentText("A new appointment will be added, do you want to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -345,10 +351,6 @@ public class addappointmentscreencontroller implements Initializable {
             appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
 
         }
-
-
-
-
 
     }
 

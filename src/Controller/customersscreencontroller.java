@@ -86,7 +86,7 @@ public class customersscreencontroller implements Initializable {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("ARE YOU SURE?");
-            alert.setContentText("The customer selected will be deleted from the database, do you want to complete this action? This action cannot be undone.");
+            alert.setContentText("The customer selected will be deleted, do you want to complete this action? This action CANNOT be undone.");
 
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -165,8 +165,8 @@ public class customersscreencontroller implements Initializable {
             loader.setLocation(getClass().getResource("../view/updatecustomerscreen.fxml"));
             loader.load();
 
-            //UpdateCustomerController ADMController = loader.getController();
-            //ADMController.sendCustomer(customerTable.getSelectionModel().getSelectedItem());
+            //updatecustomerscreencontroller ADMController = loader.getController();
+            //ADMController.customerToBeSentToUpdate(customerTable.getSelectionModel().getSelectedItem());
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
