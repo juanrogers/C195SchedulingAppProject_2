@@ -173,7 +173,6 @@ public class updateappointmentscreencontroller implements Initializable {
 
 
 
-
     /**
      * This method will input a value into customer Id text field from a selected customer in the table.
      *
@@ -190,17 +189,17 @@ public class updateappointmentscreencontroller implements Initializable {
 
     /** This method will update the appointment in database, and after appointment is updated, will take user back to the appointments screen.
      *
-     * @param event clicking save button.
+     * @param event clicking save button
      * @throws IOException
      */
     @FXML
     void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("Appointment will be updated, do you want to continue?");
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("Appointment will be updated, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -229,10 +228,10 @@ public class updateappointmentscreencontroller implements Initializable {
 
                     if (DBAccessAppointments.checkOverlappingAppointments(newAppoint)) {
 
-                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                        alert3.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
-                        alert3.setContentText("There are overlappling appointments for the selected customer.");
-                        alert3.showAndWait();
+                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                        alertUserMsg2.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
+                        alertUserMsg2.setContentText("There are overlappling appointments for the selected customer.");
+                        alertUserMsg2.showAndWait();
 
                     }
 
@@ -251,10 +250,10 @@ public class updateappointmentscreencontroller implements Initializable {
 
                 else {
 
-                    Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                    alert3.setHeaderText("TIME ERROR");
-                    alert3.setContentText("Appointment end time must be after appointment start time.");
-                    alert3.showAndWait();
+                    Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
+                    alertUserMsg3.setHeaderText("ERROR: Time set is invalid.");
+                    alertUserMsg3.setContentText("Appointment end time must be after appointment start time.");
+                    alertUserMsg3.showAndWait();
 
                 }
 
@@ -262,10 +261,10 @@ public class updateappointmentscreencontroller implements Initializable {
 
             else {
 
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("ERROR: Time set is invalid.");
-                alert3.setContentText("The appointment end time must be after appointment start time.");
-                alert3.showAndWait();
+                Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg4.setHeaderText("ERROR: Time set is invalid.");
+                alertUserMsg4.setContentText("The appointment end time must be after appointment start time.");
+                alertUserMsg4.showAndWait();
 
             }
 
@@ -277,17 +276,17 @@ public class updateappointmentscreencontroller implements Initializable {
 
     /** This method will cancel the "update appointment" action, and send user back to the appointments screen.
      *
-     * @param event clicking cancel button.
+     * @param event clicking cancel button
      * @throws IOException
      */
     @FXML
     void onActionCancelUpdateAppt(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This action will close the update appointment screen, do you want to continue?");
+        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg4.setHeaderText("ARE YOU SURE?");
+        alertUserMsg4.setContentText("This action will close the update appointment screen, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg4.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -359,8 +358,8 @@ public class updateappointmentscreencontroller implements Initializable {
     /**
      * This method initializes the update appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local.
      *
-     * @param url the location.
-     * @param resourceBundle the resources.
+     * @param url the location
+     * @param resourceBundle the resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

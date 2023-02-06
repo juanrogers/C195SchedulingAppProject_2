@@ -184,11 +184,11 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("A new appointment will be added, do you want to continue?");
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("A new appointment will be added, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -220,10 +220,10 @@ public class addappointmentscreencontroller implements Initializable {
 
                     if (DBAccessAppointments.checkOverlappingAppointments(newAppoint)) {
 
-                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                        alert3.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
-                        alert3.setContentText("There are overlappling appointments for the selected customer.");
-                        alert3.showAndWait();
+                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                        alertUserMsg2.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
+                        alertUserMsg2.setContentText("There are overlappling appointments for the selected customer.");
+                        alertUserMsg2.showAndWait();
 
                     }
 
@@ -243,10 +243,10 @@ public class addappointmentscreencontroller implements Initializable {
 
                 else {
 
-                    Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                    alert3.setHeaderText("ERROR: Time set is invalid.");
-                    alert3.setContentText("The appointment end time must be after appointment start time.");
-                    alert3.showAndWait();
+                    Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
+                    alertUserMsg3.setHeaderText("ERROR: Time set is invalid.");
+                    alertUserMsg3.setContentText("The appointment end time must be after appointment start time.");
+                    alertUserMsg3.showAndWait();
 
                 }
 
@@ -254,10 +254,10 @@ public class addappointmentscreencontroller implements Initializable {
 
             else {
 
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("Data entered is invalid!");
-                alert3.setContentText("Please enter valid values for all required fields.");
-                alert3.showAndWait();
+                Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg4.setHeaderText("Data entered is invalid!");
+                alertUserMsg4.setContentText("Please enter valid values for all required fields.");
+                alertUserMsg4.showAndWait();
 
             }
 
@@ -269,17 +269,17 @@ public class addappointmentscreencontroller implements Initializable {
 
     /** This method will cancel the "add appointment" action, and send user back to the appointment screen.
      *
-     * @param event clicking the cancel button.
+     * @param event clicking the cancel button
      * @throws IOException
      */
     @FXML
     void onActionCancelAddAppointment(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This action will close the add appointment screen, do you want to continue?");
+        Alert alertUserMsg5 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg5.setHeaderText("ARE YOU SURE?");
+        alertUserMsg5.setContentText("This action will close the add appointment screen, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg5.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -297,8 +297,8 @@ public class addappointmentscreencontroller implements Initializable {
     /**
      * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
      *
-     * @param url the location.
-     * @param resourceBundle the resources.
+     * @param url the location
+     * @param resourceBundle the resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

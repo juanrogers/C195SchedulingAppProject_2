@@ -64,7 +64,7 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This method deletes a customer from the database.
+     * This method will delete a customer from the database.
      *
      * @param event clicking the delete customer button.
      * @throws IOException
@@ -74,21 +74,21 @@ public class customersscreencontroller implements Initializable {
 
         if (customerTable.getSelectionModel().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("PLEASE SELECT A CUSTOMER TO DELETE.");
-            alert.setContentText("No customer was selected to delete.");
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setHeaderText("PLEASE SELECT A CUSTOMER TO DELETE.");
+            alertUserMsg.setContentText("No customer was selected to delete.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         }
 
         else {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("ARE YOU SURE?");
-            alert.setContentText("The customer selected will be deleted, do you want to complete this action? This action CANNOT be undone.");
+            Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alertUserMsg2.setHeaderText("ARE YOU SURE?");
+            alertUserMsg2.setContentText("The customer selected will be deleted, do you want to complete this action? This action CANNOT be undone.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg2.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -99,20 +99,21 @@ public class customersscreencontroller implements Initializable {
                 customerTable.setItems(DBAccessCustomers.getAllCustomers());
 
 
-                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-                alert2.setHeaderText("DELETED");
-                alert2.setContentText("Customer deleted.");
+                Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg3.setHeaderText("DELETED!");
+                alertUserMsg3.setContentText("Customer deleted.");
 
-                alert2.showAndWait();
+                alertUserMsg3.showAndWait();
 
             }
 
             else {
-                Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
-                alert3.setHeaderText("NOT DELETED");
-                alert3.setContentText("Customer not deleted.");
 
-                alert3.showAndWait();
+                Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg4.setHeaderText("NOT DELETED!");
+                alertUserMsg4.setContentText("Customer not deleted.");
+
+                alertUserMsg4.showAndWait();
 
             }
 
@@ -151,11 +152,11 @@ public class customersscreencontroller implements Initializable {
 
         if (customerTable.getSelectionModel().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("PLEASE SELECT A CUSTOMER.");
-            alert.setContentText("No customer was selected to update.");
+            Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg5.setHeaderText("PLEASE SELECT A CUSTOMER.");
+            alertUserMsg5.setContentText("No customer was selected to update.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg5.showAndWait();
 
         }
 
@@ -165,8 +166,8 @@ public class customersscreencontroller implements Initializable {
             loader.setLocation(getClass().getResource("../view/updatecustomerscreen.fxml"));
             loader.load();
 
-            //updatecustomerscreencontroller ADMController = loader.getController();
-            //ADMController.customerToBeSentToUpdate(customerTable.getSelectionModel().getSelectedItem());
+            updatecustomerscreencontroller ADMController = loader.getController();
+            ADMController.customerToBeSentToUpdate(customerTable.getSelectionModel().getSelectedItem());
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();

@@ -64,6 +64,20 @@ public class addcustomerscreencontroller implements Initializable {
     //@FXML
     //private Label divisionLabel;
 
+
+
+    /**
+     * Variables for stages and scenes
+     */
+    Stage stage;
+    Parent scene;
+
+
+
+    /**
+     * Declared methods (not yet defined)
+     *
+     */
     @FXML
     void onActionCustdTxtFld (){
 
@@ -101,39 +115,6 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
-    // Text field for customer id.
-    @FXML
-    //private TextField customerIdText;
-    /** Text field for customer name.
-    @FXML
-    //private TextField nameText;
-    /** Text field for customer address.
-    @FXML
-    //private TextField addressText;
-    /** Combobox for selecting a country.
-    @FXML
-    //private ComboBox<Country> countryComboBox;
-    /** Combobox for selecting a division.
-    @FXML
-    //private ComboBox<Division> divisionComboBox;
-    /** Text field for customer postal code.
-    @FXML
-    //private TextField postalCodeText;
-    /** Text field for customer phone number.
-    @FXML
-    //private TextField phoneText;
-    /** Label of divisions.
-    @FXML
-    //private Label divisionSwitchLabel;
-
-
-    /**
-     * Variables for stages and scenes
-     */
-    Stage stage;
-    Parent scene;
-
-
 
     /** This method will save the customer in database, and after customer is saved, will take user back to the customers screen.
      *
@@ -143,11 +124,11 @@ public class addcustomerscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddCustomer(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("A new customer will be added.");
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("A new customer will be added.");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -171,10 +152,10 @@ public class addcustomerscreencontroller implements Initializable {
 
             else {
 
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("Data entered is invalid!");
-                alert3.setContentText("Please enter valid values for all required fields.");
-                alert3.showAndWait();
+                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg2.setHeaderText("Data entered is invalid!");
+                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+                alertUserMsg2.showAndWait();
 
             }
 
@@ -186,17 +167,17 @@ public class addcustomerscreencontroller implements Initializable {
 
     /** This method will cancel the add customer action, and send user back to the customer screen.
      *
-     * @param event clicking the cancel button.
+     * @param event clicking the cancel button
      * @throws IOException
      */
     @FXML
     void onActionCancelAddCustomer(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This action will close the add customer screen, do you want to continue?");
+        Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg3.setHeaderText("ARE YOU SURE?");
+        alertUserMsg3.setContentText("This action will close the add customer screen, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg3.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -221,7 +202,7 @@ public class addcustomerscreencontroller implements Initializable {
 
         Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
 
-
+        //Will see if a switch statement works better for the code below------------------------
 
 
 
@@ -268,11 +249,13 @@ public class addcustomerscreencontroller implements Initializable {
 
     }
 
+
+
     /**
-     * This method initializes the add customer screen and populates the country dropdown box, clears option in division combobox.
+     * This method initializes the add customer screen and populates the country dropdown box, clears option in division dropdown box.
      *
-     * @param url the location.
-     * @param resourceBundle the resources.
+     * @param url the location
+     * @param resourceBundle the resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

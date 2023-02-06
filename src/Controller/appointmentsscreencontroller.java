@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
  * @author Ajuane Rogers */
 public class appointmentsscreencontroller implements Initializable {
 
-
     /**
      * FX IDs for Add product form.
      */
@@ -82,9 +81,9 @@ public class appointmentsscreencontroller implements Initializable {
 
 
     /**
-     * This method shows all appointments in the table.
+     * This method will show all appointments in the table.
      *
-     * @param event clicking on the 'ALL' radio button.
+     * @param event clicking on "all" radio button
      */
     @FXML
     void onActionViewAll(ActionEvent event) {
@@ -93,10 +92,12 @@ public class appointmentsscreencontroller implements Initializable {
 
     }
 
+
+
     /**
-     * This method shows current month appointments in the table.
+     * This method will show current month appointments in the table.
      *
-     * @param event clicking on the 'CURRENT MONTH' radio button.
+     * @param event clicking on "current month" radio button
      */
     @FXML
     void onActionViewByMonth(ActionEvent event) {
@@ -105,10 +106,12 @@ public class appointmentsscreencontroller implements Initializable {
 
     }
 
+
+
     /**
-     * This method shows current week appointments in the table.
+     * This method will show current week appointments in the table.
      *
-     * @param event clicking on the 'CURRENT WEEK' radio button.
+     * @param event clicking on "current week" radio button
      */
     @FXML
     void onActionViewByWeek(ActionEvent event) {
@@ -117,60 +120,62 @@ public class appointmentsscreencontroller implements Initializable {
 
     }
 
+
+
     /**
-     * This method deletes an appointment from the database.
+     * This method will delete an appointment from the database.
      *
-     * @param event clicking on the delete appointment button.
-     * @throws IOException The exception that will be thrown in an error.
+     * @param event clicking on delete appointment button
+     * @throws IOException
      */
     @FXML
     void onActionGoToDeleteAppointment(ActionEvent event) throws IOException {
 
         if (appointmentsTable.getSelectionModel().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("PLEASE SELECT AN APPOINTMENT");
-            alert.setContentText("No appointment was selected to delete.");
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
+            alertUserMsg.setContentText("No appointment was selected to delete.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         }
 
         else {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("ARE YOU SURE?");
-            alert.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
+            Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alertUserMsg2.setHeaderText("ARE YOU SURE?");
+            alertUserMsg2.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg2.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                int appointmentId = appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id();
+                int appointId = appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id();
 
-                String typeMessage = appointmentsTable.getSelectionModel().getSelectedItem().getType();
+                String typeIdMsg = appointmentsTable.getSelectionModel().getSelectedItem().getType();
 
-                String idMessage = String.valueOf(appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id());
+                String apptIdMessage = String.valueOf(appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id());
 
-                DBAccessAppointments.deleteAppointment(appointmentId);
+                DBAccessAppointments.deleteAppointment(appointId);
 
                 appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
 
-                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-                alert2.setHeaderText("DELETED");
-                alert2.setContentText("You have successfully deleted appointment " + idMessage + ", a " + typeMessage + " appointment.");
+                Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg3.setHeaderText("DELETED!");
+                alertUserMsg3.setContentText("You have successfully deleted appointment " + typeIdMsg + ", a " + apptIdMessage + " appointment.");
 
-                alert2.showAndWait();
+                alertUserMsg3.showAndWait();
 
             }
 
             else {
 
-                Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
-                alert3.setHeaderText("NOT DELETED");
-                alert3.setContentText("The selected appointment was not deleted.");
+                Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg4.setHeaderText("NOT DELETED!");
+                alertUserMsg4.setContentText("The selected appointment was not deleted.");
 
-                alert3.showAndWait();
+                alertUserMsg4.showAndWait();
 
             }
 
@@ -179,10 +184,11 @@ public class appointmentsscreencontroller implements Initializable {
     }
 
 
+
     /**
-     * This method sends the user to the 'ADD APPOINTMENT' screen.
+     * This event will switch to the add appointment screen.
      *
-     * @param event clicking the add appointment button.
+     * @param event clicking the add appointment button
      * @throws IOException
      */
     @FXML
@@ -196,10 +202,11 @@ public class appointmentsscreencontroller implements Initializable {
     }
 
 
+
     /**
      * This event will switch to the update appointment screen.
      *
-     * @param event clicking the update appointment button.
+     * @param event clicking the update appointment button
      * @throws IOException
      */
     @FXML
@@ -207,11 +214,11 @@ public class appointmentsscreencontroller implements Initializable {
 
         if (appointmentsTable.getSelectionModel().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("PLEASE SELECT AN APPOINTMENT");
-            alert.setContentText("No appointment was selected to update.");
+            Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg5.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
+            alertUserMsg5.setContentText("No appointment was selected to update.");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = alertUserMsg5.showAndWait();
 
         }
 
@@ -235,10 +242,11 @@ public class appointmentsscreencontroller implements Initializable {
     }
 
 
+
     /**
-     * This event will switch back to the main menu screen.
+     * This event will switch back to the main screen.
      *
-     * @param event clicking the back to main menu button.
+     * @param event clicking back to main menu button
      * @throws IOException
      */
     @FXML
@@ -250,6 +258,7 @@ public class appointmentsscreencontroller implements Initializable {
         stage.show();
 
     }
+
 
 
     /**

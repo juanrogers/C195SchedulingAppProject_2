@@ -120,20 +120,19 @@ public class updatecustomerscreencontroller implements Initializable {
 
 
 
-
     /** This method will update the customer in database, and after customer is updated, will take user back to the customers screen.
      *
-     * @param event clicking the save button.
+     * @param event clicking the save button
      * @throws IOException
      */
     @FXML
     void onActionSaveUpdateCustomer(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("The customer will be updated, do you want to continue?");
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("The customer will be updated, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -156,10 +155,10 @@ public class updatecustomerscreencontroller implements Initializable {
 
             else {
 
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("Data entered is invalid!");
-                alert3.setContentText("Please enter valid values for all required fields.");
-                alert3.showAndWait();
+                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg2.setHeaderText("Data entered is invalid!");
+                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+                alertUserMsg2.showAndWait();
 
             }
 
@@ -171,17 +170,17 @@ public class updatecustomerscreencontroller implements Initializable {
 
     /** This method will cancel the "update customer" action, and send user back to the customers screen.
      *
-     * @param event clicking cancel button.
+     * @param event clicking cancel button
      * @throws IOException
      */
     @FXML
     void onActionCancelUpdateCustomer(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This action will close the update customer screen, do you want to continue?");
+        Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg3.setHeaderText("ARE YOU SURE?");
+        alertUserMsg3.setContentText("This action will close the update customer screen, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg3.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -206,7 +205,11 @@ public class updatecustomerscreencontroller implements Initializable {
 
         Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
 
-        if (count.getCountry_Id() == 3) {
+
+        //Will see if a switch statement works better for the code below------------------------
+
+
+     /*   if (count.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
 
@@ -246,7 +249,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
             divisionDropDownBox.isDisabled();
 
-        }
+        } */
 
     }
 
@@ -278,7 +281,12 @@ public class updatecustomerscreencontroller implements Initializable {
 
         Country cout = countryDropDownBox.getSelectionModel().getSelectedItem();
 
-        if (cout.getCountry_Id() == 3) {
+
+        //Will see if a switch statement works better for the code below------------------------
+
+
+
+      /*  if (cout.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
 
@@ -318,7 +326,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
             divisionDropDownBox.isDisabled();
 
-        }
+        } */
 
         for(Division div : divisionDropDownBox.getItems()) {
 
@@ -341,8 +349,8 @@ public class updatecustomerscreencontroller implements Initializable {
     /**
      * This method initializes the update customer screen and populate counttry dropdown box options.
      *
-     * @param url the location.
-     * @param resourceBundle the resources.
+     * @param url the location
+     * @param resourceBundle the resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

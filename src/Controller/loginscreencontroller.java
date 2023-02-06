@@ -122,7 +122,7 @@ public class loginscreencontroller implements Initializable {
 
         if (userId > 0) {
 
-            outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " successfully logged in");
+            outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " Login status: Successful!");
             outputFile.close();
 
             LocalDateTime now = LocalDateTime.now();
@@ -133,7 +133,9 @@ public class loginscreencontroller implements Initializable {
                 if (ap.getUser_Id() == userId) {
 
                     return true;
+
                 }
+
                 return false;
 
             });
@@ -143,12 +145,13 @@ public class loginscreencontroller implements Initializable {
             for (Appointment appt : uList) {
 
                 {
+
                     if (appt.getStart().toLocalDateTime().isAfter(now) && appt.getStart().toLocalDateTime().isBefore(now.plusMinutes(15))) {
 
-                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                        alert3.setHeaderText("UPCOMING APPOINTMENT");
-                        alert3.setContentText("You have an appointment scheduled within the next 15 minutes: appointment " + appt.getAppointment_Id() + " at " + appt.getStart().toLocalDateTime());
-                        alert3.showAndWait();
+                        Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+                        alertUserMsg.setHeaderText("UPCOMING APPOINTMENT!");
+                        alertUserMsg.setContentText("You have an appointment scheduled within the next 15 minutes: Appointment " + appt.getAppointment_Id() + " at " + appt.getStart().toLocalDateTime());
+                        alertUserMsg.showAndWait();
 
                         name = true;
 
@@ -160,10 +163,10 @@ public class loginscreencontroller implements Initializable {
 
             if (!name) {
 
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("YOU HAVE NO UPCOMING APPOINTMENTS");
-                alert3.setContentText("There no scheduled appointments within the next 15 minutes.");
-                alert3.showAndWait();
+                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg2.setHeaderText("YOU HAVE NO UPCOMING APPOINTMENTS!");
+                alertUserMsg2.setContentText("No appointments scheduled within the next 15 minutes.");
+                alertUserMsg2.showAndWait();
 
             }
 
@@ -176,15 +179,16 @@ public class loginscreencontroller implements Initializable {
         }
 
         else {
-            outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " Login attempt was unsuccessful.");
+
+            outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " Login status: Unsuccessful!");
             outputFile.close();
 
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Username or password is incorrect, please try again.");
-            Optional<ButtonType> result = alert.showAndWait();
+            Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR, "Username or password is incorrect, please try again.");
+            Optional<ButtonType> result = alertUserMsg3.showAndWait();
 
 
-            alert.setHeaderText(loginDataNotValid);
-            alert.setContentText(pleaseEnterValidLoginData);
+            alertUserMsg3.setHeaderText(loginDataNotValid);
+            alertUserMsg3.setContentText(pleaseEnterValidLoginData);
 
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -313,8 +317,8 @@ public class loginscreencontroller implements Initializable {
     @FXML
     void onActionExit(ActionEvent event) {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to exit the application?");
-        Optional<ButtonType> result = alert.showAndWait();
+        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to exit the application?");
+        Optional<ButtonType> result = alertUserMsg4.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             System.exit(0);
 
@@ -363,6 +367,7 @@ public class loginscreencontroller implements Initializable {
             }
 
         }
+
         catch (Exception e) {
 
             System.out.println();

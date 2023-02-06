@@ -200,7 +200,7 @@ public class reportsscreencontroller implements Initializable {
     /**
      * This event will switch back to the main menu screen.
      *
-     * @param event clicking on the main menu button.
+     * @param event clicking back main menu button
      * @throws IOException
      */
     @FXML
@@ -218,8 +218,8 @@ public class reportsscreencontroller implements Initializable {
     /**
      * This method initializes the reports screen, along with the appointment table, contact, type, and month drop down boxes.
      *
-     * @param url the location.
-     * @param resourceBundle the resources.
+     * @param url the location
+     * @param resourceBundle the resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

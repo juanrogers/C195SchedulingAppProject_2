@@ -30,7 +30,7 @@ public class Main extends Application {
 
 
     /**
-     * This is the main method for the Scheduling Application.
+     * This is the main method for the Scheduling Assistant Application.
      * This method gets call when the application starts.
      */
     public static void main(String[] args) {

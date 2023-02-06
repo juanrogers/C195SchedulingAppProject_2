@@ -17,6 +17,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
+
 /** This controller will be used as the logic for the main menu screen.
  *
  * @author Ajuane Rogers */
@@ -103,11 +105,11 @@ public class mainscreencontroller implements Initializable {
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This will log you out of the application, do you want to continue?");
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("This action will log you out of the application, do you want to continue?");
 
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
