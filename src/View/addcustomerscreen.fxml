@@ -64,11 +64,11 @@
                 <Font name="Cochin" size="13.0" />
             </font>
         </Button>
-        <TextField fx:id="customerIdTxtFld" layoutX="189.0" layoutY="117.0" onAction="#onActionCustdTxtFld" />
+        <TextField fx:id="customerIdTxtFld" disable="true" editable="false" layoutX="189.0" layoutY="117.0" onAction="#onActionCustdTxtFld" promptText="AUTO CREATED" />
         <TextField fx:id="customerNameTxtFld" layoutX="189.0" layoutY="170.0" onAction="#onActionCustNameTxtFld" />
         <TextField fx:id="addressTxtFld" layoutX="189.0" layoutY="218.0" onAction="#onActionAddrTxtFld" />
-        <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="166.0" />
-        <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="318.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="166.0" />
+        <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="149.0" />
+        <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="318.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="149.0" />
         <TextField fx:id="postalCodeTxtFld" layoutX="189.0" layoutY="368.0" onAction="#onActionPostCodeTxtFld" />
         <TextField fx:id="phoneTxtFld" layoutX="189.0" layoutY="418.0" onAction="#onActionPhoneTxtFld" />
     </children>

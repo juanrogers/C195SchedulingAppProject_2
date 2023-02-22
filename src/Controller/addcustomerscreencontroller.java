@@ -209,7 +209,7 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
-       /* if (count.getCountry_Id() == 3) {
+        if (count.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
         }
@@ -245,7 +245,7 @@ public class addcustomerscreencontroller implements Initializable {
 
             divisionDropDownBox.isDisabled();
 
-        } */
+        }
 
     }
 

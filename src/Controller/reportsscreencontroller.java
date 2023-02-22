@@ -99,10 +99,6 @@ public class reportsscreencontroller implements Initializable {
 
     };
 
-    @FXML
-    void onActionConSceGenRep(ActionEvent event) {
-
-    };
 
     @FXML
     void onActionContDropDownBox(ActionEvent event) {
@@ -157,7 +153,7 @@ public class reportsscreencontroller implements Initializable {
      * @param event clicking the button for generate report
      */
     @FXML
-    void conSceGenRepButton(ActionEvent event) {
+    void onActionConSceGenRep(ActionEvent event) {
 
         Contact contact = contactDropDownBox.getValue();
 
