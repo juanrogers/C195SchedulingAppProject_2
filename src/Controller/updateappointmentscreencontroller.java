@@ -72,9 +72,9 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<String> typeDropDownBox;
     @FXML
-    private ComboBox<LocalTime> startTimeDropDownBox;
+    private ComboBox<String> startTimeDropDownBox;
     @FXML
-    private ComboBox<LocalTime> endTimeDropDownBox;
+    private ComboBox<String> endTimeDropDownBox;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -193,86 +193,54 @@ public class updateappointmentscreencontroller implements Initializable {
      *
      * @param event clicking save button
      * @throws IOException
-     *
+     */
     @FXML
     void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
 
-        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("Appointment will be updated, do you want to continue?");
+        try {
 
-        Optional<ButtonType> result = alertUserMsg.showAndWait();
+            if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
+                int appointment_Id = 0;
+                String title = titleTxtFld.getText();
+                String description = descriptionTxtFld.getText();
+                String location = locationTxtFld.getText();
+                String type = typeDropDownBox.getValue();
+                String startOfAppt = startTimeDropDownBox.getValue();
+                String endOfAppt = endTimeDropDownBox.getValue();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+                String contactName = "";
+                String customerName = "";
+                int contact_Id = Contact.getContactIdByContactName(contactName);
+                int customer_Id = Customer.getCustIdByCustName(customerName);
+                int user_Id = DBAccessUsers.getCurrentUserID();
 
-            String customer_Id = customerIdTxtFld.getText();
-            String title = titleTxtFld.getText();
-            String description = descriptionTxtFld.getText();
-            String location = locationTxtFld.getText();
-            Contact contact = contactDropDownBox.getValue();
-            String type = typeDropDownBox.getValue();
-            LocalDate date = datePicker.getValue();
+                Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
 
-            LocalTime standTime = startTimeDropDownBox.getValue();
-            LocalTime eastTime = endTimeDropDownBox.getValue();
-            User userId = userIdDropDownBox.getValue();
-            int appointment_Id = Integer.parseInt(appointmentIdTxtFld.getText());
-
-            if (contact!=null && !type.isEmpty() && date!=null && standTime!=null && eastTime!=null && !customer_Id.isEmpty() && userId!=null) {
-
-                Timestamp start = Timestamp.valueOf(LocalDateTime.of( date, startTimeDropDownBox.getValue()));
-                Timestamp end = Timestamp.valueOf(LocalDateTime.of( date, endTimeDropDownBox.getValue()));
-                int custId = Integer.parseInt(customer_Id);
-
-                if (LocalDateTime.of(date, endTimeDropDownBox.getValue()).isAfter(LocalDateTime.of(date, startTimeDropDownBox.getValue()))) {
-
-                    Appointment newAppoint = new Appointment(appointment_Id, title, description, location, contact.getContact_Id(), contact.getContactName(), type, start, end, custId, userId.getUser_Id());
-
-                    if (DBAccessAppointments.checkOverlappingAppointments(newAppoint)) {
-
-                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-                        alertUserMsg2.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
-                        alertUserMsg2.setContentText("There are overlappling appointments for the selected customer.");
-                        alertUserMsg2.showAndWait();
-
-                    }
-
-                    else {
-
-                        DBAccessAppointments.updateAppointment(title, description, location, type, start, end, custId, userId.getUser_Id(), contact.getContact_Id(), appointment_Id);
+                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt))
+                {
+                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
+                    {
+                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
 
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
                         stage.setScene(new Scene(scene));
                         stage.show();
-
                     }
-
                 }
-
-                else {
-
-                    Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
-                    alertUserMsg3.setHeaderText("ERROR: Time set is invalid.");
-                    alertUserMsg3.setContentText("Appointment end time must be after appointment start time.");
-                    alertUserMsg3.showAndWait();
-
-                }
-
             }
-
-            else {
-
-                Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
-                alertUserMsg4.setHeaderText("ERROR: Time set is invalid.");
-                alertUserMsg4.setContentText("The appointment end time must be after appointment start time.");
-                alertUserMsg4.showAndWait();
-
-            }
-
+        }
+        catch (NullPointerException nullPointexpt) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Appointments");
+            alert.setHeaderText("Appointment Time is Incomplete");
+            alert.setContentText("Please enter a valid date and time.");
+            alert.showAndWait();
         }
 
-    }  */
+
+
+    }
 
 
 
@@ -332,9 +300,9 @@ public class updateappointmentscreencontroller implements Initializable {
         typeDropDownBox.setValue(appointment.getType());
 
         LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
-        startTimeDropDownBox.setValue(setStartTime);
+        startTimeDropDownBox.setValue(String.valueOf(setStartTime));
         LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
-        endTimeDropDownBox.setValue(setEndTime);
+        endTimeDropDownBox.setValue(String.valueOf(setEndTime));
 
         LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
@@ -380,6 +348,7 @@ public class updateappointmentscreencontroller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        prePopForTypeDropDownBox();
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
@@ -402,7 +371,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
 
-            startTimeDropDownBox.getItems().add(appointmentStartTimeMin);
+            startTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
             appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
 
         }
@@ -421,7 +390,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
 
-            endTimeDropDownBox.getItems().add(appointmentEndTimeMin);
+            endTimeDropDownBox.getItems().add(String.valueOf(appointmentEndTimeMin));
             appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
 
         }

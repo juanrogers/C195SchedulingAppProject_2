@@ -96,7 +96,7 @@ public class Appointment {
      * @param endOfAppt endOfAppt
      * @return will returns true: if all checks are true, false: if not
      */
-    public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, Timestamp startOfAppt, Timestamp endOfAppt) {
+    public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, ComboBox startOfAppt, ComboBox endOfAppt) {
 
         String errorMsgToUser = "";
 
@@ -130,7 +130,7 @@ public class Appointment {
         }
 
 
-        if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
+       /* if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
 
             errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
 
@@ -140,7 +140,7 @@ public class Appointment {
 
             errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
 
-        }
+        }  */
 
         if(errorMsgToUser.isEmpty()) {
 

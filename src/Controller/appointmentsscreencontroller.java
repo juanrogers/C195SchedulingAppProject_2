@@ -194,7 +194,7 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     void onActionGoToAddAppointment(ActionEvent event) throws IOException {
 
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("../view/addappointmentscreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();

@@ -41,6 +41,17 @@ public class Customer {
     }
 
 
+    /** Gets customer ID from a customer name, where the name given is from a String object that contains the ID.
+     * @return will return a contact Id parsed from a contact name
+     **/
+    public static int getCustIdByCustName(String customerName)
+    {
+        int customerID = Integer.parseInt(customerName.substring(0, customerName.indexOf(":")));
+
+        return customerID;
+    }
+
+
 
 
     /**

@@ -1,5 +1,6 @@
 package Controller;
 
+import com.sun.jdi.Value;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +17,6 @@ import Model.Appointment;
 import Model.Contact;
 import Model.Customer;
 import Model.User;
-import Utility.appointValidationChecker;
 
 import DBAccessObj.*;
 
@@ -53,6 +53,8 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private Label typeLabel;
     @FXML
+    private Label titleLabel;
+    @FXML
     private Label startTimeLabel;
     @FXML
     private Label endTimeLabel;
@@ -75,9 +77,9 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<String> typeDropDownBox;
     @FXML
-    private ComboBox<LocalTime> startTimeDropDownBox;
+    private ComboBox<String> startTimeDropDownBox;
     @FXML
-    private ComboBox<LocalTime> endTimeDropDownBox;
+    private ComboBox<String> endTimeDropDownBox;
     @FXML
     private DatePicker datePickerBox;
     @FXML
@@ -164,6 +166,11 @@ public class addappointmentscreencontroller implements Initializable {
 
     };
 
+    @FXML
+    void onActionTypeDropDownBox (ActionEvent event){
+
+    };
+
 
 
     /**
@@ -188,95 +195,48 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
+        try {
 
-    }
+            if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
+                int appointment_Id = 0;
+                String title = titleTxtFld.getText();
+                String description = descriptionTxtFld.getText();
+                String location = locationTxtFld.getText();
+                String type = typeDropDownBox.getValue();
+                String startOfAppt = startTimeDropDownBox.getValue();
+                String endOfAppt = endTimeDropDownBox.getValue();
 
+                String contactName = "";
+                String customerName = "";
+                int contact_Id = Contact.getContactIdByContactName(contactName);
+                int customer_Id = Customer.getCustIdByCustName(customerName);
+                int user_Id = DBAccessUsers.getCurrentUserID();
 
+                Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
 
-
-
-      /*  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText("ARE YOU SURE?");
-        alert.setContentText("This will add a new Appointment to the calendar");
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK)
-        {
-            String customer_Id = customerIdTxtFld.getText();
-            String title = titleTxtFld.getText();
-            String description = descriptionTxtFld.getText();
-            String location = locationTxtFld.getText();
-            Contact contact = contactDropDownBox.getValue();
-            String type = typeDropDownBox.getValue();
-            LocalDate date = datePickerBox.getValue();
-
-            LocalTime st = startTimeDropDownBox.getValue();
-            LocalTime et = endTimeDropDownBox.getValue();
-            User userId = userIdDropDownBox.getValue();
-
-
-
-            if (contact!=null && !type.isEmpty() && date!=null && st!=null && et!=null && userId!=null)
-            {
-
-                Timestamp start = Timestamp.valueOf(LocalDateTime.of( date, startTimeDropDownBox.getValue()));
-                Timestamp end = Timestamp.valueOf(LocalDateTime.of( date, endTimeDropDownBox.getValue()));
-                int cId = Integer.parseInt("0");
-
-
-                if (LocalDateTime.of(date, endTimeDropDownBox.getValue()).isAfter(LocalDateTime.of(date, startTimeDropDownBox.getValue())))
+                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt))
                 {
-
-                   //Appointment newAppointment = new Appointment(Integer.parseInt(customer_Id), title, description, location, contact.getContact_Id(), contact.getContactName(), type, start, end, cId, userId.getUser_Id());
-
-
-                    //if (DBAccessAppointments.checkOverlappingAppointments(newAppointment))
+                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
                     {
-
-                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                        alert3.setHeaderText("APPOINTMENT OVERLAP");
-                        alert3.setContentText("Appointment overlaps with an existing appointment for the selected customer.");
-                        alert3.showAndWait();
-                    }
-                   // else {
-
-                        DBAccessAppointments.addAppointment(title, description, location, type, start, end, cId, userId.getUser_Id(), contact.getContact_Id());
-
-
+                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
+                        // Switch to Appts Scene
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
                         stage.setScene(new Scene(scene));
                         stage.show();
                     }
                 }
-                else
-                {
-                    Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                    alert3.setHeaderText("TIME ERROR");
-                    alert3.setContentText("Appointment end time must be after appointment start time.");
-                    alert3.showAndWait();
-                }
-
             }
-            else
-            {
-                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                alert3.setHeaderText("INVALID ENTRIES");
-                alert3.setContentText("Please enter a valid value for each required field!");
-                alert3.showAndWait();
-            } */
-
-
-
-
+        }
+        catch (NullPointerException nullPointexpt) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Appointments");
+            alert.setHeaderText("Appointment Time is Incomplete");
+            alert.setContentText("Please enter a valid date and time.");
+            alert.showAndWait();
         }
 
-
-
-
-
-
+    }
 
     /** This method will cancel the "add appointment" action, and send user back to the appointment screen.
      *
@@ -300,131 +260,6 @@ public class addappointmentscreencontroller implements Initializable {
             stage.show();
 
         }
-
-    }
-
-
-
-    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
-     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
-     * @param title title
-     * @param description description
-     * @param location location
-     * @return will returns true: if all checks are true, false: if not
-     */
-    private boolean checkApptToBeSave(String title, String description, String location){
-
-       /* if (appointment_Id.isEmpty()) {
-
-            Alert alertUserMsg6 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg6.setTitle("Error!");
-            alertUserMsg6.setContentText("Appointment Id field does not have a valid value. Please try again.");
-            alertUserMsg6.showAndWait();
-            return false;
-
-        } */
-
-        if (title.isEmpty()){
-
-            Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg2.setTitle("Error!");
-            alertUserMsg2.setContentText("Title field does not have a valid value. Please try again.");
-            alertUserMsg2.showAndWait();
-            return false;
-
-        }
-
-        if (description.isEmpty()){
-
-            Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg3.setTitle("Error!");
-            alertUserMsg3.setContentText("Description field does not have a valid value. Please try again.");
-            alertUserMsg3.showAndWait();
-            return false;
-
-        }
-
-        if (location.isEmpty()){
-
-            Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg4.setTitle("Error!");
-            alertUserMsg4.setContentText("Location field does not have a valid value. Please try again.");
-            alertUserMsg4.showAndWait();
-            return false;
-
-        }
-
-        if (contactDropDownBox.getSelectionModel().isEmpty()){
-
-            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg.setTitle("Error!");
-            alertUserMsg.setContentText("Contact selection has not be chosen. Please try again.");
-            alertUserMsg.showAndWait();
-            return false;
-
-        }
-
-        if (typeDropDownBox.getSelectionModel().isEmpty()) {
-
-            Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg5.setTitle("Error!");
-            alertUserMsg5.setContentText("Type selection has not be chosen. Please try again.");
-            alertUserMsg5.showAndWait();
-            return false;
-
-        }
-
-        if (datePickerBox.getValue() == null) {
-
-            Alert alertUserMsg7 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg7.setTitle("Error!");
-            alertUserMsg7.setContentText("Start date selection has not be chosen. Please try again.");
-            alertUserMsg7.showAndWait();
-            return false;
-
-        }
-
-        if (startTimeDropDownBox.getSelectionModel().isEmpty()){
-
-            Alert alertUserMsg8 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg8.setTitle("Error!");
-            alertUserMsg8.setContentText("Start time selection has not be chosen. Please try again.");
-            alertUserMsg8.showAndWait();
-            return false;
-
-        }
-
-        if (endTimeDropDownBox.getSelectionModel().isEmpty()){
-
-            Alert alertUserMsg11 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg11.setTitle("Error!");
-            alertUserMsg11.setContentText("End time selection has not be chosen. Please try again.");
-            alertUserMsg11.showAndWait();
-            return false;
-
-        }
-
-       /* if (customerIdDropDownBox.getSelectionModel().isEmpty()) {
-
-            Alert alertUserMsg12 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg12.setTitle("Error!");
-            alertUserMsg12.setContentText("Customer Id selection has not be chosen. Please try again.");
-            alertUserMsg12.showAndWait();
-            return false;
-
-        }  */
-
-        if (userIdDropDownBox.getSelectionModel().isEmpty()) {
-
-            Alert alertUserMsg13 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg13.setTitle("Error!");
-            alertUserMsg13.setContentText("User Id selection has not be chosen. Please try again.");
-            alertUserMsg13.showAndWait();
-            return false;
-
-        }
-
-        return true;
 
     }
 
@@ -455,6 +290,7 @@ public class addappointmentscreencontroller implements Initializable {
         @Override
         public void initialize (URL url, ResourceBundle resourceBundle){
 
+            prePopForTypeDropDownBox();
             customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
@@ -479,7 +315,7 @@ public class addappointmentscreencontroller implements Initializable {
 
             while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
 
-                startTimeDropDownBox.getItems().add(appointmentStartTimeMin);
+                startTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
                 appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
 
             }
@@ -499,7 +335,7 @@ public class addappointmentscreencontroller implements Initializable {
 
             while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
 
-                endTimeDropDownBox.getItems().add(appointmentEndTimeMin);
+                endTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
                 appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
 
             }
