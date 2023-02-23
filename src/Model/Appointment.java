@@ -67,11 +67,8 @@ public class Appointment {
     }
 
 
-
     //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
     //}
-
-
 
     /** This constructor will be used for getting and returning a list of appointments that are coming up soon.
      *
@@ -83,7 +80,6 @@ public class Appointment {
         this.timeForCloseAppts = timeForCloseAppts;
 
     }
-
 
     /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
      * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
@@ -97,68 +93,48 @@ public class Appointment {
      * @return will returns true: if all checks are true, false: if not
      */
     public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, ComboBox startOfAppt, ComboBox endOfAppt) {
-
         String errorMsgToUser = "";
 
         if (title.getText().isEmpty()) {
-
             errorMsgToUser =  errorMsgToUser + " The title field does not have a valid value. Please try again.";
-
         }
 
         if (description.getText().isEmpty()) {
-
             errorMsgToUser = errorMsgToUser + " The description field does not have a valid value. Please try again.";
-
         }
 
         if (location.getText().isEmpty()) {
-
             errorMsgToUser = errorMsgToUser + " The location field does not have a valid value. Please try again.";
         }
 
-
-
         if (contact.getSelectionModel().isEmpty()) {
-
             errorMsgToUser = errorMsgToUser + " The contact selection has not be chosen. Please try again.";
         }
 
         if(type.getSelectionModel().isEmpty()) {
-
             errorMsgToUser = errorMsgToUser + " The type selection has not be chosen. Please try again..";
         }
 
-
        /* if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
-
             errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
-
         }
 
         if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
-
             errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
-
         }  */
 
         if(errorMsgToUser.isEmpty()) {
-
             return true;
-
         }
 
         else {
-
             Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
             alertUserMsg.setTitle("See message below details...");
             alertUserMsg.setHeaderText("Please enter data into all fields and make all selections.");
             alertUserMsg.setContentText(errorMsgToUser);
             alertUserMsg.showAndWait();
             return false;
-
         }
-
     }
 
 
@@ -172,90 +148,70 @@ public class Appointment {
      * @return will return the appointment_Id
      */
     public int getAppointment_Id() {
-
         return appointment_Id;
-
     }
 
     /**
      * @return will return the title
      */
     public String getTitle() {
-
         return title;
-
     }
 
     /**
      * @return will return the description
      */
     public String getDescription() {
-
         return description;
-
     }
 
     /**
      * @return will return the location
      */
     public String getLocation() {
-
         return location;
-
     }
 
     /**
      * @return will return the type
      */
     public String getType() {
-
         return type;
-
     }
 
     /**
      * @return will return the start
      */
     public Timestamp getStartOfAppt() {
-
         return startOfAppt;
-
     }
 
     /**
      * @return will return the end
      */
     public Timestamp getEndOfAppt() {
-
         return endOfAppt;
-
     }
 
     /**
      * @return Getter for the customer_Id
      */
     public int getCustomer_Id() {
-
         return customer_Id;
-
     }
 
     /**
      * @return Getter for the user_Id
      */
     public int getUser_Id() {
-
         return user_Id;
-
     }
 
     /**
      * @return Getter for the contact_Id
      */
     public int getContact_Id() {
-
         return contact_Id;
-
     }
 
     /**
@@ -269,18 +225,14 @@ public class Appointment {
      * @return Getter for appointment dates that are near
      */
     public Date getDateForCloseAppts() {
-
         return dateForCloseAppts;
-
     }
 
     /**
      * @return Getter for appointment times that are near
      */
     public Time getTimeForCloseAppts() {
-
         return timeForCloseAppts;
-
     }
 
 
@@ -295,52 +247,41 @@ public class Appointment {
      * @param appointment_Id Setter for the appointment_Id
      */
     public void setAppointment_Id(int appointment_Id) {
-
         this.appointment_Id = appointment_Id;
-
     }
 
     /**
      * @param title Setter for the title
      */
     public void setTitle(String title) {
-
         this.title = title;
-
     }
 
     /**
      * @param description Setter for the description
      */
     public void setDescription(String description) {
-
         this.description = description;
-
     }
 
     /**
      * @param location Setter for the location
      */
     public void setLocation(String location) {
-
         this.location = location;
-
     }
 
     /**
      * @param type Setter for the type
      */
     public void setType(String type) {
-
         this.type = type;
-
     }
 
     /**
      * @param startOfAppt Setter for the start
      */
     public void getStartOfAppt(Timestamp startOfAppt) {
-
         this.startOfAppt = startOfAppt;
 
     }
@@ -349,39 +290,30 @@ public class Appointment {
      * @param endOfAppt Setter for the end
      */
     public void getEndOfAppt(Timestamp endOfAppt) {
-
         this.endOfAppt = endOfAppt;
-
     }
 
     /**
      * @param customer_Id Setter for the customer_Id
      */
     public void setCustomer_Id(int customer_Id) {
-
         this.customer_Id = customer_Id;
-
     }
 
     /**
      * @param user_Id Setter for the user_Id
      */
     public void setUser_Id(int user_Id) {
-
         this.user_Id = user_Id;
-
     }
 
     /**
      * @param contact_Id Setter for the contact_Id
      */
     public void setContact_Id(int contact_Id) {
-
         this.contact_Id = contact_Id;
 
     }
-
-
 
 
 }

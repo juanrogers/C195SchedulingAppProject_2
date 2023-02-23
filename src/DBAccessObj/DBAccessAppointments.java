@@ -29,11 +29,6 @@ import java.time.chrono.ChronoZonedDateTime;
  * @author Ajuane Rogers*/
 public class DBAccessAppointments {
 
-    /**
-     * Static variables & methods (and others)
-     */
-    private static ObservableList<Appointment> appointmentsThatAreNear = FXCollections.observableArrayList();
-
 
 
     /**
@@ -177,49 +172,6 @@ public class DBAccessAppointments {
 
 
     /**
-     * This method will check to see if there are overlapping appointments.
-     *
-     * @param appointment appointment to be checked.
-     * @return If there are overlapping appointments: true, if there are not overlapping appointments: false.
-     *
-    public static Boolean checkOverlappingAppointments(Appointment appointment) {
-
-        try {
-
-            String sqlChkOverlapAppts = "SELECT * FROM appointments WHERE ((? <= Start AND ? > Start) OR (? >= Start AND ? < End)) AND Customer_ID = ? AND Appointment_ID <> ?";
-
-            PreparedStatement chkOverlapAppts = DBConnect.connection().prepareStatement(sqlChkOverlapAppts);
-
-            chkOverlapAppts.setTimestamp(1, appointment.getStartOfAppt());
-            chkOverlapAppts.setTimestamp(2, appointment.getStartOfAppt());
-            chkOverlapAppts.setTimestamp(3, appointment.getStartOfAppt());
-            chkOverlapAppts.setTimestamp(4, appointment.getStartOfAppt());
-            chkOverlapAppts.setInt(5, appointment.getCustomer_Id());
-            chkOverlapAppts.setInt(6, appointment.getAppointment_Id());
-
-
-            ResultSet resSet = chkOverlapAppts.executeQuery();
-
-
-            while (resultSet.next()) {
-
-                return true;
-
-            }
-
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-
-        }
-
-        return false;
-
-    }  */
-
-
-    /**
      * This method adds an appointment to the database.
      *
      * @param title       title of appointment.
@@ -235,11 +187,8 @@ public class DBAccessAppointments {
     public static void addAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id) {
 
         try {
-
             String sqlAddAppt = "INSERT INTO appointments VALUES (NULL, ?, ?, ?, ?, ?, ?, NOW(), 'RZ', NOW(), 'RZ', ?, ?, ?)";
-
             PreparedStatement addAppt = DBConnect.connection().prepareStatement(sqlAddAppt);
-
             addAppt.setString(1, title);
             addAppt.setString(2, description);
             addAppt.setString(3, location);
@@ -249,13 +198,10 @@ public class DBAccessAppointments {
             addAppt.setInt(7, customer_Id);
             addAppt.setInt(8, user_Id);
             addAppt.setInt(9, contact_Id);
-
             addAppt.execute();
 
         } catch (SQLException expt) {
-
             expt.printStackTrace();
-
         }
 
     }
@@ -276,12 +222,10 @@ public class DBAccessAppointments {
      * @param appointment_Id Id of appointment.
      */
     public static void updateAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id, int appointment_Id) {
-
         try {
 
             String sqlUpdateAppt = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
             PreparedStatement updateAppt = DBConnect.connection().prepareStatement(sqlUpdateAppt);
-
             updateAppt.setString(1, title);
             updateAppt.setString(2, description);
             updateAppt.setString(3, location);
@@ -292,13 +236,10 @@ public class DBAccessAppointments {
             updateAppt.setInt(8, user_Id);
             updateAppt.setInt(9, contact_Id);
             updateAppt.setInt(10, appointment_Id);
-
             updateAppt.execute();
 
         } catch (SQLException expt) {
-
             expt.printStackTrace();
-
         }
 
     }
@@ -312,19 +253,12 @@ public class DBAccessAppointments {
     public static void deleteAppointment(int appointment_Id) {
 
         try {
-
             String sqldeleteAppt = "DELETE FROM appointments WHERE Appointment_ID = ?";
-
             PreparedStatement deleteAppt = DBConnect.connection().prepareStatement(sqldeleteAppt);
-
             deleteAppt.setInt(1, appointment_Id);
-
             deleteAppt.execute();
-
         } catch (SQLException expt) {
-
             expt.printStackTrace();
-
         }
 
     }
@@ -342,24 +276,15 @@ public class DBAccessAppointments {
         try {
 
             String sqlGetAllTypes = "SELECT DISTINCT type FROM appointments";
-
             PreparedStatement getAllTypes = DBConnect.connection().prepareStatement(sqlGetAllTypes);
-
-
             ResultSet resSet = getAllTypes.executeQuery();
-
             while (resSet.next()) {
-
                 typesOfApptsList.add(resSet.getString(1));
-
             }
 
         } catch (SQLException expt) {
-
             expt.printStackTrace();
-
         }
-
         return typesOfApptsList;
 
     }
@@ -375,82 +300,24 @@ public class DBAccessAppointments {
     public static int getTypeAndMonthCount(String month, String type) {
 
         int total = 0;
-
         try {
-
             String sqlTypeAndMonth = "SELECT count(*) FROM appointments WHERE type = ? AND monthname(start) = ?";
-
-
             PreparedStatement typeAndMonth = DBConnect.connection().prepareStatement(sqlTypeAndMonth);
-
-
             typeAndMonth.setString(1, type);
             typeAndMonth.setString(2, month);
-
             ResultSet resSet = typeAndMonth.executeQuery();
 
             if (resSet.next()) {
-
                 return resSet.getInt(1);
-
             }
 
         } catch (SQLException expt) {
-
             expt.printStackTrace();
-
         }
 
         return total;
 
     }
-
-
-
-    /**
-     * Gets all appointments from the database.
-     *
-     * @return Returns an ObservableList of all Appointments.
-     *
-    public static ObservableList<Appointment> getAllAppointments() {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                appointmentList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-
-
-
-
-
 
 
     /**
@@ -483,37 +350,6 @@ public class DBAccessAppointments {
         return listOfAppointmentByMonTimeSt;
 
     }
-
-
-
-    /**
-     * Gets all weeks from all appointments.
-     *
-     * @return Returns an ObservableList of String type reflecting the week for each appointment.
-     *
-    public static ObservableList<String> getAllAppointmentWeeks() {
-        ObservableList<String> appointmentWeekList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String startWeekDay = rs.getString("weekStartDate");
-                appointmentWeekList.add(startWeekDay);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentWeekList;
-    }  */
 
 
 
@@ -628,7 +464,6 @@ public class DBAccessAppointments {
         ObservableList<String> listOfAppointmentsByCustomerName = FXCollections.observableArrayList();
 
         try {
-
             String sqlDBQuery = "SELECT * FROM customers";
 
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
@@ -652,78 +487,6 @@ public class DBAccessAppointments {
         return listOfAppointmentsByCustomerName;
 
     }
-
-
-
-    /**
-     * Gets all types from all appointments.
-     *
-     * @return Returns an ObservableList of String type reflecting all types from all appointments.
-     *
-    public static ObservableList<String> getAllAppointmentTypes() {
-        ObservableList<String> appointmentTypes = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * FROM appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (getAllAppointmentCustomerIDs().contains(rs.getInt("Customer_ID"))) {
-                    String typeName = rs.getString("Type");
-                    appointmentTypes.add(typeName);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentTypes;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected customer.
-     *
-     * @param customer A string value selected from the Customer filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected customer.
-     *
-    public static ObservableList<Appointment> filterApptsViewByCustomer(String customer) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (Customer.getCustomerIDByName(customer) == rs.getInt("Customer_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
 
 
 
@@ -776,1141 +539,6 @@ public class DBAccessAppointments {
 
 
     /**
-     * Gets all appointments filtered by a selected type.
-     *
-     * @param typeName A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected type.
-     *
-    public static ObservableList<Appointment> filterApptsViewByType(String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments WHERE type = ?";
-
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setString(1, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                appointmentList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected customer, contact, and type.
-     *
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param contactName  A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByCustomerContactType(String customerName, String contactName,
-                                                                                   String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int customer_ID = Customer.getCustomerIDByName(customerName);
-        int contact_ID = Contact.getContactIDByName(contactName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Customer_ID = ? AND Contact_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, customer_ID);
-            ps.setInt(2, contact_ID);
-            ps.setString(3, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                appointmentList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected customer and type.
-     *
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByCustomerAndType(String customerName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int customer_ID = Customer.getCustomerIDByName(customerName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Customer_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, customer_ID);
-            ps.setString(2, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                appointmentList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected contact and type.
-     *
-     * @param contactName A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName    A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the input filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByContactAndType(String contactName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int contact_ID = Contact.getContactIDByName(contactName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Contact_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, contact_ID);
-            ps.setString(2, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                appointmentList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month, customer, and type.
-     *
-     * @param month        A string value selected from the Month filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthCustomerType(String month, String customerName,
-                                                                                 String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int customer_ID = Customer.getCustomerIDByName(customerName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Customer_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, customer_ID);
-            ps.setString(2, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString())) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month, contact, and type.
-     *
-     * @param month       A string value selected from the Month filter in the main Appointments screen.
-     * @param contactName A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName    A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthContactType(String month, String contactName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int contact_ID = Contact.getContactIDByName(contactName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Contact_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, contact_ID);
-            ps.setString(2, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString())) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month and type.
-     *
-     * @param month    A string value selected from the Month filter in the main Appointments screen.
-     * @param typeName A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthAndType(String month, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments WHERE Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setString(1, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString())) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week and type.
-     *
-     * @param week     A string value selected from the Week filter in the main Appointments screen.
-     * @param typeName A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekAndType(String week, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (typeName.equals(rs.getString("Type")) && week.equals(rs.getString("weekStartDate"))) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week, customer, and type.
-     *
-     * @param week         A string value selected from the Week filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekCustomerType(String week, String customerName,
-                                                                                String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int customer_ID = Customer.getCustomerIDByName(customerName);
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (typeName.equals(rs.getString("Type")) && week.equals(rs.getString("weekStartDate")) &&
-                        customer_ID == rs.getInt("Customer_ID")) ;
-                {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week, contact, and type.
-     *
-     * @param week        A string value selected from the Week filter in the main Appointments screen.
-     * @param contactName A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName    A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekContactType(String week, String contactName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int contact_ID = Contact.getContactIDByName(contactName);
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (typeName.equals(rs.getString("Type")) && week.equals(rs.getString("weekStartDate")) &&
-                        contact_ID == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected customer and contact.
-     *
-     * @param customer A string value selected from the Customer filter in the main Appointments screen.
-     * @param contact  A string value selected from the Contact filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByCustomerAndContact(String customer, String contact) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (Customer.getCustomerIDByName(customer) == rs.getInt("Customer_ID") &&
-                        Contact.getContactIDByName(contact) == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month, customer, contact, and type.
-     *
-     * @param month        A string value selected from the Month filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param contactName  A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthCustomerContactType(String month, String customerName,
-                                                                                        String contactName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        int customer_ID = Customer.getCustomerIDByName(customerName);
-        int contact_ID = Contact.getContactIDByName(contactName);
-
-        try {
-            String sql = "SELECT * from appointments WHERE Customer_ID = ? AND Contact_ID = ? AND Type = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, customer_ID);
-            ps.setInt(2, contact_ID);
-            ps.setString(3, typeName);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString())) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month, customer, and contact.
-     *
-     * @param month        A string value selected from the Month filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param contactName  A string value selected from the Contact filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthCustomerContact(String month, String customerName,
-                                                                                    String contactName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString()) &&
-                        Customer.getCustomerIDByName(customerName) == rs.getInt("Customer_ID") &&
-                        Contact.getContactIDByName(contactName) == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month and customer.
-     *
-     * @param month        A string value selected from the Month filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthAndCustomer(String month, String customerName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString()) &&
-                        Customer.getCustomerIDByName(customerName) == rs.getInt("Customer_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month and contact.
-     *
-     * @param month       A string value selected from the Month filter in the main Appointments screen.
-     * @param contactName A string value selected from the Contact filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonthAndContact(String month, String contactName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString()) &&
-                        Contact.getContactIDByName(contactName) == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected month.
-     *
-     * @param month A string value selected from the Month filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected month.
-     *
-    public static ObservableList<Appointment> filterApptsViewByMonth(String month) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String sql = "SELECT * from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (month.equals(rs.getTimestamp("Start").toLocalDateTime().getMonth().toString())) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  *
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week.
-     *
-     * @param week A string value selected from the Week filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected week.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeek(String week) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (week.equals(rs.getString("weekStartDate"))) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week, customer, contact, and type.
-     *
-     * @param week         A string value selected from the Week filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param contactName  A string value selected from the Contact filter in the main Appointments screen.
-     * @param typeName     A string value selected from the Type filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekCustomerContactType(String week, String customerName,
-                                                                                       String contactName, String typeName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (week.equals(rs.getString("weekStartDate")) &&
-                        Customer.getCustomerIDByName(customerName) == rs.getInt("Customer_ID") &&
-                        Contact.getContactIDByName(contactName) == rs.getInt("Contact_ID") &&
-                        typeName.equals(rs.getString("Type"))) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week, customer, and contact.
-     *
-     * @param week         A string value selected from the Week filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @param contactName  A string value selected from the Contact filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekCustomerContact(String week, String customerName,
-                                                                                   String contactName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (week.equals(rs.getString("weekStartDate")) &&
-                        Customer.getCustomerIDByName(customerName) == rs.getInt("Customer_ID") &&
-                        Contact.getContactIDByName(contactName) == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  *
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week and customer.
-     *
-     * @param week         A string value selected from the Week filter in the main Appointments screen.
-     * @param customerName A string value selected from the Customer filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekAndCustomer(String week, String customerName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (week.equals(rs.getString("weekStartDate")) &&
-                        Customer.getCustomerIDByName(customerName) == rs.getInt("Customer_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments filtered by a selected week and contact.
-     *
-     * @param week        A string value selected from the Week filter in the main Appointments screen.
-     * @param contactName A string value selected from the Contact filter in the main Appointments screen.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the selected filters.
-     *
-    public static ObservableList<Appointment> filterApptsViewByWeekAndContact(String week, String contactName) {
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        try {
-            String getWeek = "SELECT *, STR_TO_DATE((IF( CAST(WEEK(start,5) AS UNSIGNED) = 0,(CONCAT(CAST((CAST(YEAR(start) " +
-                    "AS UNSIGNED) - 1) AS CHAR),'52 Monday')),(CONCAT(CAST(YEAR(start) AS CHAR),IF( CAST(WEEK(start,5) " +
-                    "AS UNSIGNED) < 10,'0','' ),CAST(WEEK(start,5) AS CHAR),' Monday')))),'%X%V %W') AS weekStartDate " +
-                    " from appointments";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(getWeek);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (week.equals(rs.getString("weekStartDate")) &&
-                        Contact.getContactIDByName(contactName) == rs.getInt("Contact_ID")) {
-                    int apptID = rs.getInt("Appointment_ID");
-                    String title = rs.getString("Title");
-                    String description = rs.getString("Description");
-                    String location = rs.getString("Location");
-                    String type = rs.getString("Type");
-                    Timestamp start = rs.getTimestamp("Start");
-                    Timestamp end = rs.getTimestamp("End");
-                    int customerID = rs.getInt("Customer_ID");
-                    int userID = rs.getInt("User_ID");
-                    int contactID = rs.getInt("Contact_ID");
-                    Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                            userID, contactID);
-                    appointmentList.add(appt);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments for a given customer.
-     *
-     * @param customer A Customer object passed by the calling function.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the given customer.
-     *
-    public static ObservableList<Appointment> getAllAppointmentsByCustomerID(Customer customer) {
-        ObservableList<Appointment> associatedApptsList = FXCollections.observableArrayList();
-
-        int ID = customer.getCustomerID();
-
-        try {
-            String sql = "SELECT * from appointments WHERE Customer_ID = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, ID);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                associatedApptsList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return associatedApptsList;
-    }  */
-
-
-
-    /**
-     * Gets all appointments for a given contact.
-     *
-     * @param contact A Contact object passed by the calling function.
-     * @return Returns an ObservableList of Appointment type that reflects all appointments for the given contact.
-     *
-    public static ObservableList<Appointment> getAllAppointmentsByContactID(Contact contact) {
-        ObservableList<Appointment> associatedApptsList = FXCollections.observableArrayList();
-
-        int ID = contact.getContactID();
-
-        try {
-            String sql = "SELECT * from appointments WHERE Contact_ID = ?";
-
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-            ps.setInt(1, ID);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int apptID = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                Timestamp start = rs.getTimestamp("Start");
-                Timestamp end = rs.getTimestamp("End");
-                int customerID = rs.getInt("Customer_ID");
-                int userID = rs.getInt("User_ID");
-                int contactID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(apptID, title, description, location, type, start, end, customerID,
-                        userID, contactID);
-                associatedApptsList.add(appt);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return associatedApptsList;
-    }  */
-
-
-
-
-
-
-
-
-    /**
-     * This method will add an appointment to the database.
-     *
-     * @param appt    appt
-     * @param apptStTimeStamp A timestamp of start time for new appointment
-     * @param apptEdTimeStamp A timestamp of end time for new appointment
-     *
-    public static void addAppointment(Appointment appt, Timestamp apptStTimeStamp, Timestamp apptEdTimeStamp) {
-        int appointment_Id = 0;
-        int user_Id = appt.getUser_Id();
-        int customer_Id = appt.getCustomer_Id();
-        String title = appt.getTitle();
-        String description = appt.getDescription();
-        String location = appt.getLocation();
-        int contact_Id = appt.getContact_Id();
-        String type = appt.getType();
-        Timestamp startOfAppt = apptStTimeStamp;
-        Timestamp endOfAppt = apptEdTimeStamp;
-
-        String userLoggingIn = DBAccessUsers.getCurrentUser().getUserName();
-
-        try {
-
-            String sql = "INSERT INTO appointments(Appointment_ID, Title, Description, Location, Type, Start, End, " +
-                    "Created_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement preState = DBConnect.connection().prepareStatement(sql);
-            preState.setInt(1, appointment_Id);
-            preState.setString(2, title);
-            preState.setString(3, description);
-            preState.setString(4, location);
-            preState.setString(5, type);
-            preState.setTimestamp(6, apptStTimeStamp);
-            preState.setTimestamp(7, apptEdTimeStamp);
-            preState.setString(8, userLoggingIn);
-            preState.setInt(9, customer_Id);
-            preState.setInt(10, user_Id);
-            preState.setInt(11, contact_Id);
-
-            preState.executeUpdate();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-
-        }
-
-    }  */
-
-
-
-    /**
      * Updates an appointment in the database.
      *
      * @param appt An appointment object instantiated from the ModifyAppointments_Controller.
@@ -1947,9 +575,7 @@ public class DBAccessAppointments {
             preState.setInt(9, user_Id);
             preState.setInt(10, contact_Id);
             preState.setInt(11, appointment_Id);
-
             preState.executeUpdate();
-
             return true;
 
         } catch (SQLException throwables) {
@@ -1989,6 +615,10 @@ public class DBAccessAppointments {
     }  */
 
 
+    /** * Static variables & methods (and others)
+     *
+     * */
+    private static ObservableList<Appointment> appointmentsThatAreNear = FXCollections.observableArrayList();
 
     /**
      * This will check to see if the user who logged in has an appointment starting within the next 15 minutes of recorded timestamp of login attempt.
@@ -1999,15 +629,10 @@ public class DBAccessAppointments {
     public static int nearDateTimeAppointments() {
 
         int appointmentTimeCounter = 0;
-
         try {
-
             String sqlDBQuery = "SELECT Appointment_ID, Start, date(start), time(start) FROM appointments WHERE Start >= UTC_TIME()";
-
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
-
             ResultSet resSet = preState.executeQuery();
-
             while (resSet.next()) {
 
                 if (resSet.getTimestamp("Start").before(Timestamp.valueOf(LocalDateTime.now().plusMinutes(15)))) {
@@ -2015,20 +640,14 @@ public class DBAccessAppointments {
                             resSet.getDate("date(start)"), resSet.getTime("time(start)"));
                     appointmentTimeCounter++;
                     appointmentsThatAreNear.add(imminentAppointment);
-
                 }
-
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         return appointmentTimeCounter;
-
     }
-
-
 
     /**
      * Gets the list of all appointments occuring within 15 minutes of user's login.
@@ -2036,11 +655,8 @@ public class DBAccessAppointments {
      * @return Returns an ObservableList of Appointment type, reflecting all appointments occuring within 15 minutes of user's login.
      */
     public static ObservableList<Appointment> getImminentAppts() {
-
         return appointmentsThatAreNear;
-
     }
-
 
 
     /**
@@ -2098,119 +714,15 @@ public class DBAccessAppointments {
     }
 
 
-
-    /**
-     * Validates of new appointment overlaps with customer's existing appointment time
-     * Displays the alert messages
-     *
-     * @param cus_ID cus_ID
-     * @param apt_ID apt_ID
-     * @param start start
-     * @param end  end
-     * @throws SQLException
-     *
-    public static void checkToSeeIfApptsOvelap (int customer_Id, int appointment_Id, Timestamp startOfAppt, Timestamp endOfAppt) throws SQLException {
-
-        Alert Appt_overlap_error = new Alert(Alert.AlertType.ERROR);
-        Appt_overlap_error.setHeaderText("Selected time Overlaps with existing appointment");
-        String error = "";
-
-
-        ObservableList<Appointment> appointments = DBAccessAppointments.getAllAppointments();
-
-
-        for (Appointment appt : appointments) {
-
-            // Don't compare an appointment being edited to itself
-            if (apZ == a.getCustomer_ID()) {
-                continue;
-            }
-
-            if (a.getStart().isBefore(end) && start.isBefore(a.getEnd())) {
-                error = ("Appointment input appointment date time conflicts with  appointment ID " + a.getAppointment_ID());
-                Appt_overlap_flag = true;
-            }
-
-
-        }
-
-        if (error.isBlank()) {
-            Appt_overlap_error.hide();
-
-
-        } else {
-            Appt_overlap_error.setContentText(error);
-            Appt_overlap_error.showAndWait();
-
-        }
-
-
-    }  */
-
-
-
-    /**
-     * returns the  ObservableList of   Appointments  associated with a particular customer in the SQL database
-     *
-     * @param customer_Id customer_Id
-     * @return aList -  - Appointments  ObservableList
-     * @throws SQLException
-     *
-    public static ObservableList<Appointment> getCustomerAppts(int customer_Id) throws SQLException {
-
-        ObservableList<Appointment> aList = FXCollections.observableArrayList();
-        String sql = ("SELECT * FROM appointments AS a INNER JOIN contacts AS c ON a.Contact_ID=c.Contact_ID WHERE Customer_ID= '" + customer_Id + "'");
-
-        try{
-
-            PreparedStatement preState = DBConnect.connection().prepareStatement(sql);
-            ResultSet rs = preState.executeQuery();
-
-            while (rs.next()) {
-                int appointment_Id = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-
-
-                LocalDateTime startOfAppt = rs.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime endOfAppt = rs.getTimestamp("End").toLocalDateTime();
-
-
-                int Customer_ID = (rs.getInt("Customer_ID"));
-                int User_ID = rs.getInt("User_ID");
-                int Contact_ID = rs.getInt("Contact_ID");
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, Customer_ID, User_ID, Contact_ID);
-                aList.add(appt);
-
-                //System.out.print(aList);
-
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return  null;
-        }
-
-        return aList;
-
-    }  */
-
-
-
     /** Checks whether an added or modified appointment's timeframe conflicts with an appointment also belonging to either the contact or customer.
      *
      * @param appointment An appointment object instantiated from either the AddAppointments_Controller or ModifyAppointments_Controller.
      * @return Returns true if an added or modified appointment's timeframe conflicts with a pre-existing appointment for the same contact or customer.
      */
     public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
-
         String overlappingAppts = "";
-
         boolean apptsOverlap;
-
         for(Appointment appt : DBAccessAppointments.getAllAppointments()) {
-
             apptsOverlap =
                     (appt.getStartOfAppt().after(appt.getStartOfAppt()) || appt.getStartOfAppt().equals(appt.getStartOfAppt())) &&
                             (appt.getStartOfAppt().before(appt.getEndOfAppt()) || appt.getStartOfAppt().equals(appt.getEndOfAppt())) ||
@@ -2219,7 +731,6 @@ public class DBAccessAppointments {
                             (appt.getStartOfAppt().after(appt.getStartOfAppt()) && appt.getEndOfAppt().before(appt.getEndOfAppt()));
 
             if(appt.getAppointment_Id() != appt.getAppointment_Id()) {
-
                 // If selected appt starts within another appt
                 if(apptsOverlap)
                 {
@@ -2229,7 +740,6 @@ public class DBAccessAppointments {
                         {
                             overlappingAppts = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
                                     appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-
                         }
                         else
                         {
@@ -2282,18 +792,12 @@ public class DBAccessAppointments {
             alert.setContentText(overlappingAppts);
             alert.showAndWait();
             return false;
-
         }
-
     }
 
 
 
 }
-
-
-
-
 
 
 

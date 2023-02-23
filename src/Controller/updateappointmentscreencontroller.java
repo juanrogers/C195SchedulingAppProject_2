@@ -93,13 +93,11 @@ public class updateappointmentscreencontroller implements Initializable {
     private Button cancelUpdateApptButton;
 
 
-
     /**
      * Variables for stages and scenes.
      */
     Stage stage;
     Parent scene;
-
 
 
     /**
@@ -108,67 +106,54 @@ public class updateappointmentscreencontroller implements Initializable {
      */
     @FXML
     void onActionApptIdTxtFld(){
-
     };
 
     @FXML
     void onActionTitleTxtFld(){
-
     };
 
     @FXML
     void onActionDescriptionTxtFld(){
-
     };
 
     @FXML
     void onActionLocationTxtFld (){
-
     };
 
     @FXML
     void onActionConDropDownBox(){
-
     };
 
     @FXML
     void onActionTypeDropDownBox (){
-
     };
 
     @FXML
     void onActionSrtTimeDropDownBox(){
-
     };
 
     @FXML
     void onActionEndTimeDropDownBox(){
-
     };
 
     @FXML
     void onActionDatePicker(){
-
     };
 
     @FXML
     void onActionCustIdTxtFld(){
-
     };
 
     @FXML
     void onActionUserIdDropDownBox (){
-
     };
 
     @FXML
     void onActionSaveUpdateAppt (){
-
     };
 
     @FXML
     void onActionCancelUpdateAppt (){
-
     };
 
     Appointment appointment;
@@ -182,9 +167,7 @@ public class updateappointmentscreencontroller implements Initializable {
      */
     @FXML
     void onMouseClickInputToCustTxtFld(MouseEvent event) {
-
         customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
-
     }
 
 
@@ -216,12 +199,10 @@ public class updateappointmentscreencontroller implements Initializable {
 
                 Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
 
-                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt))
-                {
-                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
-                    {
-                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
+                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt)) {
+                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt)) {
 
+                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
                         stage.setScene(new Scene(scene));
@@ -237,9 +218,6 @@ public class updateappointmentscreencontroller implements Initializable {
             alert.setContentText("Please enter a valid date and time.");
             alert.showAndWait();
         }
-
-
-
     }
 
 
@@ -255,18 +233,14 @@ public class updateappointmentscreencontroller implements Initializable {
         Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg4.setHeaderText("ARE YOU SURE?");
         alertUserMsg4.setContentText("This action will close the update appointment screen, do you want to continue?");
-
         Optional<ButtonType> result = alertUserMsg4.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
-
         }
-
     }
 
 
@@ -277,7 +251,6 @@ public class updateappointmentscreencontroller implements Initializable {
      * @param appointment appointment to send
      */
     public void appointmentToBeSentToUpdate(Appointment appointment) {
-
         this.appointment = appointment;
 
         appointmentIdTxtFld.setText(Integer.toString(appointment.getAppointment_Id()));
@@ -286,19 +259,13 @@ public class updateappointmentscreencontroller implements Initializable {
         locationTxtFld.setText(appointment.getLocation());
 
         for (Contact cont : contactDropDownBox.getItems()) {
-
             if (appointment.getContact_Id() == cont.getContact_Id()) {
-
                 contactDropDownBox.setValue(cont);
-
                 break;
-
             }
 
         }
-
         typeDropDownBox.setValue(appointment.getType());
-
         LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
         startTimeDropDownBox.setValue(String.valueOf(setStartTime));
         LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
@@ -306,21 +273,14 @@ public class updateappointmentscreencontroller implements Initializable {
 
         LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
-
         customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
 
         for (User user : userIdDropDownBox.getItems()) {
-
             if (appointment.getUser_Id() == user.getUser_Id()) {
-
                 userIdDropDownBox.setValue(user);
-
                 break;
-
             }
-
         }
-
     }
 
 
@@ -330,13 +290,10 @@ public class updateappointmentscreencontroller implements Initializable {
     private void prePopForTypeDropDownBox() {
 
         ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
-
         optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
-
         typeDropDownBox.setItems(optionsForAppts);
 
     }
-
 
 
     /**

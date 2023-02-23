@@ -1,5 +1,6 @@
 package Controller;
 
+import Utility.TimeUtil;
 import com.sun.jdi.Value;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,9 +78,9 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<String> typeDropDownBox;
     @FXML
-    private ComboBox<String> startTimeDropDownBox;
+    private ComboBox<LocalTime> startTimeDropDownBox;
     @FXML
-    private ComboBox<String> endTimeDropDownBox;
+    private ComboBox<LocalTime> endTimeDropDownBox;
     @FXML
     private DatePicker datePickerBox;
     @FXML
@@ -113,62 +114,49 @@ public class addappointmentscreencontroller implements Initializable {
      */
     @FXML
     void onActionAppointmentIdTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionTitleTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionDescriptionTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionLocationTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionContactDropDownBox (ActionEvent event){
-
     };
 
     @FXML
     void onActionTypeTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionStartTimeDropDownBox (ActionEvent event){
-
     };
 
     @FXML
     void onActionEndTimeDropDownBox (ActionEvent event){
-
     };
 
     @FXML
     void onActionDatePickerBox (ActionEvent event){
-
     };
 
     @FXML
     void onActionCustomerIdTxtFld (ActionEvent event){
-
     };
 
     @FXML
     void onActionUserIdDropDownBox (ActionEvent event){
-
     };
-
     @FXML
     void onActionTypeDropDownBox (ActionEvent event){
-
     };
 
 
@@ -180,9 +168,7 @@ public class addappointmentscreencontroller implements Initializable {
      */
     @FXML
     void onMouseClickInputToCustTxtFld(MouseEvent event) {
-
         customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
-
     }
 
 
@@ -203,8 +189,9 @@ public class addappointmentscreencontroller implements Initializable {
                 String description = descriptionTxtFld.getText();
                 String location = locationTxtFld.getText();
                 String type = typeDropDownBox.getValue();
-                String startOfAppt = startTimeDropDownBox.getValue();
-                String endOfAppt = endTimeDropDownBox.getValue();
+
+                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
 
                 String contactName = "";
                 String customerName = "";
@@ -219,7 +206,6 @@ public class addappointmentscreencontroller implements Initializable {
                     if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
                     {
                         DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
-                        // Switch to Appts Scene
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
                         stage.setScene(new Scene(scene));
@@ -264,21 +250,16 @@ public class addappointmentscreencontroller implements Initializable {
     }
 
 
-
     /** This method will set the pre-determined meeting types for type dropdown box.
      *
      */
     private void prePopForTypeDropDownBox() {
 
         ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
-
         optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
-
         typeDropDownBox.setItems(optionsForAppts);
 
     }
-
-
 
 
         /**
@@ -288,58 +269,18 @@ public class addappointmentscreencontroller implements Initializable {
          * @param resourceBundle the resources
          */
         @Override
-        public void initialize (URL url, ResourceBundle resourceBundle){
+        public void initialize (URL url, ResourceBundle resourceBundle) {
 
             prePopForTypeDropDownBox();
             customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-
             customerTable.setItems(DBAccessCustomers.getAllCustomers());
-
-
             contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
             userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 
+            startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
 
-            LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
-            LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
-            ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
-            ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-            LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
-
-            LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
-            LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
-            ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
-            ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-            LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
-
-            while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
-
-                startTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
-                appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
-
-            }
-
-
-            LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
-            LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
-            ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
-            ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-            LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
-
-            LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
-            LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
-            ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
-            ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-            LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
-
-            while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
-
-                endTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
-                appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
-
-            }
-
+            endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
         }
 
     }

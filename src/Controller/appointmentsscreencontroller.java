@@ -87,12 +87,8 @@ public class appointmentsscreencontroller implements Initializable {
      */
     @FXML
     void onActionViewAll(ActionEvent event) {
-
         appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
-
     }
-
-
 
     /**
      * This method will show current month appointments in the table.
@@ -101,12 +97,8 @@ public class appointmentsscreencontroller implements Initializable {
      */
     @FXML
     void onActionViewByMonth(ActionEvent event) {
-
         appointmentsTable.setItems(DBAccessAppointments.getMonthAppointments());
-
     }
-
-
 
     /**
      * This method will show current week appointments in the table.
@@ -115,12 +107,8 @@ public class appointmentsscreencontroller implements Initializable {
      */
     @FXML
     void onActionViewByWeek(ActionEvent event) {
-
         appointmentsTable.setItems(DBAccessAppointments.getWeekAppointments());
-
     }
-
-
 
     /**
      * This method will delete an appointment from the database.
@@ -136,51 +124,38 @@ public class appointmentsscreencontroller implements Initializable {
             Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
             alertUserMsg.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
             alertUserMsg.setContentText("No appointment was selected to delete.");
-
             Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         }
 
         else {
-
             Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
             alertUserMsg2.setHeaderText("ARE YOU SURE?");
             alertUserMsg2.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
-
             Optional<ButtonType> result = alertUserMsg2.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-
                 int appointId = appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id();
-
                 String typeIdMsg = appointmentsTable.getSelectionModel().getSelectedItem().getType();
-
                 String apptIdMessage = String.valueOf(appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id());
 
                 DBAccessAppointments.deleteAppointment(appointId);
-
                 appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
 
                 Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg3.setHeaderText("DELETED!");
                 alertUserMsg3.setContentText("You have successfully deleted appointment " + typeIdMsg + ", a " + apptIdMessage + " appointment.");
-
                 alertUserMsg3.showAndWait();
 
             }
 
             else {
-
                 Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg4.setHeaderText("NOT DELETED!");
                 alertUserMsg4.setContentText("The selected appointment was not deleted.");
-
                 alertUserMsg4.showAndWait();
-
             }
-
         }
-
     }
 
 
@@ -213,11 +188,9 @@ public class appointmentsscreencontroller implements Initializable {
     void onActionGoToUpdateAppointment(ActionEvent event) throws IOException {
 
         if (appointmentsTable.getSelectionModel().isEmpty()) {
-
             Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
             alertUserMsg5.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
             alertUserMsg5.setContentText("No appointment was selected to update.");
-
             Optional<ButtonType> result = alertUserMsg5.showAndWait();
 
         }
@@ -227,10 +200,8 @@ public class appointmentsscreencontroller implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("../view/updateappointmentscreen.fxml"));
             loader.load();
-
             updateappointmentscreencontroller ADMController = loader.getController();
             ADMController.appointmentToBeSentToUpdate(appointmentsTable.getSelectionModel().getSelectedItem());
-
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
@@ -240,7 +211,6 @@ public class appointmentsscreencontroller implements Initializable {
         }
 
     }
-
 
 
     /**
@@ -259,8 +229,6 @@ public class appointmentsscreencontroller implements Initializable {
 
     }
 
-
-
     /**
      * This method initializes the appointments screen with all appointments..
      *
@@ -272,15 +240,15 @@ public class appointmentsscreencontroller implements Initializable {
 
         viewAllRadioButton.setSelected(true);
 
-        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointment_Id"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
         contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
 
         appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
 
