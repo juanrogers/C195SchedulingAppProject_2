@@ -50,6 +50,31 @@ public class DBAccessUsers {
         }
 
         return listOfUsers;
+
+    }
+
+
+
+    /** Gets the currently-logged-in user.
+     *
+     * @return Returns a User object representing the current user.
+     */
+    public static User getCurrentUser() {
+
+        return currentUser;
+
+    }
+
+    /** Gets the ID of the current user.
+     *
+     * @return Returns an integer value corresponding to the ID of the current user.
+     */
+    public static int getCurrentUserID() {
+
+        int userID = 0;
+
+        return userID = getCurrentUser().getUser_Id();
+
     }
 
 
@@ -94,5 +119,8 @@ public class DBAccessUsers {
         return -1;
 
     }
+
+    private static User currentUser = null;
+
 
 }

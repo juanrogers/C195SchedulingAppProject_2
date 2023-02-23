@@ -83,6 +83,10 @@ public class reportsscreencontroller implements Initializable {
     private Label numOfTotCustLabel;
     @FXML
     private Label numOfTotCustResultLabel;
+    @FXML
+    private Label numOfCustomersTab;
+
+
 
 
     /**

@@ -1,5 +1,7 @@
 package Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -191,7 +193,7 @@ public class updateappointmentscreencontroller implements Initializable {
      *
      * @param event clicking save button
      * @throws IOException
-     */
+     *
     @FXML
     void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
 
@@ -270,7 +272,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         }
 
-    }
+    }  */
 
 
 
@@ -317,7 +319,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         for (Contact cont : contactDropDownBox.getItems()) {
 
-            if (appointment.contact_Id == cont.getContact_Id()) {
+            if (appointment.getContact_Id() == cont.getContact_Id()) {
 
                 contactDropDownBox.setValue(cont);
 
@@ -329,19 +331,19 @@ public class updateappointmentscreencontroller implements Initializable {
 
         typeTxtFld.setText(appointment.getType());
 
-        LocalTime setStartTime = appointment.getStart().toLocalDateTime().toLocalTime();
+        LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
         startTimeDropDownBox.setValue(setStartTime);
-        LocalTime setEndTime = appointment.getEnd().toLocalDateTime().toLocalTime();
+        LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
         endTimeDropDownBox.setValue(setEndTime);
 
-        LocalDate appointmentDate = appointment.getStart().toLocalDateTime().toLocalDate();
+        LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
 
         customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
 
         for (User user : userIdDropDownBox.getItems()) {
 
-            if (appointment.user_Id == user.getUser_Id()) {
+            if (appointment.getUser_Id() == user.getUser_Id()) {
 
                 userIdDropDownBox.setValue(user);
 
@@ -352,6 +354,20 @@ public class updateappointmentscreencontroller implements Initializable {
         }
 
     }
+
+
+    /** This method will set the pre-determined meeting types for type dropdown box.
+     *
+     *
+    private void prePopForTypeDropDownBox() {
+
+        ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
+
+        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
+
+        typeDropDownBox.setItems(optionsForAppts);
+
+    }  /*
 
 
 

@@ -1,48 +1,61 @@
 package Model;
 
-import java.sql.Timestamp;
+import DBAccessObj.DBAccessAppointments;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import Controller.addappointmentscreencontroller;
 
 /** This class will be used to handle appointments.
  *
  * @author Ajuane Rogers */
 public class Appointment {
 
-    public int appointment_Id;
-    public String title;
-    public String description;
-    public String location;
-    public String type;
-    public Timestamp start;
-    public Timestamp end;
-    public int customer_Id;
-    public int user_Id;
-    public int contact_Id;
+    private int appointment_Id;
+    private String title;
+    private String description;
+    private String location;
+    private String type;
+    private Timestamp startOfAppt;
+    private Timestamp endOfAppt;
+    private int customer_Id;
+    private int user_Id;
+    private int contact_Id;
+    private Date dateForCloseAppts;
+    private Time timeForCloseAppts;
     //public String contactName;
 
-    /** This is the constructor used for building an appointment.
+    /**
+     * This is the constructor used for building an appointment.
      *
      * @param appointment_Id This holds the id of the appointment.
-     * @param title This holds the title of the appointment.
-     * @param description This holds the description of the appointment.
-     * @param location This holds the location of the appointment.
-     * @param type This holds the type of appointment.
-     * @param start This holds the start time and date of the appointment.
-     * @param end This holds the end time and date of the appointment.
-     * @param customer_Id This holds the customer Id for the appointment.
-     * @param user_Id This holds the user Id for with the appointment.
-     * @param contact_Id This holds the contact Id for the appointment.
-    // @param contactName This holds the contact name for the appointment.
+     * @param title          This holds the title of the appointment.
+     * @param description    This holds the description of the appointment.
+     * @param location       This holds the location of the appointment.
+     * @param type           This holds the type of appointment.
+     * @param startOfAppt    This holds the start time and date of the appointment.
+     * @param endOfAppt      This holds the end time and date of the appointment.
+     * @param customer_Id    This holds the customer Id for the appointment.
+     * @param user_Id        This holds the user Id for with the appointment.
+     * @param contact_Id     This holds the contact Id for the appointment.
+     *                       // @param contactName This holds the contact name for the appointment.
      */
-    public Appointment (int appointment_Id, String title, String description, String location, String type, Timestamp start, Timestamp end, int customer_Id, int user_Id, int contact_Id) {
+    public Appointment(int appointment_Id, String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id) {
 
         this.appointment_Id = appointment_Id;
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
-        this.start = start;
-        this.end = end;
+        this.startOfAppt = startOfAppt;
+        this.endOfAppt = endOfAppt;
         this.customer_Id = customer_Id;
         this.user_Id = user_Id;
         this.contact_Id = contact_Id;
@@ -50,16 +63,28 @@ public class Appointment {
 
     }
 
-    public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
+
+
+    //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
+    //}
+
+
+
+    /** This constructor will be used for getting and returning a list of appointments that are coming up soon.
+     *
+     * */
+    public Appointment(int appointment_Id, Date dateForCloseAppts, Time timeForCloseAppts) {
+
+        this.appointment_Id = appointment_Id;
+        this.dateForCloseAppts = dateForCloseAppts;
+        this.timeForCloseAppts = timeForCloseAppts;
 
     }
-
 
 
     /**
      * Getters listed below
      */
-
 
 
     /**
@@ -110,18 +135,18 @@ public class Appointment {
     /**
      * @return will return the start
      */
-    public Timestamp getStart() {
+    public Timestamp getStartOfAppt() {
 
-        return start;
+        return startOfAppt;
 
     }
 
     /**
      * @return will return the end
      */
-    public Timestamp getEnd() {
+    public Timestamp getEndOfAppt() {
 
-        return end;
+        return endOfAppt;
 
     }
 
@@ -158,6 +183,24 @@ public class Appointment {
     //public String getContactName() {
     //    return contactName;
     // }
+
+    /**
+     * @return Getter for appointment dates that are near
+     */
+    public Date getDateForCloseAppts() {
+
+        return dateForCloseAppts;
+
+    }
+
+    /**
+     * @return Getter for appointment times that are near
+     */
+    public Time getTimeForCloseAppts() {
+
+        return timeForCloseAppts;
+
+    }
 
 
 
@@ -213,20 +256,20 @@ public class Appointment {
     }
 
     /**
-     * @param start Setter for the start
+     * @param startOfAppt Setter for the start
      */
-    public void setStart(Timestamp start) {
+    public void getStartOfAppt(Timestamp startOfAppt) {
 
-        this.start = start;
+        this.startOfAppt = startOfAppt;
 
     }
 
     /**
-     * @param end Setter for the end
+     * @param endOfAppt Setter for the end
      */
-    public void setEnd(Timestamp end) {
+    public void getEndOfAppt(Timestamp endOfAppt) {
 
-        this.end = end;
+        this.endOfAppt = endOfAppt;
 
     }
 
@@ -257,11 +300,6 @@ public class Appointment {
 
     }
 
-    /**
-     * @param contactName Setter for the contactName
-     */
-    //public void setContactName(String contactName) {
-    //    this.contactName = contactName;
-    //}
 
 }
+

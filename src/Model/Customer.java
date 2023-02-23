@@ -35,7 +35,7 @@ public class Customer {
         this.postalCode = postalCode;
         this.phone = phone;
         this.country_Id = country_Id;
-        this.division_Id = division_Id;
+        this.division_Id = country_Id;
         //this.divisionName = divisionName;
 
     }

@@ -13,30 +13,30 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="661.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updateappointmentscreencontroller">
+<AnchorPane prefHeight="668.0" prefWidth="681.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updateappointmentscreencontroller">
     <children>
-        <Label fx:id="updateAppointmentLabel" layoutX="155.0" layoutY="20.0" prefWidth="350.0" text="UPDATE APPOINTMENT">
+        <Label fx:id="updateAppointmentLabel" layoutX="33.0" layoutY="20.0" prefWidth="350.0" text="UPDATE APPOINTMENT">
             <font>
                 <Font name="Cochin" size="28.0" />
             </font>
         </Label>
-        <Button fx:id="saveUpdateApptButton" layoutX="173.33333" layoutY="700.0" mnemonicParsing="false" onAction="#onActionSaveUpdateAppt" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="SAVE">
+        <Button fx:id="saveUpdateApptButton" layoutX="389.0" layoutY="20.0" mnemonicParsing="false" onAction="#onActionSaveUpdateAppt" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="SAVE">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="cancelUpdateApptButton" layoutX="426.66666" layoutY="700.0" mnemonicParsing="false" onAction="#onActionCancelUpdateAppt" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="CANCEL">
+        <Button fx:id="cancelUpdateApptButton" layoutX="550.0" layoutY="20.0" mnemonicParsing="false" onAction="#onActionCancelUpdateAppt" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="CANCEL">
             <font>
                 <Font name="Cochin" size="13.0" />
             </font>
         </Button>
-        <TableView fx:id="customerTable" layoutX="342.0" layoutY="113.0" onMouseClicked="#onMouseClickInputToCustTxtFld" prefHeight="540.0" prefWidth="329.0">
+        <TableView fx:id="customerTable" layoutX="342.0" layoutY="98.0" onMouseClicked="#onMouseClickInputToCustTxtFld" prefHeight="540.0" prefWidth="329.0">
             <columns>
                 <TableColumn fx:id="customerIdColumn" minWidth="20.0" prefWidth="99.0" text="CUSTOMER ID" />
                 <TableColumn fx:id="customerNameColumn" prefWidth="229.0" text="CUSTOMER NAME" />
             </columns>
         </TableView>
-        <GridPane hgap="10.0" layoutX="10.0" layoutY="100.0" prefHeight="565.0">
+        <GridPane hgap="10.0" layoutX="10.0" layoutY="86.0" prefHeight="565.0">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="160.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="140.0" />
@@ -114,11 +114,10 @@
                     <font>
                         <Font name="Cochin" size="15.0" />
                     </font></TextField>
-                <TextField fx:id="titleTxtFld" onAction="#onActionTitleTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="descriptionTxtFld" onAction="#onActionDescriptionTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField fx:id="locationTxtFld" onAction="#onActionLocationTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="titleTxtFld" onAction="#onActionTitleTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="descriptionTxtFld" onAction="#onActionDescriptionTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="locationTxtFld" onAction="#onActionLocationTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <ComboBox fx:id="contactDropDownBox" onAction="#onActionConDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <TextField fx:id="typeTxtFld" onAction="#onActionTypeTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <ComboBox fx:id="startTimeDropDownBox" onAction="#onActionSrtTimeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <ComboBox fx:id="endTimeDropDownBox" onAction="#onActionEndTimeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <DatePicker fx:id="datePicker" onAction="#onActionDatePicker" promptText="CHOOSE DATE" GridPane.columnIndex="1" GridPane.rowIndex="8" />
@@ -127,9 +126,10 @@
                         <Font name="Cochin" size="11.0" />
                     </font></TextField>
                 <ComboBox fx:id="userIdDropDownBox" onAction="#onActionUserIdDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ComboBox fx:id="typeDropDownBox" onAction="#onActionTypeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             </children>
         </GridPane>
-        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="355.0" layoutY="86.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
+        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="438.0" layoutY="72.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>

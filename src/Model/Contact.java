@@ -61,6 +61,17 @@ public class Contact {
 
     }
 
+    /**
+     * @return will return a contact Id parsed from a contact name
+     */
+    public static int getContactIdByContactName(String contactName) {
+
+        int contact_Id = Integer.parseInt(contactName.substring(0, contactName.indexOf(":")));
+
+        return contact_Id;
+
+    }
+
 
 
     /**

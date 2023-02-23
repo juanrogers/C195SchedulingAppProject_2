@@ -1,5 +1,7 @@
 package Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import DBAccessObj.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.Optional;
@@ -184,14 +187,14 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
-        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("A new appointment will be added, do you want to continue?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("ARE YOU SURE?");
+        alert.setContentText("This will add a new Appointment to the calendar");
 
-        Optional<ButtonType> result = alertUserMsg.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        {
             String customer_Id = customerIdTxtFld.getText();
             String title = titleTxtFld.getText();
             String description = descriptionTxtFld.getText();
@@ -200,70 +203,66 @@ public class addappointmentscreencontroller implements Initializable {
             String type = typeTxtFld.getText();
             LocalDate date = datePickerBox.getValue();
 
-            LocalTime standTime = startTimeDropDownBox.getValue();
-            LocalTime eastTime = endTimeDropDownBox.getValue();
+            LocalTime st = startTimeDropDownBox.getValue();
+            LocalTime et = endTimeDropDownBox.getValue();
             User userId = userIdDropDownBox.getValue();
 
 
-            if (contact!=null && !type.isEmpty() && date!=null && standTime!=null && eastTime!=null && !customer_Id.isEmpty() && userId!=null) {
+
+            if (contact!=null && !type.isEmpty() && date!=null && st!=null && et!=null && userId!=null)
+            {
+
+                Timestamp start = Timestamp.valueOf(LocalDateTime.of( date, startTimeDropDownBox.getValue()));
+                Timestamp end = Timestamp.valueOf(LocalDateTime.of( date, endTimeDropDownBox.getValue()));
+                int cId = Integer.parseInt("0");
 
 
-                Timestamp startTime = Timestamp.valueOf(LocalDateTime.of( date, startTimeDropDownBox.getValue()));
-                Timestamp endTime = Timestamp.valueOf(LocalDateTime.of( date, endTimeDropDownBox.getValue()));
-                int custId = Integer.parseInt(customer_Id);
+                if (LocalDateTime.of(date, endTimeDropDownBox.getValue()).isAfter(LocalDateTime.of(date, startTimeDropDownBox.getValue())))
+                {
 
-                if (LocalDateTime.of(date, endTimeDropDownBox.getValue()).isAfter(LocalDateTime.of(date, startTimeDropDownBox.getValue()))) {
-
-                    // The userId.getUser_Id() of this line has a new constructor in Model.Appointment, had to create it to get this line of code to work. Need to revisit.
-                    Appointment newAppoint = new Appointment(Integer.parseInt("0"), title, description, location, contact.getContact_Id(), contact.getContactName(), type, startTime, endTime, custId, userId.getUser_Id());
+                   //Appointment newAppointment = new Appointment(Integer.parseInt(customer_Id), title, description, location, contact.getContact_Id(), contact.getContactName(), type, start, end, cId, userId.getUser_Id());
 
 
-                    if (DBAccessAppointments.checkOverlappingAppointments(newAppoint)) {
+                    //if (DBAccessAppointments.checkOverlappingAppointments(newAppointment))
+                    {
 
-                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-                        alertUserMsg2.setHeaderText("WARNING: APPOINTMENT OVERLAP!");
-                        alertUserMsg2.setContentText("There are overlappling appointments for the selected customer.");
-                        alertUserMsg2.showAndWait();
-
+                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                        alert3.setHeaderText("APPOINTMENT OVERLAP");
+                        alert3.setContentText("Appointment overlaps with an existing appointment for the selected customer.");
+                        alert3.showAndWait();
                     }
+                   // else {
 
-                    else {
-
-                        DBAccessAppointments.addAppointment(title, description, location, type, startTime, endTime, custId, userId.getUser_Id(), contact.getContact_Id());
+                        DBAccessAppointments.addAppointment(title, description, location, type, start, end, cId, userId.getUser_Id(), contact.getContact_Id());
 
 
                         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                         scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
                         stage.setScene(new Scene(scene));
                         stage.show();
-
                     }
-
                 }
-
-                else {
-
-                    Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
-                    alertUserMsg3.setHeaderText("ERROR: Time set is invalid.");
-                    alertUserMsg3.setContentText("The appointment end time must be after appointment start time.");
-                    alertUserMsg3.showAndWait();
-
+                else
+                {
+                    Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                    alert3.setHeaderText("TIME ERROR");
+                    alert3.setContentText("Appointment end time must be after appointment start time.");
+                    alert3.showAndWait();
                 }
 
             }
-
-            else {
-
-                Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
-                alertUserMsg4.setHeaderText("Data entered is invalid!");
-                alertUserMsg4.setContentText("Please enter valid values for all required fields.");
-                alertUserMsg4.showAndWait();
-
+            else
+            {
+                Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                alert3.setHeaderText("INVALID ENTRIES");
+                alert3.setContentText("Please enter a valid value for each required field!");
+                alert3.showAndWait();
             }
-
         }
 
-    }
+
+
+
 
 
 
@@ -293,65 +292,82 @@ public class addappointmentscreencontroller implements Initializable {
     }
 
 
-
-    /**
-     * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
+    /** This method will set the pre-determined meeting types for type dropdown box.
      *
-     * @param url the location
-     * @param resourceBundle the resources
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+     *
+    private void prePopForTypeDropDownBox() {
 
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
 
-        customerTable.setItems(DBAccessCustomers.getAllCustomers());
+        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Planning Meeting", "Breakfast Meeting", "Lunch Meeting", "Dinner Meeting");
 
+        typeDropDownBox.setItems(optionsForAppts);
 
-        contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
-        userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
+    }  */
 
 
-        LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
-        LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
-        ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
-
-        LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
-        LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
-        ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
-
-        while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
-
-            startTimeDropDownBox.getItems().add(appointmentStartTimeMin);
-            appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
-
-        }
 
 
-        LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
-        LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
-        ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
+        /**
+         * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
+         *
+         * @param url the location
+         * @param resourceBundle the resources
+         */
+        @Override
+        public void initialize (URL url, ResourceBundle resourceBundle){
 
-        LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
-        LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
-        ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
+            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
-        while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
+            customerTable.setItems(DBAccessCustomers.getAllCustomers());
 
-            endTimeDropDownBox.getItems().add(appointmentEndTimeMin);
-            appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
+
+            contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
+            userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
+
+
+            LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
+            LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
+            ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
+            ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
+            LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
+
+            LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
+            LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
+            ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
+            ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
+            LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
+
+            while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
+
+                startTimeDropDownBox.getItems().add(appointmentStartTimeMin);
+                appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
+
+            }
+
+
+            LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
+            LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
+            ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
+            ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
+            LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
+
+            LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
+            LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
+            ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
+            ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
+            LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
+
+            while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
+
+                endTimeDropDownBox.getItems().add(appointmentEndTimeMin);
+                appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
+
+            }
 
         }
 
     }
 
-}
+

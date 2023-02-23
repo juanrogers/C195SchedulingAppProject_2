@@ -173,6 +173,16 @@ public class DBAccessCustomers {
 
     }
 
+
+    /** Gets customer ID from a customer name, where the name given is from a String object that contains the ID. */
+    public static int getCustIdByName(String customerName) {
+
+        int customer_Id = Integer.parseInt(customerName.substring(0, customerName.indexOf(":")));
+
+        return customer_Id;
+
+    }
+
 }
 
 

@@ -206,10 +206,7 @@ public class updatecustomerscreencontroller implements Initializable {
         Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
 
 
-        //Will see if a switch statement works better for the code below------------------------
-
-
-     /*   if (count.getCountry_Id() == 3) {
+        if (count.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
 
@@ -249,7 +246,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
             divisionDropDownBox.isDisabled();
 
-        } */
+        }
 
     }
 

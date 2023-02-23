@@ -146,11 +146,11 @@ public class loginscreencontroller implements Initializable {
 
                 {
 
-                    if (appt.getStart().toLocalDateTime().isAfter(now) && appt.getStart().toLocalDateTime().isBefore(now.plusMinutes(15))) {
+                    if (appt.getStartOfAppt().toLocalDateTime().isAfter(now) && appt.getStartOfAppt().toLocalDateTime().isBefore(now.plusMinutes(15))) {
 
                         Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
                         alertUserMsg.setHeaderText("UPCOMING APPOINTMENT!");
-                        alertUserMsg.setContentText("You have an appointment scheduled within the next 15 minutes: Appointment " + appt.getAppointment_Id() + " at " + appt.getStart().toLocalDateTime());
+                        alertUserMsg.setContentText("You have an appointment scheduled within the next 15 minutes: Appointment " + appt.getAppointment_Id() + " at " + appt.getStartOfAppt().toLocalDateTime());
                         alertUserMsg.showAndWait();
 
                         name = true;

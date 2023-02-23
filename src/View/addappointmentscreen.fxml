@@ -114,11 +114,10 @@
                     <font>
                         <Font name="Cochin" size="15.0" />
                     </font></TextField>
-                <TextField fx:id="titleTxtFld" onAction="#onActionTitleTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="descriptionTxtFld" onAction="#onActionDescriptionTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField fx:id="locationTxtFld" onAction="#onActionLocationTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="titleTxtFld" onAction="#onActionTitleTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="descriptionTxtFld" onAction="#onActionDescriptionTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="locationTxtFld" onAction="#onActionLocationTxtFld" promptText="alphanumeric" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <ComboBox fx:id="contactDropDownBox" onAction="#onActionContactDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <TextField fx:id="typeTxtFld" onAction="#onActionTypeTxtFld" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 <ComboBox fx:id="startTimeDropDownBox" onAction="#onActionStartTimeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <ComboBox fx:id="endTimeDropDownBox" onAction="#onActionEndTimeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                 <DatePicker fx:id="datePickerBox" onAction="#onActionDatePickerBox" promptText="CHOOSE DATE" GridPane.columnIndex="1" GridPane.rowIndex="8" />
@@ -127,9 +126,10 @@
                         <Font name="Cochin" size="11.0" />
                     </font></TextField>
                 <ComboBox fx:id="userIdDropDownBox" onAction="#onActionUserIdDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ComboBox fx:id="typeDropDownBox" onAction="#onActionTypeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             </children>
         </GridPane>
-        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="393.0" layoutY="88.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
+        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="440.0" layoutY="88.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>
