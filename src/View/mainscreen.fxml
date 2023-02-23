@@ -12,7 +12,7 @@
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Label fx:id="schedulingSystemLabel" layoutX="46.0" layoutY="20.0" opacity="0.35" prefWidth="320.0" text="SCHEDULING SYSTEM">
+        <Label fx:id="schedulingSystemLabel" layoutX="65.0" layoutY="20.0" opacity="0.35" prefWidth="320.0" text="SCHEDULING SYSTEM">
             <font>
                 <Font name="Cochin" size="27.0" />
             </font>
@@ -22,7 +22,7 @@
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Button fx:id="viewAppointmentsButton" layoutX="121.0" layoutY="173.0" mnemonicParsing="false" onAction="#onActionViewAppointments" prefHeight="30.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="APPOINTMENTS">
+        <Button fx:id="viewAppointmentsButton" layoutX="121.0" layoutY="173.0" mnemonicParsing="false" onAction="#onActionViewAppointments" prefHeight="39.0" prefWidth="164.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="APPOINTMENTS">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
@@ -32,7 +32,7 @@
                 <Font name="Cochin" size="14.0" />
             </font>
         </Button>
-        <Label fx:id="mainMenuLabel" layoutX="113.0" layoutY="67.0" prefHeight="40.0" text="MAIN MENU" textFill="#b9252f">
+        <Label fx:id="mainMenuLabel" layoutX="122.0" layoutY="67.0" prefHeight="40.0" text="MAIN MENU" textFill="#b9252f">
             <font>
                 <Font name="Cochin" size="27.0" />
             </font>

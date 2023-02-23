@@ -272,7 +272,7 @@ public class addappointmentscreencontroller implements Initializable {
 
         ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
 
-        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Planning Meeting", "Breakfast Meeting", "Lunch Meeting", "Dinner Meeting");
+        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
 
         typeDropDownBox.setItems(optionsForAppts);
 
