@@ -72,7 +72,7 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<Contact> contactDropDownBox;
     @FXML
-    private TextField typeTxtFld;
+    private ComboBox<String> typeDropDownBox;
     @FXML
     private ComboBox<LocalTime> startTimeDropDownBox;
     @FXML
@@ -187,7 +187,13 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+
+
+
+
+
+      /*  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("ARE YOU SURE?");
         alert.setContentText("This will add a new Appointment to the calendar");
 
@@ -200,7 +206,7 @@ public class addappointmentscreencontroller implements Initializable {
             String description = descriptionTxtFld.getText();
             String location = locationTxtFld.getText();
             Contact contact = contactDropDownBox.getValue();
-            String type = typeTxtFld.getText();
+            String type = typeDropDownBox.getValue();
             LocalDate date = datePickerBox.getValue();
 
             LocalTime st = startTimeDropDownBox.getValue();
@@ -257,7 +263,11 @@ public class addappointmentscreencontroller implements Initializable {
                 alert3.setHeaderText("INVALID ENTRIES");
                 alert3.setContentText("Please enter a valid value for each required field!");
                 alert3.showAndWait();
-            }
+            } */
+
+
+
+
         }
 
 
@@ -292,9 +302,10 @@ public class addappointmentscreencontroller implements Initializable {
     }
 
 
+
     /** This method will set the pre-determined meeting types for type dropdown box.
      *
-     *
+     */
     private void prePopForTypeDropDownBox() {
 
         ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
@@ -303,7 +314,7 @@ public class addappointmentscreencontroller implements Initializable {
 
         typeDropDownBox.setItems(optionsForAppts);
 
-    }  */
+    }
 
 
 

@@ -70,7 +70,7 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<Contact> contactDropDownBox;
     @FXML
-    private TextField typeTxtFld;
+    private ComboBox<String> typeDropDownBox;
     @FXML
     private ComboBox<LocalTime> startTimeDropDownBox;
     @FXML
@@ -132,7 +132,7 @@ public class updateappointmentscreencontroller implements Initializable {
     };
 
     @FXML
-    void onActionTypeTxtFld (){
+    void onActionTypeDropDownBox (){
 
     };
 
@@ -210,7 +210,7 @@ public class updateappointmentscreencontroller implements Initializable {
             String description = descriptionTxtFld.getText();
             String location = locationTxtFld.getText();
             Contact contact = contactDropDownBox.getValue();
-            String type = typeTxtFld.getText();
+            String type = typeDropDownBox.getValue();
             LocalDate date = datePicker.getValue();
 
             LocalTime standTime = startTimeDropDownBox.getValue();
@@ -329,7 +329,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         }
 
-        typeTxtFld.setText(appointment.getType());
+        typeDropDownBox.setValue(appointment.getType());
 
         LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
         startTimeDropDownBox.setValue(setStartTime);
@@ -358,7 +358,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
     /** This method will set the pre-determined meeting types for type dropdown box.
      *
-     *
+     */
     private void prePopForTypeDropDownBox() {
 
         ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
@@ -367,7 +367,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         typeDropDownBox.setItems(optionsForAppts);
 
-    }  /*
+    }
 
 
 

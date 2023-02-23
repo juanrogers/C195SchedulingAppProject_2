@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="651.0" prefWidth="681.0" style="-fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.addappointmentscreencontroller">
     <children>
-        <Label fx:id="addAppointmentLabel" layoutX="42.0" layoutY="22.0" prefWidth="300.0" text="ADD APPOINTMENT">
+        <Label fx:id="addAppointmentLabel" layoutX="39.0" layoutY="19.0" prefWidth="300.0" text="ADD APPOINTMENT">
             <font>
                 <Font name="Cochin" size="28.0" />
             </font>
@@ -30,13 +30,13 @@
                 <Font name="Cochin" size="13.0" />
             </font>
         </Button>
-        <TableView fx:id="customerTable" layoutX="342.0" layoutY="113.0" onMouseClicked="#onMouseClickInputToCustTxtFld" prefHeight="540.0" prefWidth="329.0">
+        <TableView fx:id="customerTable" layoutX="342.0" layoutY="97.0" onMouseClicked="#onMouseClickInputToCustTxtFld" prefHeight="540.0" prefWidth="329.0">
             <columns>
                 <TableColumn fx:id="customerIdCol" minWidth="20.0" prefWidth="105.0" text="CUSTOMER ID" />
                 <TableColumn fx:id="customerNameCol" prefWidth="223.0" text="CUSTOMER NAME" />
             </columns>
         </TableView>
-        <GridPane hgap="10.0" layoutX="10.0" layoutY="100.0" prefHeight="565.0">
+        <GridPane hgap="10.0" layoutX="10.0" layoutY="84.0" prefHeight="565.0">
             <columnConstraints>
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="160.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="140.0" />
@@ -129,7 +129,7 @@
             <ComboBox fx:id="typeDropDownBox" onAction="#onActionTypeDropDownBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             </children>
         </GridPane>
-        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="440.0" layoutY="88.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
+        <Label fx:id="selectCustomerLabel" contentDisplay="RIGHT" layoutX="432.0" layoutY="70.0" prefHeight="25.0" prefWidth="148.0" text="SELECT CUSTOMER">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>
