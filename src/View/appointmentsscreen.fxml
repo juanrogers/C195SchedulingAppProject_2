@@ -27,7 +27,7 @@
                 <TableColumn fx:id="titleCol" prefWidth="108.89" text="Title" />
                 <TableColumn fx:id="descriptionCol" prefWidth="108.89" text="Description" />
                 <TableColumn fx:id="locationCol" prefWidth="108.89" text="Location" />
-                <TableColumn fx:id="contactCol" prefWidth="108.89" text="Contact" />
+                <TableColumn fx:id="contactIdCol" prefWidth="108.89" text="Contact ID" />
                 <TableColumn fx:id="typeCol" prefWidth="108.89" text="Type" />
                 <TableColumn fx:id="startCol" prefWidth="108.89" text="Start" />
                 <TableColumn fx:id="endCol" prefWidth="108.89" text="End" />

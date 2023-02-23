@@ -60,7 +60,7 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     private TableColumn<Appointment, String> locationCol;
     @FXML
-    private TableColumn<Appointment, String> contactCol;
+    private TableColumn<Appointment, String> contactIdCol;
     @FXML
     private TableColumn<Appointment, String> typeCol;
     @FXML
@@ -244,7 +244,7 @@ public class appointmentsscreencontroller implements Initializable {
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contact_Id"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
