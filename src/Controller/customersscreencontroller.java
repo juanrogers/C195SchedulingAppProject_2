@@ -206,10 +206,10 @@ public class customersscreencontroller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        divisionCol.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division_Id"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
 

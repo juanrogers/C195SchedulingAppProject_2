@@ -272,14 +272,14 @@ public class addappointmentscreencontroller implements Initializable {
         public void initialize (URL url, ResourceBundle resourceBundle) {
 
             prePopForTypeDropDownBox();
-            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
             customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+
             customerTable.setItems(DBAccessCustomers.getAllCustomers());
             contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
             userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 
             startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
-
             endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
         }
 
