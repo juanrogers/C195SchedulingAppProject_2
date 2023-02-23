@@ -2203,8 +2203,8 @@ public class DBAccessAppointments {
      * @param appointment An appointment object instantiated from either the AddAppointments_Controller or ModifyAppointments_Controller.
      * @return Returns true if an added or modified appointment's timeframe conflicts with a pre-existing appointment for the same contact or customer.
      */
-    public static boolean checkToSeeIfApptsOvelap(Appointment appointment)
-    {
+    public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
+
         String overlappingAppts = "";
 
         boolean apptsOverlap;
@@ -2282,7 +2282,9 @@ public class DBAccessAppointments {
             alert.setContentText(overlappingAppts);
             alert.showAndWait();
             return false;
+
         }
+
     }
 
 

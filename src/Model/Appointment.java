@@ -8,10 +8,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import Controller.addappointmentscreencontroller;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
 /** This class will be used to handle appointments.
  *
@@ -80,6 +83,84 @@ public class Appointment {
         this.timeForCloseAppts = timeForCloseAppts;
 
     }
+
+
+    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
+     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
+     * @param title title
+     * @param description description
+     * @param location location
+     * @param contact contact
+     * @param type type
+     * @param startOfAppt startOfAppt
+     * @param endOfAppt endOfAppt
+     * @return will returns true: if all checks are true, false: if not
+     */
+    public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, Timestamp startOfAppt, Timestamp endOfAppt) {
+
+        String errorMsgToUser = "";
+
+        if (title.getText().isEmpty()) {
+
+            errorMsgToUser =  errorMsgToUser + " The title field does not have a valid value. Please try again.";
+
+        }
+
+        if (description.getText().isEmpty()) {
+
+            errorMsgToUser = errorMsgToUser + " The description field does not have a valid value. Please try again.";
+
+        }
+
+        if (location.getText().isEmpty()) {
+
+            errorMsgToUser = errorMsgToUser + " The location field does not have a valid value. Please try again.";
+        }
+
+
+
+        if (contact.getSelectionModel().isEmpty()) {
+
+            errorMsgToUser = errorMsgToUser + " The contact selection has not be chosen. Please try again.";
+        }
+
+        if(type.getSelectionModel().isEmpty()) {
+
+            errorMsgToUser = errorMsgToUser + " The type selection has not be chosen. Please try again..";
+        }
+
+
+        if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
+
+            errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
+
+        }
+
+        if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
+
+            errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
+
+        }
+
+        if(errorMsgToUser.isEmpty()) {
+
+            return true;
+
+        }
+
+        else {
+
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setTitle("See message below details...");
+            alertUserMsg.setHeaderText("Please enter data into all fields and make all selections.");
+            alertUserMsg.setContentText(errorMsgToUser);
+            alertUserMsg.showAndWait();
+            return false;
+
+        }
+
+    }
+
 
 
     /**
@@ -299,6 +380,8 @@ public class Appointment {
         this.contact_Id = contact_Id;
 
     }
+
+
 
 
 }

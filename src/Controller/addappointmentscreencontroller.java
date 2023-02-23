@@ -16,6 +16,7 @@ import Model.Appointment;
 import Model.Contact;
 import Model.Customer;
 import Model.User;
+import Utility.appointValidationChecker;
 
 import DBAccessObj.*;
 
@@ -188,6 +189,7 @@ public class addappointmentscreencontroller implements Initializable {
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
 
+    }
 
 
 
@@ -298,6 +300,131 @@ public class addappointmentscreencontroller implements Initializable {
             stage.show();
 
         }
+
+    }
+
+
+
+    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
+     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
+     * @param title title
+     * @param description description
+     * @param location location
+     * @return will returns true: if all checks are true, false: if not
+     */
+    private boolean checkApptToBeSave(String title, String description, String location){
+
+       /* if (appointment_Id.isEmpty()) {
+
+            Alert alertUserMsg6 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg6.setTitle("Error!");
+            alertUserMsg6.setContentText("Appointment Id field does not have a valid value. Please try again.");
+            alertUserMsg6.showAndWait();
+            return false;
+
+        } */
+
+        if (title.isEmpty()){
+
+            Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg2.setTitle("Error!");
+            alertUserMsg2.setContentText("Title field does not have a valid value. Please try again.");
+            alertUserMsg2.showAndWait();
+            return false;
+
+        }
+
+        if (description.isEmpty()){
+
+            Alert alertUserMsg3 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg3.setTitle("Error!");
+            alertUserMsg3.setContentText("Description field does not have a valid value. Please try again.");
+            alertUserMsg3.showAndWait();
+            return false;
+
+        }
+
+        if (location.isEmpty()){
+
+            Alert alertUserMsg4 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg4.setTitle("Error!");
+            alertUserMsg4.setContentText("Location field does not have a valid value. Please try again.");
+            alertUserMsg4.showAndWait();
+            return false;
+
+        }
+
+        if (contactDropDownBox.getSelectionModel().isEmpty()){
+
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setTitle("Error!");
+            alertUserMsg.setContentText("Contact selection has not be chosen. Please try again.");
+            alertUserMsg.showAndWait();
+            return false;
+
+        }
+
+        if (typeDropDownBox.getSelectionModel().isEmpty()) {
+
+            Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg5.setTitle("Error!");
+            alertUserMsg5.setContentText("Type selection has not be chosen. Please try again.");
+            alertUserMsg5.showAndWait();
+            return false;
+
+        }
+
+        if (datePickerBox.getValue() == null) {
+
+            Alert alertUserMsg7 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg7.setTitle("Error!");
+            alertUserMsg7.setContentText("Start date selection has not be chosen. Please try again.");
+            alertUserMsg7.showAndWait();
+            return false;
+
+        }
+
+        if (startTimeDropDownBox.getSelectionModel().isEmpty()){
+
+            Alert alertUserMsg8 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg8.setTitle("Error!");
+            alertUserMsg8.setContentText("Start time selection has not be chosen. Please try again.");
+            alertUserMsg8.showAndWait();
+            return false;
+
+        }
+
+        if (endTimeDropDownBox.getSelectionModel().isEmpty()){
+
+            Alert alertUserMsg11 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg11.setTitle("Error!");
+            alertUserMsg11.setContentText("End time selection has not be chosen. Please try again.");
+            alertUserMsg11.showAndWait();
+            return false;
+
+        }
+
+       /* if (customerIdDropDownBox.getSelectionModel().isEmpty()) {
+
+            Alert alertUserMsg12 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg12.setTitle("Error!");
+            alertUserMsg12.setContentText("Customer Id selection has not be chosen. Please try again.");
+            alertUserMsg12.showAndWait();
+            return false;
+
+        }  */
+
+        if (userIdDropDownBox.getSelectionModel().isEmpty()) {
+
+            Alert alertUserMsg13 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg13.setTitle("Error!");
+            alertUserMsg13.setContentText("User Id selection has not be chosen. Please try again.");
+            alertUserMsg13.showAndWait();
+            return false;
+
+        }
+
+        return true;
 
     }
 
