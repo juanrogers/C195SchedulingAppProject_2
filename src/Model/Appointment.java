@@ -1,20 +1,6 @@
 package Model;
 
-import DBAccessObj.DBAccessAppointments;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import Controller.addappointmentscreencontroller;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 
 /** This class will be used to handle appointments.
  *
@@ -114,7 +100,7 @@ public class Appointment {
     /**
      * @return will return the start
      */
-    public Timestamp getStartOfAppt() {
+    public String getStartOfAppt() {
         return startOfAppt;
     }
 

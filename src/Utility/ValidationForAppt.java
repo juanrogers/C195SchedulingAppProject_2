@@ -50,47 +50,105 @@ public class ValidationForAppt {
     public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
         String olaps = "";
         boolean apptsOverlap = false;
+
         for(Appointment appt : DBAccessAppointments.getAllAppointments()) {
             if(appointment.getAppointment_Id() == appt.getAppointment_Id() || appointment.getCustomer_Id() != appt.getCustomer_Id()) {
                 continue;
             }
+                if (appt.getStartOfAppt().equals(appointment.getStartOfAppt()) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (Timestamp.valueOf(appt.getStartOfAppt()).after(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (Timestamp.valueOf(appt.getStartOfAppt()).after(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().before(appointment.getEndOfAppt())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (appt.getStartOfAppt().equals(appointment.getStartOfAppt()) && appt.getEndOfAppt().before(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().before(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().after(appointment.getEndOfAppt())){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+                    alert.showAndWait();
+                    return false;
+                }
+
+            }
+            return true;
+
+//        }
             //Overlap test
             // if overlap cond 1  is true
             //      append to olaps
             //else if overlap cond 2 is true
             //      append to olaps
-            apptsOverlap =
-                    (appt.getStartOfAppt().after(appt.getStartOfAppt()) || appt.getStartOfAppt().equals(appt.getStartOfAppt())) &&
-                            (appt.getStartOfAppt().before(appt.getEndOfAppt()) || appt.getStartOfAppt().equals(appt.getEndOfAppt())) ||
-                            (appt.getEndOfAppt().before(appt.getEndOfAppt()) || appt.getEndOfAppt().equals(appt.getEndOfAppt())) &&
-                                    (appt.getEndOfAppt().after(appt.getStartOfAppt()) || appt.getEndOfAppt().equals(appt.getStartOfAppt())) ||
-                            (appt.getStartOfAppt().after(appt.getStartOfAppt()) && appt.getEndOfAppt().before(appt.getEndOfAppt()));
+//            apptsOverlap =
 
-            // If selected appt starts within another appt
-            if(apptsOverlap) {
-                olaps +=  "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                        appt.getStartOfAppt() + "\nand ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-
-            }
+//            // If selected appt starts within another appt
+//            if(apptsOverlap) {
+//                olaps +=  "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
+//                        appt.getStartOfAppt() + "\nand ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
+//
+//            }
 //            else
 //            {
 //                continue;
 //            }
+//
+//        }
+//        if(olaps.isEmpty())
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Appointments");
+//            alert.setHeaderText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
+//            alert.setContentText(olaps);
+//            alert.showAndWait();
+//            return false;
+//        }
 
-        }
-        if(olaps.isEmpty())
-        {
-            return true;
-        }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointments");
-            alert.setHeaderText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
-            alert.setContentText(olaps);
-            alert.showAndWait();
-            return false;
-        }
+
     }
 
 
@@ -151,45 +209,12 @@ public class ValidationForAppt {
 
     /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
      * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
-     * @param title title
-     * @param description description
-     * @param location location
-     * @param contact contact
-     * @param type type
      * @param startOfAppt startOfAppt
      * @param endOfAppt endOfAppt
      * @return will returns true: if all checks are true, false: if not
-     *
-    public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, LocalDateTime startOfAppt, LocalDateTime endOfAppt, DatePicker dateOfAppt, ComboBox user_Id) {
+     */
+    public static boolean checkApptToBeSave(Timestamp startOfAppt, Timestamp endOfAppt) {
     String errorMsgToUser = "";
-
-    if (title.getText().isEmpty()) {
-    errorMsgToUser =  errorMsgToUser + " The title field does not have a valid value. Please try again.";
-    }
-
-    if (description.getText().isEmpty()) {
-    errorMsgToUser = errorMsgToUser + " The description field does not have a valid value. Please try again.";
-    }
-
-    if (location.getText().isEmpty()) {
-    errorMsgToUser = errorMsgToUser + " The location field does not have a valid value. Please try again.";
-    }
-
-    if (contact.getSelectionModel().isEmpty()) {
-    errorMsgToUser = errorMsgToUser + " The contact selection has not be chosen. Please try again.";
-    }
-
-    if(type.getSelectionModel().isEmpty()) {
-    errorMsgToUser = errorMsgToUser + " The type selection has not be chosen. Please try again.";
-    }
-
-    if(startOfAppt.getSelectionModel().isEmpty())  {
-    errorMsgToUser = errorMsgToUser + " The start time selection has not be chosen. Please try again.";
-    }
-
-    if(endOfAppt.getSelectionModel().isEmpty())  {
-    errorMsgToUser = errorMsgToUser + " The end time selection has not be chosen. Please try again.";
-    }
 
     if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
     errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
@@ -211,8 +236,7 @@ public class ValidationForAppt {
     return false;
     }
 
-    }   */
-
+    }
 
 }
 

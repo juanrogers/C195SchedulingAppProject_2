@@ -195,16 +195,14 @@ public class addappointmentscreencontroller implements Initializable {
             LocalTime eTChosen = endTimeDropDownBox.getValue();
             LocalDate dateChosen = datePickerBox.getValue();
             User user = userIdDropDownBox.getValue();
-
             int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
                     && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
                     (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
 
-                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
-
+                        LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
+                        LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
 
                 Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
 

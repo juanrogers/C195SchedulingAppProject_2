@@ -315,11 +315,11 @@ public class updateappointmentscreencontroller implements Initializable {
         LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
         startTimeDropDownBox.setValue(Timestamp.valueOf(startOfAppt));
         LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
-        endTimeDropDownBox.setValue(Timestamp.valueOf(endOfAppt)); */
+        endTimeDropDownBox.setValue(Timestamp.valueOf(endOfAppt));
 
         LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
-        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
+        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id())); */
 
         for (User user : userIdDropDownBox.getItems()) {
             if (appointment.getUser_Id() == user.getUser_Id()) {
