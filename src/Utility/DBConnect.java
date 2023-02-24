@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** This class will be used to handle appointments.
+ *
+ * @author Ajuane Rogers */
 public class DBConnect {
 
     private static final String protocol = "jdbc";

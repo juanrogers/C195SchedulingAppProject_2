@@ -29,7 +29,7 @@
                 <TableColumn fx:id="customerIdCol" minWidth="100.0" prefWidth="163.33" text="Customer ID" />
                 <TableColumn fx:id="customerNameCol" prefWidth="163.33" text="Customer Name" />
                 <TableColumn fx:id="addressCol" prefWidth="163.33" text="Address" />
-                <TableColumn fx:id="divisionCol" prefWidth="163.33" text="Division" />
+                <TableColumn fx:id="divisionCol" prefWidth="163.33" text="Division ID" />
                 <TableColumn fx:id="postalCodeCol" prefWidth="163.33" text="Postal Code" />
                 <TableColumn fx:id="phoneCol" prefWidth="163.35" text="Phone" />
             </columns>

@@ -32,7 +32,7 @@
                         <Font name="Cochin" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="countryLabel" prefHeight="25.0" text="Country:">
+                <Label fx:id="countryLabel" prefHeight="25.0" text="Country">
                     <font>
                         <Font name="Cochin" size="16.0" />
                     </font>
@@ -67,7 +67,7 @@
         <TextField fx:id="customerIdTxtFld" disable="true" editable="false" layoutX="189.0" layoutY="117.0" onAction="#onActionCustdTxtFld" promptText="AUTO CREATED" />
         <TextField fx:id="customerNameTxtFld" layoutX="189.0" layoutY="170.0" onAction="#onActionCustNameTxtFld" promptText="ex. First Last" />
         <TextField fx:id="addressTxtFld" layoutX="189.0" layoutY="218.0" onAction="#onActionAddrTxtFld" promptText="ex. 123 ABC Street, City" />
-        <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="149.0" />
+        <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="149.0" promptText="Pick Ctry before Div" />
         <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="318.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="149.0" />
         <TextField fx:id="postalCodeTxtFld" layoutX="189.0" layoutY="368.0" onAction="#onActionPostCodeTxtFld" promptText="alphanumeric" />
         <TextField fx:id="phoneTxtFld" layoutX="189.0" layoutY="418.0" onAction="#onActionPhoneTxtFld" promptText="alphanumeric" />

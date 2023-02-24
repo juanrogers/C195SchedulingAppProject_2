@@ -180,7 +180,7 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
 
-        try {
+      /*  try {
 
             if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
                 int appointment_Id = 0;
@@ -217,7 +217,7 @@ public class updateappointmentscreencontroller implements Initializable {
             alert.setHeaderText("Appointment Time is Incomplete");
             alert.setContentText("Please enter a valid date and time.");
             alert.showAndWait();
-        }
+        }  */
     }
 
 

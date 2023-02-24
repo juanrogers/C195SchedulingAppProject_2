@@ -7,9 +7,9 @@ package Model;
 
 public class User {
 
-    public int user_Id;
-    public String userName;
-    public String password;
+    private int user_Id;
+    private String userName;
+    private String password;
 
     /** This is the constructor used for building a user.
      *

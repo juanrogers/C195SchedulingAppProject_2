@@ -1,6 +1,8 @@
 package Controller;
 
+import Model.*;
 import Utility.TimeUtil;
+import Utility.ValidationForAppt;
 import com.sun.jdi.Value;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,10 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import Model.Appointment;
-import Model.Contact;
-import Model.Customer;
-import Model.User;
 
 import DBAccessObj.*;
 
@@ -181,7 +179,65 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException {
 
-        try {
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("A new customer will be added.");
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            String title = titleTxtFld.getText();
+            String description = descriptionTxtFld.getText();
+            String location = locationTxtFld.getText();
+            Contact contact = contactDropDownBox.getValue();
+            String type = typeDropDownBox.getValue();
+            LocalTime sTChosen = startTimeDropDownBox.getValue();
+            LocalTime eTChosen = endTimeDropDownBox.getValue();
+            LocalDate dateChosen = datePickerBox.getValue();
+            User user = userIdDropDownBox.getValue();
+
+            int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
+
+            if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
+            && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) ) {
+
+                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
+
+                Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
+
+
+                if(ValidationForAppt.checkToSeeIfApptsOvelap(a)){
+                    System.out.println("overlap.");
+                    return;
+                }
+
+               DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+
+            }
+
+            else {
+
+                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg2.setHeaderText("Data entered is invalid!");
+                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+                alertUserMsg2.showAndWait();
+
+            }
+
+        }
+
+
+
+
+
+
+     /*  try {
 
             if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
                 int appointment_Id = 0;
@@ -220,7 +276,9 @@ public class addappointmentscreencontroller implements Initializable {
             alert.setHeaderText("Appointment Time is Incomplete");
             alert.setContentText("Please enter a valid date and time.");
             alert.showAndWait();
-        }
+        }  */
+
+
 
     }
 

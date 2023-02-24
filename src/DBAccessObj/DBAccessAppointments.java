@@ -615,48 +615,6 @@ public class DBAccessAppointments {
     }  */
 
 
-    /** * Static variables & methods (and others)
-     *
-     * */
-    private static ObservableList<Appointment> appointmentsThatAreNear = FXCollections.observableArrayList();
-
-    /**
-     * This will check to see if the user who logged in has an appointment starting within the next 15 minutes of recorded timestamp of login attempt.
-     * Appointments detected will also be added to the 'imminentAppointments' list.
-     *
-     * @return will returns the count of appointments for user who logged in (appointments that are within 15 minutes of user's login)
-     */
-    public static int nearDateTimeAppointments() {
-
-        int appointmentTimeCounter = 0;
-        try {
-            String sqlDBQuery = "SELECT Appointment_ID, Start, date(start), time(start) FROM appointments WHERE Start >= UTC_TIME()";
-            PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
-            ResultSet resSet = preState.executeQuery();
-            while (resSet.next()) {
-
-                if (resSet.getTimestamp("Start").before(Timestamp.valueOf(LocalDateTime.now().plusMinutes(15)))) {
-                    Appointment imminentAppointment = new Appointment(resSet.getInt("Appointment_ID"),
-                            resSet.getDate("date(start)"), resSet.getTime("time(start)"));
-                    appointmentTimeCounter++;
-                    appointmentsThatAreNear.add(imminentAppointment);
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return appointmentTimeCounter;
-    }
-
-    /**
-     * Gets the list of all appointments occuring within 15 minutes of user's login.
-     *
-     * @return Returns an ObservableList of Appointment type, reflecting all appointments occuring within 15 minutes of user's login.
-     */
-    public static ObservableList<Appointment> getImminentAppts() {
-        return appointmentsThatAreNear;
-    }
 
 
     /**

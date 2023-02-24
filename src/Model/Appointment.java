@@ -31,8 +31,8 @@ public class Appointment {
     private int customer_Id;
     private int user_Id;
     private int contact_Id;
-    private Date dateForCloseAppts;
-    private Time timeForCloseAppts;
+    //private Date dateForCloseAppts;
+   // private Time timeForCloseAppts;
     //public String contactName;
 
     /**
@@ -69,74 +69,6 @@ public class Appointment {
 
     //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
     //}
-
-    /** This constructor will be used for getting and returning a list of appointments that are coming up soon.
-     *
-     * */
-    public Appointment(int appointment_Id, Date dateForCloseAppts, Time timeForCloseAppts) {
-
-        this.appointment_Id = appointment_Id;
-        this.dateForCloseAppts = dateForCloseAppts;
-        this.timeForCloseAppts = timeForCloseAppts;
-
-    }
-
-    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
-     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
-     * @param title title
-     * @param description description
-     * @param location location
-     * @param contact contact
-     * @param type type
-     * @param startOfAppt startOfAppt
-     * @param endOfAppt endOfAppt
-     * @return will returns true: if all checks are true, false: if not
-     */
-    public static boolean checkApptToBeSave(TextField title, TextField description, TextField location, ComboBox contact, ComboBox type, ComboBox startOfAppt, ComboBox endOfAppt) {
-        String errorMsgToUser = "";
-
-        if (title.getText().isEmpty()) {
-            errorMsgToUser =  errorMsgToUser + " The title field does not have a valid value. Please try again.";
-        }
-
-        if (description.getText().isEmpty()) {
-            errorMsgToUser = errorMsgToUser + " The description field does not have a valid value. Please try again.";
-        }
-
-        if (location.getText().isEmpty()) {
-            errorMsgToUser = errorMsgToUser + " The location field does not have a valid value. Please try again.";
-        }
-
-        if (contact.getSelectionModel().isEmpty()) {
-            errorMsgToUser = errorMsgToUser + " The contact selection has not be chosen. Please try again.";
-        }
-
-        if(type.getSelectionModel().isEmpty()) {
-            errorMsgToUser = errorMsgToUser + " The type selection has not be chosen. Please try again..";
-        }
-
-       /* if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
-            errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
-        }
-
-        if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
-            errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
-        }  */
-
-        if(errorMsgToUser.isEmpty()) {
-            return true;
-        }
-
-        else {
-            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg.setTitle("See message below details...");
-            alertUserMsg.setHeaderText("Please enter data into all fields and make all selections.");
-            alertUserMsg.setContentText(errorMsgToUser);
-            alertUserMsg.showAndWait();
-            return false;
-        }
-    }
-
 
 
     /**
@@ -220,20 +152,6 @@ public class Appointment {
     //public String getContactName() {
     //    return contactName;
     // }
-
-    /**
-     * @return Getter for appointment dates that are near
-     */
-    public Date getDateForCloseAppts() {
-        return dateForCloseAppts;
-    }
-
-    /**
-     * @return Getter for appointment times that are near
-     */
-    public Time getTimeForCloseAppts() {
-        return timeForCloseAppts;
-    }
 
 
 

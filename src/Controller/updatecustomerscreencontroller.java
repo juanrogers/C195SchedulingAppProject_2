@@ -278,12 +278,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
         Country cout = countryDropDownBox.getSelectionModel().getSelectedItem();
 
-
-        //Will see if a switch statement works better for the code below------------------------
-
-
-
-      /*  if (cout.getCountry_Id() == 3) {
+        if (cout.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
 
@@ -323,7 +318,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
             divisionDropDownBox.isDisabled();
 
-        } */
+        }
 
         for(Division div : divisionDropDownBox.getItems()) {
 
