@@ -199,20 +199,13 @@ public class addappointmentscreencontroller implements Initializable {
             int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
-            && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) ) {
+                    && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
+                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
 
                 LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
                 LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
 
-                Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
-
-
-                if(ValidationForAppt.checkToSeeIfApptsOvelap(a)){
-                    System.out.println("overlap.");
-                    return;
-                }
-
-               DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
+                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
@@ -238,25 +231,20 @@ public class addappointmentscreencontroller implements Initializable {
 
 
      /*  try {
-
             if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
                 int appointment_Id = 0;
                 String title = titleTxtFld.getText();
                 String description = descriptionTxtFld.getText();
                 String location = locationTxtFld.getText();
                 String type = typeDropDownBox.getValue();
-
                 LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
                 LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
-
                 String contactName = "";
                 String customerName = "";
                 int contact_Id = Contact.getContactIdByContactName(contactName);
                 int customer_Id = Customer.getCustIdByCustName(customerName);
                 int user_Id = DBAccessUsers.getCurrentUserID();
-
                 Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
-
                 if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt))
                 {
                     if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
@@ -320,27 +308,33 @@ public class addappointmentscreencontroller implements Initializable {
     }
 
 
-        /**
-         * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
-         *
-         * @param url the location
-         * @param resourceBundle the resources
-         */
-        @Override
-        public void initialize (URL url, ResourceBundle resourceBundle) {
+    /**
+     * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
+     *
+     * @param url the location
+     * @param resourceBundle the resources
+     */
+    @Override
+    public void initialize (URL url, ResourceBundle resourceBundle) {
 
-            prePopForTypeDropDownBox();
-            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
-            customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        prePopForTypeDropDownBox();
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
-            customerTable.setItems(DBAccessCustomers.getAllCustomers());
-            contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
-            userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
+        customerTable.setItems(DBAccessCustomers.getAllCustomers());
+        contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
+        userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 
-            startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
-            endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
-        }
-
+        startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
+        endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
     }
 
+}
 
+
+               /* Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
+
+                if(ValidationForAppt.checkToSeeIfApptsOvelap(a)){
+                    System.out.println("overlap.");
+                    return;
+                }  */

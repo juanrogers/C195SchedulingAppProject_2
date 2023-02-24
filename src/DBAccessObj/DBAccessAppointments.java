@@ -352,7 +352,6 @@ public class DBAccessAppointments {
     }
 
 
-
     /**
      * This method will get all of the appointments by contact Ids.
      *
@@ -383,7 +382,6 @@ public class DBAccessAppointments {
         return listOfAppointmentsByContactId;
 
     }
-
 
 
     /**
@@ -421,7 +419,6 @@ public class DBAccessAppointments {
     }
 
 
-
     /**
      * This method will get all of the appointments by customer Ids.
      *
@@ -452,7 +449,6 @@ public class DBAccessAppointments {
         return listOfAppointmentsByCustomerId;
 
     }
-
 
 
     /**
@@ -487,9 +483,6 @@ public class DBAccessAppointments {
         return listOfAppointmentsByCustomerName;
 
     }
-
-
-
 
 
     /**
@@ -542,50 +535,49 @@ public class DBAccessAppointments {
      * Updates an appointment in the database.
      *
      * @param appt An appointment object instantiated from the ModifyAppointments_Controller.
-     */
+     *
     public static boolean updateAppt(Appointment appt) {
-        int appointment_Id = appt.getAppointment_Id();
-        int user_Id = appt.getUser_Id();
-        int customer_Id = appt.getCustomer_Id();
-        String title = appt.getTitle();
-        String description = appt.getDescription();
-        String location = appt.getLocation();
-        int contact_Id = appt.getContact_Id();
-        String type = appt.getType();
-        Timestamp startOfAppt = appt.getStartOfAppt();
-        Timestamp endOfAppt = appt.getEndOfAppt();
+    int appointment_Id = appt.getAppointment_Id();
+    int user_Id = appt.getUser_Id();
+    int customer_Id = appt.getCustomer_Id();
+    String title = appt.getTitle();
+    String description = appt.getDescription();
+    String location = appt.getLocation();
+    int contact_Id = appt.getContact_Id();
+    String type = appt.getType();
+    Timestamp startOfAppt = appt.getStartOfAppt();
+    Timestamp endOfAppt = appt.getEndOfAppt();
 
-        String afterUserLoggedIn = DBAccessUsers.getCurrentUser().getUserName();
+    String afterUserLoggedIn = DBAccessUsers.getCurrentUser().getUserName();
 
-        try {
+    try {
 
-            String sqlDBQuery = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, " +
-                    "Start = ?, End = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+    String sqlDBQuery = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, " +
+    "Start = ?, End = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
 
-            PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
+    PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
 
-            preState.setString(1, title);
-            preState.setString(2, description);
-            preState.setString(3, location);
-            preState.setString(4, type);
-            preState.setTimestamp(5, startOfAppt);
-            preState.setTimestamp(6, endOfAppt);
-            preState.setString(7, afterUserLoggedIn);
-            preState.setInt(8, customer_Id);
-            preState.setInt(9, user_Id);
-            preState.setInt(10, contact_Id);
-            preState.setInt(11, appointment_Id);
-            preState.executeUpdate();
-            return true;
+    preState.setString(1, title);
+    preState.setString(2, description);
+    preState.setString(3, location);
+    preState.setString(4, type);
+    preState.setTimestamp(5, startOfAppt);
+    preState.setTimestamp(6, endOfAppt);
+    preState.setString(7, afterUserLoggedIn);
+    preState.setInt(8, customer_Id);
+    preState.setInt(9, user_Id);
+    preState.setInt(10, contact_Id);
+    preState.setInt(11, appointment_Id);
+    preState.executeUpdate();
+    return true;
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    } catch (SQLException throwables) {
+    throwables.printStackTrace();
 
-            return false;
-        }
-
+    return false;
     }
 
+    }  */
 
 
     /**
@@ -594,166 +586,25 @@ public class DBAccessAppointments {
      * @param appt An appointment object instantiated from the Appointments_Controller.
      *
     public static boolean removeAppt(Appointment appt) {
-        int apptID = appt.getApptID();
+    int apptID = appt.getApptID();
 
-        try {
-            String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+    try {
+    String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+    PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
 
-            ps.setInt(1, apptID);
+    ps.setInt(1, apptID);
 
-            ps.executeUpdate();
+    ps.executeUpdate();
 
-            return true;
+    return true;
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    } catch (SQLException throwables) {
+    throwables.printStackTrace();
 
-            return false;
-        }
+    return false;
+    }
     }  */
-
-
-
-
-    /**
-     * This method will check to see if an appointment is being schedule outside of business hours (based on 8AM - 10PM EST).
-     *
-     * @param appt appt
-     * @return will return true: if appointment to be schedule is outside of business hours (based on 8AM - 10PM EST), false: if so
-     */
-    public static boolean isApptToBeSetWithinBizHrs(Appointment appt) {
-        ZoneId currentZoneId = ZoneId.systemDefault();
-        ZoneId eastZoneId = ZoneId.of("America/New_York");
-
-        ZonedDateTime zonedStartDateTimeEST = appt.getStartOfAppt().toInstant().atZone(eastZoneId);
-        ZonedDateTime zonedEndDateTimeEST = appt.getStartOfAppt().toInstant().atZone(eastZoneId);
-        int apptYear = appt.getStartOfAppt().toLocalDateTime().getYear();
-        int apptMonth = appt.getStartOfAppt().toLocalDateTime().getMonth().getValue();
-        int apptDay = appt.getStartOfAppt().toLocalDateTime().getDayOfMonth();
-        int apptHourAM = 8;
-        int apptHourPM = 22;
-        int apptMin = 00;
-        int apptSec = 00;
-
-        LocalDateTime startTime = LocalDateTime.of(apptYear, apptMonth, apptDay, apptHourAM, apptMin, apptSec);
-        LocalDateTime endTime = LocalDateTime.of(apptYear, apptMonth, apptDay, apptHourPM, apptMin, apptSec);
-
-        ChronoZonedDateTime zonedStartTime = ZonedDateTime.of(startTime, eastZoneId);
-        ChronoZonedDateTime zonedEndTime = ZonedDateTime.of(endTime, eastZoneId);
-
-        System.out.println("ZonedStartTime: " + zonedStartTime);
-        System.out.println("ZonedEndTime: " + zonedEndTime);
-
-        if (zonedStartDateTimeEST.isBefore(zonedStartTime)) {
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointment");
-            alert.setHeaderText("The appointment time is outside of office hours.");
-            alert.setContentText("Appointment cannot be scheduled before 8:00AM EST. \n Office hours are 8AM to 10PM EST. Please try again");
-            alert.showAndWait();
-            return false;
-
-        } else if (zonedEndDateTimeEST.isAfter(zonedEndTime) || zonedStartDateTimeEST.isAfter(zonedEndTime)) {
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointment");
-            alert.setHeaderText("The appointment time is outside of office hours.");
-            alert.setContentText("Appointment cannot be scheduled before 8:00AM EST. \n Office hours are 8AM to 10PM EST. Please try again.");
-            alert.showAndWait();
-            return false;
-
-        } else {
-
-            return true;
-        }
-
-    }
-
-
-    /** Checks whether an added or modified appointment's timeframe conflicts with an appointment also belonging to either the contact or customer.
-     *
-     * @param appointment An appointment object instantiated from either the AddAppointments_Controller or ModifyAppointments_Controller.
-     * @return Returns true if an added or modified appointment's timeframe conflicts with a pre-existing appointment for the same contact or customer.
-     */
-    public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
-        String overlappingAppts = "";
-        boolean apptsOverlap;
-        for(Appointment appt : DBAccessAppointments.getAllAppointments()) {
-            apptsOverlap =
-                    (appt.getStartOfAppt().after(appt.getStartOfAppt()) || appt.getStartOfAppt().equals(appt.getStartOfAppt())) &&
-                            (appt.getStartOfAppt().before(appt.getEndOfAppt()) || appt.getStartOfAppt().equals(appt.getEndOfAppt())) ||
-                            (appt.getEndOfAppt().before(appt.getEndOfAppt()) || appt.getEndOfAppt().equals(appt.getEndOfAppt())) &&
-                                    (appt.getEndOfAppt().after(appt.getStartOfAppt()) || appt.getEndOfAppt().equals(appt.getStartOfAppt())) ||
-                            (appt.getStartOfAppt().after(appt.getStartOfAppt()) && appt.getEndOfAppt().before(appt.getEndOfAppt()));
-
-            if(appt.getAppointment_Id() != appt.getAppointment_Id()) {
-                // If selected appt starts within another appt
-                if(apptsOverlap)
-                {
-                    if(appt.getContact_Id() == appt.getContact_Id() && appt.getCustomer_Id() == appt.getCustomer_Id())
-                    {
-                        if(overlappingAppts.isEmpty())
-                        {
-                            overlappingAppts = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else
-                        {
-                            overlappingAppts = overlappingAppts + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                    else if(appt.getContact_Id() == appt.getContact_Id())
-                    {
-                        if(overlappingAppts.isEmpty())
-                        {
-                            overlappingAppts = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else
-                        {
-                            overlappingAppts = overlappingAppts + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                    else if(appt.getCustomer_Id() == appt.getCustomer_Id())
-                    {
-                        if(overlappingAppts.isEmpty())
-                        {
-                            overlappingAppts = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else
-                        {
-                            overlappingAppts = overlappingAppts + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                }
-                else
-                {
-                    continue;
-                }
-            }
-        }
-        if(overlappingAppts.isEmpty())
-        {
-            return true;
-        }
-        else
-        {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Appointments");
-            alert.setHeaderText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
-            alert.setContentText(overlappingAppts);
-            alert.showAndWait();
-            return false;
-        }
-    }
-
-
 
 }
 
