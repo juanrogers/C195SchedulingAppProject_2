@@ -264,11 +264,11 @@ public class updatecustomerscreencontroller implements Initializable {
         customerIdTxtFld.setText(Integer.toString(customer.getCustomer_Id()));
         customerNameTxtFld.setText(customer.getCustomerName());
         addressTxtFld.setText(customer.getAddress());
-
+        Country country = null;
         for (Country cout : countryDropDownBox.getItems()) {
 
             if(customer.country_Id == cout.getCountry_Id()) {
-
+                country = cout;
                 countryDropDownBox.setValue(cout);
 
                 break;
@@ -276,52 +276,29 @@ public class updatecustomerscreencontroller implements Initializable {
 
         }
 
-        Country cout = countryDropDownBox.getSelectionModel().getSelectedItem();
-
-        if (cout.getCountry_Id() == 3) {
+        if (country.getCountry_Id() == 3) {
 
             divWSwitchableLabel.setText("Province: ");
-
-        }
-
-        else if (cout.getCountry_Id() == 2) {
-
-            divWSwitchableLabel.setText("Sub-division:");
-
-        }
-
-        else if (cout.getCountry_Id() == 1) {
-
-            divWSwitchableLabel.setText("State: ");
-
-        }
-
-        if (cout.getCountry_Id() == 3) {
-
             divisionDropDownBox.setItems(DBAccessDivisions.getCANDivisions());
 
         }
+        else if (country.getCountry_Id() == 2) {
 
-        else if (cout.getCountry_Id() == 2) {
-
-           divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
+            divWSwitchableLabel.setText("Sub-division:");
+            divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
 
         }
+        else if (country.getCountry_Id() == 1) {
 
-        else if (cout.getCountry_Id() == 1) {
-
+            divWSwitchableLabel.setText("State: ");
             divisionDropDownBox.setItems(DBAccessDivisions.getUSDivisions());
 
         }
-
         else {
-
             divisionDropDownBox.isDisabled();
-
         }
 
         for(Division div : divisionDropDownBox.getItems()) {
-
             if(customer.division_Id == div.getDivision_Id()) {
 
                divisionDropDownBox.setValue(div);

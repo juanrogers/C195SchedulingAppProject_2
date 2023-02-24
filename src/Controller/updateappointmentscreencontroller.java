@@ -72,9 +72,9 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<String> typeDropDownBox;
     @FXML
-    private ComboBox<String> startTimeDropDownBox;
+    private ComboBox<LocalTime> startTimeDropDownBox;
     @FXML
-    private ComboBox<String> endTimeDropDownBox;
+    private ComboBox<LocalTime> endTimeDropDownBox;
     @FXML
     private DatePicker datePicker;
     @FXML
@@ -180,6 +180,53 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
 
+        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg.setHeaderText("ARE YOU SURE?");
+        alertUserMsg.setContentText("A new customer will be added.");
+        Optional<ButtonType> result = alertUserMsg.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            String title = titleTxtFld.getText();
+            String description = descriptionTxtFld.getText();
+            String location = locationTxtFld.getText();
+            Contact contact = contactDropDownBox.getValue();
+            String type = typeDropDownBox.getValue();
+            LocalTime sTChosen = startTimeDropDownBox.getValue();
+            LocalTime eTChosen = endTimeDropDownBox.getValue();
+            LocalDate dateChosen = datePicker.getValue();
+            User user = userIdDropDownBox.getValue();
+
+            int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
+
+            if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
+                    && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
+                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePicker.getValue() != null))) {
+
+                LocalDateTime startOfAppt = LocalDateTime.of(datePicker.getValue(),startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePicker.getValue(),endTimeDropDownBox.getValue());
+
+                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+
+            }
+
+            else {
+
+                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                alertUserMsg2.setHeaderText("Data entered is invalid!");
+                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+                alertUserMsg2.showAndWait();
+
+            }
+
+        }
+
+
       /*  try {
 
             if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
@@ -218,8 +265,8 @@ public class updateappointmentscreencontroller implements Initializable {
             alert.setContentText("Please enter a valid date and time.");
             alert.showAndWait();
         }  */
-    }
 
+    }
 
 
     /** This method will cancel the "update appointment" action, and send user back to the appointments screen.
@@ -244,7 +291,6 @@ public class updateappointmentscreencontroller implements Initializable {
     }
 
 
-
     /**
      * This method will send the appointment selected in table to update appointment screen.
      *
@@ -265,11 +311,11 @@ public class updateappointmentscreencontroller implements Initializable {
             }
 
         }
-        typeDropDownBox.setValue(appointment.getType());
+       /* typeDropDownBox.setValue(appointment.getType());
         LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
-        startTimeDropDownBox.setValue(String.valueOf(setStartTime));
+        startTimeDropDownBox.setValue(Timestamp.valueOf(startOfAppt));
         LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
-        endTimeDropDownBox.setValue(String.valueOf(setEndTime));
+        endTimeDropDownBox.setValue(Timestamp.valueOf(endOfAppt)); */
 
         LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
@@ -283,7 +329,6 @@ public class updateappointmentscreencontroller implements Initializable {
         }
     }
 
-
     /** This method will set the pre-determined meeting types for type dropdown box.
      *
      */
@@ -294,7 +339,6 @@ public class updateappointmentscreencontroller implements Initializable {
         typeDropDownBox.setItems(optionsForAppts);
 
     }
-
 
     /**
      * This method initializes the update appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local.
@@ -314,7 +358,7 @@ public class updateappointmentscreencontroller implements Initializable {
         contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
         userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 
-        LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
+       /* LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
         LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
         ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
         ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
@@ -350,7 +394,7 @@ public class updateappointmentscreencontroller implements Initializable {
             endTimeDropDownBox.getItems().add(String.valueOf(appointmentEndTimeMin));
             appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
 
-        }
+        } */
 
     }
 

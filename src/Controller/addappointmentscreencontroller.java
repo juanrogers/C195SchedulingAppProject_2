@@ -205,6 +205,14 @@ public class addappointmentscreencontroller implements Initializable {
                 LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
                 LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
 
+
+                Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
+
+                if(ValidationForAppt.checkToSeeIfApptsOvelap(a)){
+                    System.out.println("overlap.");
+                    return;
+                }
+
                 DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -224,49 +232,6 @@ public class addappointmentscreencontroller implements Initializable {
             }
 
         }
-
-
-
-
-
-
-     /*  try {
-            if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
-                int appointment_Id = 0;
-                String title = titleTxtFld.getText();
-                String description = descriptionTxtFld.getText();
-                String location = locationTxtFld.getText();
-                String type = typeDropDownBox.getValue();
-                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
-                String contactName = "";
-                String customerName = "";
-                int contact_Id = Contact.getContactIdByContactName(contactName);
-                int customer_Id = Customer.getCustIdByCustName(customerName);
-                int user_Id = DBAccessUsers.getCurrentUserID();
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
-                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt))
-                {
-                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt))
-                    {
-                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
-                        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-                        stage.setScene(new Scene(scene));
-                        stage.show();
-                    }
-                }
-            }
-        }
-        catch (NullPointerException nullPointexpt) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Appointments");
-            alert.setHeaderText("Appointment Time is Incomplete");
-            alert.setContentText("Please enter a valid date and time.");
-            alert.showAndWait();
-        }  */
-
-
 
     }
 

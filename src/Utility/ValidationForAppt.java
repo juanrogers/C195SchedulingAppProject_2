@@ -49,8 +49,16 @@ public class ValidationForAppt {
      */
     public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
         String olaps = "";
-        boolean apptsOverlap;
+        boolean apptsOverlap = false;
         for(Appointment appt : DBAccessAppointments.getAllAppointments()) {
+            if(appointment.getAppointment_Id() == appt.getAppointment_Id() || appointment.getCustomer_Id() != appt.getCustomer_Id()) {
+                continue;
+            }
+            //Overlap test
+            // if overlap cond 1  is true
+            //      append to olaps
+            //else if overlap cond 2 is true
+            //      append to olaps
             apptsOverlap =
                     (appt.getStartOfAppt().after(appt.getStartOfAppt()) || appt.getStartOfAppt().equals(appt.getStartOfAppt())) &&
                             (appt.getStartOfAppt().before(appt.getEndOfAppt()) || appt.getStartOfAppt().equals(appt.getEndOfAppt())) ||
@@ -58,49 +66,17 @@ public class ValidationForAppt {
                                     (appt.getEndOfAppt().after(appt.getStartOfAppt()) || appt.getEndOfAppt().equals(appt.getStartOfAppt())) ||
                             (appt.getStartOfAppt().after(appt.getStartOfAppt()) && appt.getEndOfAppt().before(appt.getEndOfAppt()));
 
-            if(appt.getAppointment_Id() != appt.getAppointment_Id()) {
-                // If selected appt starts within another appt
-                if(apptsOverlap) {
+            // If selected appt starts within another appt
+            if(apptsOverlap) {
+                olaps +=  "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
+                        appt.getStartOfAppt() + "\nand ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
 
-                    if(appt.getContact_Id() == appt.getContact_Id() && appt.getCustomer_Id() == appt.getCustomer_Id()) {
-                        if(olaps.isEmpty()) {
-                            olaps = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else {
-                            olaps = olaps + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                    else if(appt.getContact_Id() == appt.getContact_Id()) {
-                        if(olaps.isEmpty()) {
-                            olaps = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else {
-                            olaps = olaps + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                    else if(appt.getCustomer_Id() == appt.getCustomer_Id())
-                    {
-                        if(olaps.isEmpty())
-                        {
-                            olaps = "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                        else
-                        {
-                            olaps = olaps + "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-                                    appt.getStartOfAppt() + "\n" + " and ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-                        }
-                    }
-                }
-                else
-                {
-                    continue;
-                }
             }
+//            else
+//            {
+//                continue;
+//            }
+
         }
         if(olaps.isEmpty())
         {
