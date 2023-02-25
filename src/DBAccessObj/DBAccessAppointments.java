@@ -545,11 +545,10 @@ public class DBAccessAppointments {
                                            LocalDateTime eDDateTime, LocalDate apptDate) throws SQLException {
 
         // Get list of appointments that might have conflicts
-        ObservableList<Appointment> overlaps = DBAccessAppointments.getApptsFilteredByDate(apptDate,
-                cust_Id);
+        ObservableList<Appointment> overlaps = DBAccessAppointments.getApptsByDate(apptDate, cust_Id);
         // for each possible conflict, evaluate:
-        // if conflictApptStart is before newApptstart and conflictApptEnd is after newApptStart(starts before ends after)
-        // if conflictApptStart is before newApptEnd & conflictApptStart after newApptStart (startime anywhere in appt)
+        // if apptStart is before newApptstart and conflictApptEnd is after newApptStart(starts before ends after)
+        // if apptStart is before newApptEnd & apptStart after newApptStart (startime anywhere in appt)
         // if endtime is before end and endtime is after start (endtime falls anywhere in appt)
         if (overlaps.isEmpty()) {
             return true;
@@ -557,25 +556,24 @@ public class DBAccessAppointments {
         else {
             for (Appointment collidingAppt : overlaps) {
 
-                LocalDateTime conflictStart = collidingAppt.getStartOfAppt().toLocalDateTime();
-                LocalDateTime conflictEnd = collidingAppt.getEndOfAppt().toLocalDateTime();
+                LocalDateTime apptStart = collidingAppt.getStartOfAppt().toLocalDateTime();
+                LocalDateTime apptEnd = collidingAppt.getEndOfAppt().toLocalDateTime();
 
                 // Conflict starts before and Conflict ends any time after new appt ends - overlap
-                if( conflictStart.isBefore(sTDateTime) & conflictEnd.isAfter(eDDateTime)) {
+                if( apptStart.isBefore(sTDateTime) && apptEnd.isAfter(eDDateTime)) {
                     return false;
                 }
                 // ConflictAppt start time falls anywhere in the new appt
-                if (conflictStart.isBefore(eDDateTime) & conflictStart.isAfter(sTDateTime)) {
+                if (apptStart.isBefore(eDDateTime) && apptStart.isAfter(sTDateTime)) {
                     return false;
                 }
                 // ConflictAppt end time falls anywhere in the new appt
-                if (conflictEnd.isBefore(eDDateTime) & conflictEnd.isAfter(sTDateTime)) {
+                if (apptEnd.isBefore(eDDateTime) && apptEnd.isAfter(sTDateTime)) {
                     return false;
                 }
                 else {
                     return true;
                 }
-
             }
         }
         return true;
@@ -590,7 +588,7 @@ public class DBAccessAppointments {
      * @return willl return list of appointment for a specific customer
      * @throws SQLException SQLException
      */
-    public static ObservableList<Appointment> getApptsFilteredByDate(LocalDate apptDate, Integer cust_Id) throws SQLException {
+    public static ObservableList<Appointment> getApptsByDate(LocalDate apptDate, Integer cust_Id) throws SQLException {
         // Prepare SQL statement
         ObservableList<Appointment> filteredAppts = FXCollections.observableArrayList();
         PreparedStatement preState = DBConnect.connection().prepareStatement(
