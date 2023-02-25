@@ -44,7 +44,7 @@ public class ValidationForAppt {
 
     /** Checks whether an added or modified appointment's timeframe conflicts with an appointment also belonging to either the contact or customer.
      *
-     * @param appointment An appointment object instantiated from either the AddAppointments_Controller or ModifyAppointments_Controller.
+     * @param appointment appointment
      * @return Returns true if an added or modified appointment's timeframe conflicts with a pre-existing appointment for the same contact or customer.
      */
     public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
@@ -63,7 +63,7 @@ public class ValidationForAppt {
                     return false;
                 }
 
-                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
+                else if (Timestamp.valueOf(String.valueOf(appt.getStartOfAppt())).before(Timestamp.valueOf(String.valueOf(appointment.getStartOfAppt()))) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
@@ -71,7 +71,7 @@ public class ValidationForAppt {
                     return false;
                 }
 
-                else if (Timestamp.valueOf(appt.getStartOfAppt()).after(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
+                else if (Timestamp.valueOf(String.valueOf(appt.getStartOfAppt())).after(Timestamp.valueOf(String.valueOf(appointment.getStartOfAppt()))) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
@@ -79,7 +79,7 @@ public class ValidationForAppt {
                     return false;
                 }
 
-                else if (Timestamp.valueOf(appt.getStartOfAppt()).after(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().before(appointment.getEndOfAppt())) {
+                else if (Timestamp.valueOf(String.valueOf(appt.getStartOfAppt())).after(Timestamp.valueOf(String.valueOf(appointment.getStartOfAppt()))) && appt.getEndOfAppt().before(appointment.getEndOfAppt())) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
@@ -95,7 +95,7 @@ public class ValidationForAppt {
                     return false;
                 }
 
-                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().before(appointment.getEndOfAppt())){
+                else if (Timestamp.valueOf(String.valueOf(appt.getStartOfAppt())).before(Timestamp.valueOf(String.valueOf(appointment.getStartOfAppt()))) && appt.getEndOfAppt().before(appointment.getEndOfAppt())){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
@@ -103,7 +103,7 @@ public class ValidationForAppt {
                     return false;
                 }
 
-                else if (Timestamp.valueOf(appt.getStartOfAppt()).before(Timestamp.valueOf(appointment.getStartOfAppt())) && appt.getEndOfAppt().after(appointment.getEndOfAppt())){
+                else if (Timestamp.valueOf(String.valueOf(appt.getStartOfAppt())).before(Timestamp.valueOf(String.valueOf(appointment.getStartOfAppt()))) && appt.getEndOfAppt().after(appointment.getEndOfAppt())){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Dialog");
                     alert.setContentText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
@@ -114,40 +114,37 @@ public class ValidationForAppt {
             }
             return true;
 
-//        }
-            //Overlap test
-            // if overlap cond 1  is true
-            //      append to olaps
-            //else if overlap cond 2 is true
-            //      append to olaps
-//            apptsOverlap =
+    }
 
-//            // If selected appt starts within another appt
-//            if(apptsOverlap) {
-//                olaps +=  "Appointment " + appt.getAppointment_Id() + ": " + appt.getTitle() + " starting at " +
-//                        appt.getStartOfAppt() + "\nand ending at " + appt.getEndOfAppt() + " overlaps with another appointment. Please make a new selection.";
-//
-//            }
-//            else
-//            {
-//                continue;
-//            }
-//
-//        }
-//        if(olaps.isEmpty())
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setTitle("Appointments");
-//            alert.setHeaderText("This appointment overlaps with another customer's appointment(s), Please make a new selection.");
-//            alert.setContentText(olaps);
-//            alert.showAndWait();
-//            return false;
-//        }
 
+    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
+     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
+     * @param startOfAppt startOfAppt
+     * @param endOfAppt endOfAppt
+     * @return will returns true: if all checks are true, false: if not
+     */
+    public static boolean checkApptToBeSave(Timestamp startOfAppt, Timestamp endOfAppt) {
+        String errorMsgToUser = "";
+
+        if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
+            errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
+        }
+        if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
+            errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
+        }
+
+        if(errorMsgToUser.isEmpty()) {
+            return true;
+        }
+
+        else {
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setTitle("See message below details...");
+            alertUserMsg.setHeaderText("Please enter data into all fields and make all selections.");
+            alertUserMsg.setContentText(errorMsgToUser);
+            alertUserMsg.showAndWait();
+            return false;
+        }
 
     }
 
@@ -207,37 +204,14 @@ public class ValidationForAppt {
     }  */
 
 
-    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
-     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
-     * @param startOfAppt startOfAppt
-     * @param endOfAppt endOfAppt
-     * @return will returns true: if all checks are true, false: if not
-     */
-    public static boolean checkApptToBeSave(Timestamp startOfAppt, Timestamp endOfAppt) {
-    String errorMsgToUser = "";
-
-    if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
-    errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
-    }
-    if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
-    errorMsgToUser = errorMsgToUser + " The appointment date must be set for a future date. Please try again.";
-    }
-
-    if(errorMsgToUser.isEmpty()) {
-    return true;
-    }
-
-    else {
-    Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
-    alertUserMsg.setTitle("See message below details...");
-    alertUserMsg.setHeaderText("Please enter data into all fields and make all selections.");
-    alertUserMsg.setContentText(errorMsgToUser);
-    alertUserMsg.showAndWait();
-    return false;
-    }
-
-    }
-
 }
+
+
+
+
+
+
+
+
 
 

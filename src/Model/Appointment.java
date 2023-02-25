@@ -100,7 +100,7 @@ public class Appointment {
     /**
      * @return will return the start
      */
-    public String getStartOfAppt() {
+    public Timestamp getStartOfAppt() {
         return startOfAppt;
     }
 

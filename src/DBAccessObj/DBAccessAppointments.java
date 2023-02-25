@@ -532,6 +532,42 @@ public class DBAccessAppointments {
 
 
     /**
+     * Check if appointment time is available.
+     * @param appointment_Id appointment_Id
+     * @param sT sT
+     * @param eT eT
+     * @param customer_Id customer_Id
+     * @return will return true: if an existing appointment is found for the customer, false: if not
+     */
+    public static boolean checkToSeeIfApptsOvelap (int appointment_Id, LocalDateTime sT, LocalDateTime eT, String customer_Id) {
+
+        String sqlDBQuery = "SELECT * FROM appointments WHERE Appointment_ID != " + appointment_Id +
+                " AND Customer_ID = " + customer_Id +
+                " AND (( '" + sT + "' BETWEEN Start AND End) OR ( '" + eT + "' BETWEEN Start AND End ) /* Start or End lands during existing appointment */ " +
+                "   OR ( '" + sT + "' < Start AND '" + eT + "' > End ) /* Start AND End encapsulate existing appointment */ " +
+                "   OR ( '" + sT + "' = Start ) /* START matches Start */ " +
+                "   OR ( '" +  eT  + "' = End ))  /* End matches End */ ";
+
+        System.out.println(sqlDBQuery);
+
+        try {
+
+            PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
+            ResultSet resSet = preState.executeQuery();
+
+            while ( resSet.next() ) {
+                return true;
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println("Overlapping appointment found!");
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+
+    /**
      * Updates an appointment in the database.
      *
      * @param appt An appointment object instantiated from the ModifyAppointments_Controller.
