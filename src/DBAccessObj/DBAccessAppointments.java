@@ -17,11 +17,9 @@ import javafx.scene.control.Alert;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.chrono.ChronoZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /** This class handles the logic for appointments within the database.
@@ -532,39 +530,105 @@ public class DBAccessAppointments {
 
 
     /**
-     * Check if appointment time is available.
-     * @param appointment_Id appointment_Id
-     * @param sT sT
-     * @param eT eT
-     * @param customer_Id customer_Id
-     * @return will return true: if an existing appointment is found for the customer, false: if not
+     * validateCustomerOverlap
+     * ensures customer does not have overlapping appointments
+     *
+     * @param cust_Id cust_Id
+     * @param sTDateTime sTDateTime
+     * @param eDDateTime eDDateTime
+     * @param apptDate apptDate
+     *
+     * @return will return valid input
+     * @throws SQLException SQLException
      */
-    public static boolean checkToSeeIfApptsOvelap (int appointment_Id, LocalDateTime sT, LocalDateTime eT, String customer_Id) {
+    public Boolean overlapAppts(int cust_Id, LocalDateTime sTDateTime,
+                                           LocalDateTime eDDateTime, LocalDate apptDate) throws SQLException {
 
-        String sqlDBQuery = "SELECT * FROM appointments WHERE Appointment_ID != " + appointment_Id +
-                " AND Customer_ID = " + customer_Id +
-                " AND (( '" + sT + "' BETWEEN Start AND End) OR ( '" + eT + "' BETWEEN Start AND End ) /* Start or End lands during existing appointment */ " +
-                "   OR ( '" + sT + "' < Start AND '" + eT + "' > End ) /* Start AND End encapsulate existing appointment */ " +
-                "   OR ( '" + sT + "' = Start ) /* START matches Start */ " +
-                "   OR ( '" +  eT  + "' = End ))  /* End matches End */ ";
-
-        System.out.println(sqlDBQuery);
-
-        try {
-
-            PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
-            ResultSet resSet = preState.executeQuery();
-
-            while ( resSet.next() ) {
-                return true;
-            }
-
-        } catch (SQLException throwables) {
-            System.out.println("Overlapping appointment found!");
-            throwables.printStackTrace();
+        // Get list of appointments that might have conflicts
+        ObservableList<Appointment> overlaps = DBAccessAppointments.getApptsFilteredByDate(apptDate,
+                cust_Id);
+        // for each possible conflict, evaluate:
+        // if conflictApptStart is before newApptstart and conflictApptEnd is after newApptStart(starts before ends after)
+        // if conflictApptStart is before newApptEnd & conflictApptStart after newApptStart (startime anywhere in appt)
+        // if endtime is before end and endtime is after start (endtime falls anywhere in appt)
+        if (overlaps.isEmpty()) {
+            return true;
         }
-        return false;
+        else {
+            for (Appointment collidingAppt : overlaps) {
+
+                LocalDateTime conflictStart = collidingAppt.getStartOfAppt().toLocalDateTime();
+                LocalDateTime conflictEnd = collidingAppt.getEndOfAppt().toLocalDateTime();
+
+                // Conflict starts before and Conflict ends any time after new appt ends - overlap
+                if( conflictStart.isBefore(sTDateTime) & conflictEnd.isAfter(eDDateTime)) {
+                    return false;
+                }
+                // ConflictAppt start time falls anywhere in the new appt
+                if (conflictStart.isBefore(eDDateTime) & conflictStart.isAfter(sTDateTime)) {
+                    return false;
+                }
+                // ConflictAppt end time falls anywhere in the new appt
+                if (conflictEnd.isBefore(eDDateTime) & conflictEnd.isAfter(sTDateTime)) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+
+            }
+        }
+        return true;
+
     }
+
+    /**
+     * This method will check the database for all appointments for a specific customer on a specific date.
+     *
+     * @param apptDate apptDate
+     * @param cust_Id cust_Id
+     * @return willl return list of appointment for a specific customer
+     * @throws SQLException SQLException
+     */
+    public static ObservableList<Appointment> getApptsFilteredByDate(LocalDate apptDate, Integer cust_Id) throws SQLException {
+        // Prepare SQL statement
+        ObservableList<Appointment> filteredAppts = FXCollections.observableArrayList();
+        PreparedStatement preState = DBConnect.connection().prepareStatement(
+                "SELECT * FROM appointments as a LEFT OUTER JOIN contacts as c " +
+                        "ON a.Contact_ID = c.Contact_ID WHERE datediff(a.Start, ?) = 0 AND Customer_ID = ?;"
+        );
+
+        preState.setInt(2, cust_Id);
+
+        preState.setString(1, apptDate.toString());
+
+        ResultSet resSet = preState.executeQuery();
+
+        while( resSet.next() ) {
+            // get data from the returned rows
+            int appointment_Id = resSet.getInt("Appointment_ID");
+            String title = resSet.getString("Title");
+            String description = resSet.getString("Description");
+            String location = resSet.getString("Location");
+            String type = resSet.getString("Type");
+            Timestamp startOfAppt = resSet.getTimestamp("Start");
+            Timestamp endOfAppt = resSet.getTimestamp("End");
+            int customer_Id = resSet.getInt("Customer_ID");
+            int user_Id = resSet.getInt("User_ID");
+            int contact_Id = resSet.getInt("Contact_ID");
+
+            // populate into an appt object
+            Appointment newAppt = new Appointment(
+                    appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
+            filteredAppts.add(newAppt);
+        }
+
+        preState.close();
+        return filteredAppts;
+
+    }
+
+
 
 
     /**
