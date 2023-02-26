@@ -117,16 +117,16 @@ public class ValidationForAppt {
     }
 
 
-    /** This method will assist in checking to see if the all fields and drop down boxes are filled by customer input.
-     * Also checks for overlapping appointments, and to see if an appointment is being schedule outside of business hours.
+    /** This method will assist in checking to see if the date selected is set for a future date and if the start and end times make logical sense.
+     *
      * @param startOfAppt startOfAppt
      * @param endOfAppt endOfAppt
      * @return will returns true: if all checks are true, false: if not
-     */
+     *
     public static boolean checkApptToBeSave(Timestamp startOfAppt, Timestamp endOfAppt) {
         String errorMsgToUser = "";
 
-        if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {
+        if(endOfAppt.before(startOfAppt) || startOfAppt.equals(endOfAppt)) {   //Giving a "Null point error"
             errorMsgToUser = errorMsgToUser + " The end time selection must be set to a time after the start time selection.\n Please try again.";
         }
         if(endOfAppt.before(Timestamp.from(Instant.now())) || startOfAppt.before(Timestamp.from(Instant.now()))) {
@@ -146,7 +146,7 @@ public class ValidationForAppt {
             return false;
         }
 
-    }
+    } */
 
 
     /**

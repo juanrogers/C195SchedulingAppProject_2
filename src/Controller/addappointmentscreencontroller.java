@@ -177,9 +177,7 @@ public class addappointmentscreencontroller implements Initializable {
      * @throws IOException
      */
     @FXML
-    void onActionSaveAddAppointment(ActionEvent event) throws IOException {
-
-        boolean validate = logicalTimeSelectCheck();
+    void onActionSaveAddAppointment(ActionEvent event) throws IOException, SQLException {
 
         Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg.setHeaderText("ARE YOU SURE?");
@@ -187,7 +185,6 @@ public class addappointmentscreencontroller implements Initializable {
         Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
             String title = titleTxtFld.getText();
             String description = descriptionTxtFld.getText();
             String location = locationTxtFld.getText();
@@ -200,53 +197,70 @@ public class addappointmentscreencontroller implements Initializable {
             int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
-                && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
-                (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
+                    && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
+                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
 
-                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
+                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
 
-                    DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
+                    if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
-                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                    scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.show();
+                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
 
-            }
-            else {
+                        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+                        stage.setScene(new Scene(scene));
+                        stage.show();
+
+                    } else {
+
+                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                        alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
+                        alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
+                        alertUserMsg2.showAndWait();
+
+                    }
+
+            } else{
+
                 Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                 alertUserMsg2.setHeaderText("Data entered is invalid!");
                 alertUserMsg2.setContentText("Please enter valid values for all required fields.");
                 alertUserMsg2.showAndWait();
+
             }
         }
     }
 
 
-    public boolean logicalTimeSelectCheck() {
 
-        LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(),startTimeDropDownBox.getValue());
-        LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(),endTimeDropDownBox.getValue());
-        LocalDate datePicked = datePickerBox.getValue();
 
-        if (endOfAppt.isBefore(startOfAppt)) {
-            Alert alertUserMsg14 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg14.setTitle("Error!");
-            alertUserMsg14.setContentText("The appointment end time must be after the start time. Please try again.");
-            alertUserMsg14.showAndWait();
-            return false;
-        }
 
-        if (!startOfAppt.equals(endOfAppt)){
-            Alert alertUserMsg15 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg15.setTitle("Error!");
-            alertUserMsg15.setContentText("The appointment start and end dates must be on the same day. Please try again.");
-            alertUserMsg15.showAndWait();
-            return false;
-        }
-        return true;
-    }
+//    public boolean logicalTimeSelectCheck(ComboBox startTimeDropDownBox, ComboBox endTimeDropDownBox, DatePicker datePickerBox) {
+//
+//        LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), (LocalTime) startTimeDropDownBox.getValue());
+//        LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), (LocalTime) endTimeDropDownBox.getValue());
+//        LocalDate datePicked = datePickerBox.getValue();
+//
+//        if (endOfAppt.isBefore(startOfAppt)) {
+//            Alert alertUserMsg14 = new Alert(Alert.AlertType.ERROR);
+//            alertUserMsg14.setTitle("Error!");
+//            alertUserMsg14.setContentText("The appointment end time must be after the start time. Please try again.");
+//            alertUserMsg14.showAndWait();
+//            return false;
+//        }
+//
+//
+//                //Will need to find a way to check to make sure date selected is a future date.
+////        if (datePicked.isBefore(Timestamp.from((Instant.now())))){
+////            Alert alertUserMsg15 = new Alert(Alert.AlertType.ERROR);
+////            alertUserMsg15.setTitle("Error!");
+////            alertUserMsg15.setContentText("The appointment date must be set for a future date. Please try again.");
+////            alertUserMsg15.showAndWait();
+////            return false;
+////        }
+//        return true;
+//    }
 
 
     /** This method will cancel the "add appointment" action, and send user back to the appointment screen.
@@ -317,3 +331,5 @@ public class addappointmentscreencontroller implements Initializable {
                     System.out.println("overlap.");
                     return;
                 }  */
+
+
