@@ -179,58 +179,63 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException, SQLException {
 
-        Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("A new appointment will be added.");
-        Optional<ButtonType> result = alertUserMsg.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            String title = titleTxtFld.getText();
-            String description = descriptionTxtFld.getText();
-            String location = locationTxtFld.getText();
-            Contact contact = contactDropDownBox.getValue();
-            String type = typeDropDownBox.getValue();
-            LocalTime sTChosen = startTimeDropDownBox.getValue();
-            LocalTime eTChosen = endTimeDropDownBox.getValue();
-            LocalDate dateChosen = datePickerBox.getValue();
-            User user = userIdDropDownBox.getValue();
-            int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
+            Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
+            alertUserMsg.setHeaderText("ARE YOU SURE?");
+            alertUserMsg.setContentText("A new appointment will be added.");
+            Optional<ButtonType> result = alertUserMsg.showAndWait();
 
-            if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
-                    && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
-                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String title = titleTxtFld.getText();
+                String description = descriptionTxtFld.getText();
+                String location = locationTxtFld.getText();
+                Contact contact = contactDropDownBox.getValue();
+                String type = typeDropDownBox.getValue();
+                LocalTime sTChosen = startTimeDropDownBox.getValue();
+                LocalTime eTChosen = endTimeDropDownBox.getValue();
+                LocalDate dateChosen = datePickerBox.getValue();
+                User user = userIdDropDownBox.getValue();
+                int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
-                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
+                if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
+                        && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
+                        (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
 
-                    if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
+                    LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
+                    LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
 
-                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
 
-                        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-                        stage.setScene(new Scene(scene));
-                        stage.show();
+                            if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
-                    } else {
+                                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
 
-                        Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-                        alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
-                        alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
-                        alertUserMsg2.showAndWait();
+                                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                                scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+                                stage.setScene(new Scene(scene));
+                                stage.show();
 
-                    }
+                            } else {
 
-            } else{
+                                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                                alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
+                                alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
+                                alertUserMsg2.showAndWait();
 
-                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-                alertUserMsg2.setHeaderText("Data entered is invalid!");
-                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
-                alertUserMsg2.showAndWait();
+                            }
+                        }
 
+
+                } else{
+
+                    Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                    alertUserMsg2.setHeaderText("Data entered is invalid!");
+                    alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+                    alertUserMsg2.showAndWait();
+                }
             }
-        }
-    }
+
+
+
 
 
 
