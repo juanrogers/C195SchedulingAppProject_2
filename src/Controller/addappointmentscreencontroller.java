@@ -204,7 +204,6 @@ public class addappointmentscreencontroller implements Initializable {
                     LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
                     LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
 
-
                             if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
                                 DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
@@ -220,9 +219,9 @@ public class addappointmentscreencontroller implements Initializable {
                                 alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
                                 alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
                                 alertUserMsg2.showAndWait();
-
                             }
-                        }
+
+                    }
 
 
                 } else{
@@ -336,5 +335,12 @@ public class addappointmentscreencontroller implements Initializable {
                     System.out.println("overlap.");
                     return;
                 }  */
+
+//    Timestamp datePicked = Timestamp.valueOf(String.valueOf(datePickerBox));
+//    if(!datePicked.after(Timestamp.from(Instant.now()))){};
+
+
+
+
 
 

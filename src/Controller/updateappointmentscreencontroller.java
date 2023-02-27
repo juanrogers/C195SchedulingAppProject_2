@@ -1,5 +1,6 @@
 package Controller;
 
+import Utility.TimeUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import DBAccessObj.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.Optional;
@@ -178,15 +180,14 @@ public class updateappointmentscreencontroller implements Initializable {
      * @throws IOException
      */
     @FXML
-    void onActionSaveUpdateAppt(ActionEvent event) throws IOException {
+    void onActionSaveUpdateAppt(ActionEvent event) throws IOException, SQLException {
 
         Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("A new customer will be added.");
+        alertUserMsg.setContentText("A new appointment will be added.");
         Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
             String title = titleTxtFld.getText();
             String description = descriptionTxtFld.getText();
             String location = locationTxtFld.getText();
@@ -196,75 +197,43 @@ public class updateappointmentscreencontroller implements Initializable {
             LocalTime eTChosen = endTimeDropDownBox.getValue();
             LocalDate dateChosen = datePicker.getValue();
             User user = userIdDropDownBox.getValue();
-
             int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
                     && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
                     (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePicker.getValue() != null))) {
 
-                LocalDateTime startOfAppt = LocalDateTime.of(datePicker.getValue(),startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePicker.getValue(),endTimeDropDownBox.getValue());
-
-                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(),contact.getContact_Id());
-
-                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
-
-            }
-
-            else {
-
-                Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
-                alertUserMsg2.setHeaderText("Data entered is invalid!");
-                alertUserMsg2.setContentText("Please enter valid values for all required fields.");
-                alertUserMsg2.showAndWait();
-
-            }
-
-        }
+                LocalDateTime startOfAppt = LocalDateTime.of(datePicker.getValue(), startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePicker.getValue(), endTimeDropDownBox.getValue());
 
 
-      /*  try {
+                if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
-            if(Appointment.checkApptToBeSave(titleTxtFld, descriptionTxtFld, locationTxtFld, contactDropDownBox, typeDropDownBox, startTimeDropDownBox, endTimeDropDownBox)) {
-                int appointment_Id = 0;
-                String title = titleTxtFld.getText();
-                String description = descriptionTxtFld.getText();
-                String location = locationTxtFld.getText();
-                String type = typeDropDownBox.getValue();
-                String startOfAppt = startTimeDropDownBox.getValue();
-                String endOfAppt = endTimeDropDownBox.getValue();
+                    DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
 
-                String contactName = "";
-                String customerName = "";
-                int contact_Id = Contact.getContactIdByContactName(contactName);
-                int customer_Id = Customer.getCustIdByCustName(customerName);
-                int user_Id = DBAccessUsers.getCurrentUserID();
+                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
 
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
+                } else {
 
-                if(DBAccessAppointments.isApptToBeSetWithinBizHrs(appt)) {
-                    if(DBAccessAppointments.checkToSeeIfApptsOvelap(appt)) {
+                    Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+                    alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
+                    alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
+                    alertUserMsg2.showAndWait();
 
-                        DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user_Id, contact_Id);
-                        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-                        stage.setScene(new Scene(scene));
-                        stage.show();
-                    }
                 }
             }
+
+
+        } else{
+
+            Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg2.setHeaderText("Data entered is invalid!");
+            alertUserMsg2.setContentText("Please enter valid values for all required fields.");
+            alertUserMsg2.showAndWait();
         }
-        catch (NullPointerException nullPointexpt) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Appointments");
-            alert.setHeaderText("Appointment Time is Incomplete");
-            alert.setContentText("Please enter a valid date and time.");
-            alert.showAndWait();
-        }  */
 
     }
 
@@ -311,15 +280,18 @@ public class updateappointmentscreencontroller implements Initializable {
             }
 
         }
-       /* typeDropDownBox.setValue(appointment.getType());
-        LocalTime setStartTime = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
-        startTimeDropDownBox.setValue(Timestamp.valueOf(startOfAppt));
-        LocalTime setEndTime = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
-        endTimeDropDownBox.setValue(Timestamp.valueOf(endOfAppt));
+        typeDropDownBox.setValue(appointment.getType());
+
+        LocalTime startOfAppt = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
+        startTimeDropDownBox.setValue(startOfAppt);
+
+        LocalTime endOfAppt = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
+        endTimeDropDownBox.setValue(endOfAppt);
 
         LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
         datePicker.setValue(appointmentDate);
-        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id())); */
+
+        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
 
         for (User user : userIdDropDownBox.getItems()) {
             if (appointment.getUser_Id() == user.getUser_Id()) {
@@ -350,7 +322,7 @@ public class updateappointmentscreencontroller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         prePopForTypeDropDownBox();
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
 
         customerTable.setItems(DBAccessCustomers.getAllCustomers());
@@ -358,43 +330,46 @@ public class updateappointmentscreencontroller implements Initializable {
         contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
         userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 
-       /* LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
-        LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
-        ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
+        startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
+        endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
 
-        LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
-        LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
-        ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
-
-        while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
-
-            startTimeDropDownBox.getItems().add(String.valueOf(appointmentStartTimeMin));
-            appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
-
-        }
-
-        LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
-        LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
-        ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
-
-        LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
-        LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
-        ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
-        ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-        LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
-
-        while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
-
-            endTimeDropDownBox.getItems().add(String.valueOf(appointmentEndTimeMin));
-            appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
-
-        } */
+//        LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
+//        LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
+//        ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
+//        ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
+//        LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
+//
+//        LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
+//        LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
+//        ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
+//        ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
+//        LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
+//
+//        while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
+//
+//            startTimeDropDownBox.getItems().add(LocalTime.parse(String.valueOf(appointmentStartTimeMin)));
+//            appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
+//
+//        }
+//
+//        LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
+//        LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
+//        ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
+//        ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
+//        LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
+//
+//        LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
+//        LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
+//        ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
+//        ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
+//        LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
+//
+//        while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
+//
+//            endTimeDropDownBox.getItems().add(LocalTime.parse(String.valueOf(appointmentEndTimeMin)));
+//            appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
+//
+//        }
 
     }
 
