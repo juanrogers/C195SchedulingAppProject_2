@@ -51,24 +51,8 @@ public class mainscreencontroller implements Initializable {
 
 
     /**
-     * @param event This event will switch to the appointments screen.
-     * @throws IOException
-     */
-    @FXML
-    void onActionViewAppointments(ActionEvent event) throws IOException {
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
-    }
-
-
-
-    /**
      * @param event This event will switch to the customers screen.
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionViewCustomers(ActionEvent event) throws IOException {
@@ -83,24 +67,8 @@ public class mainscreencontroller implements Initializable {
 
 
     /**
-     * @param event This event will switch to the reports screen.
-     * @throws IOException
-     */
-    @FXML
-    void onActionViewReports(ActionEvent event) throws IOException {
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/reportsscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
-    }
-
-
-
-    /**
      * @param event This event will switch back to the login screen.
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionLogout(ActionEvent event) throws IOException {
@@ -119,6 +87,38 @@ public class mainscreencontroller implements Initializable {
             stage.show();
 
         }
+
+    }
+
+
+
+    /**
+     * @param event This event will switch to the reports screen.
+     * @throws IOException IOException
+     */
+    @FXML
+    void onActionViewReports(ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/reportsscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
+    }
+
+
+
+    /**
+     * @param event This event will switch to the appointments screen.
+     * @throws IOException IOException
+     */
+    @FXML
+    void onActionViewAppointments(ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
     }
 

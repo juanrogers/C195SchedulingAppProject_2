@@ -159,14 +159,29 @@ public class addappointmentscreencontroller implements Initializable {
 
 
 
-    /**
-     * This method will input a value into customer Id text field from a selected customer in the table.
+    /** This method will cancel the "add appointment" action, and send user back to the appointment screen.
      *
-     * @param event clicking on customer in the table
+     * @param event clicking the cancel button
+     * @throws IOException IOException
      */
     @FXML
-    void onMouseClickInputToCustTxtFld(MouseEvent event) {
-        customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
+    void onActionCancelAddAppointment(ActionEvent event) throws IOException {
+
+        Alert alertUserMsg5 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg5.setHeaderText("ARE YOU SURE?");
+        alertUserMsg5.setContentText("This action will close the add appointment screen, do you want to continue?");
+
+        Optional<ButtonType> result = alertUserMsg5.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+
     }
 
 
@@ -174,11 +189,10 @@ public class addappointmentscreencontroller implements Initializable {
     /** This method will save the appointment in database, and after appointment is saved, will take user back to the appointments screen.
      *
      * @param event clicking save button
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionSaveAddAppointment(ActionEvent event) throws IOException, SQLException {
-
 
             Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
             alertUserMsg.setHeaderText("ARE YOU SURE?");
@@ -213,7 +227,8 @@ public class addappointmentscreencontroller implements Initializable {
                                 stage.setScene(new Scene(scene));
                                 stage.show();
 
-                            } else {
+                            }
+                                else {
 
                                 Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                                 alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
@@ -224,73 +239,18 @@ public class addappointmentscreencontroller implements Initializable {
                     }
 
 
-                } else{
+                }
+                    else {
 
                     Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                     alertUserMsg2.setHeaderText("Data entered is invalid!");
                     alertUserMsg2.setContentText("Please enter valid values for all required fields.");
                     alertUserMsg2.showAndWait();
+
                 }
+
             }
 
-
-
-
-
-
-
-
-//    public boolean logicalTimeSelectCheck(ComboBox startTimeDropDownBox, ComboBox endTimeDropDownBox, DatePicker datePickerBox) {
-//
-//        LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), (LocalTime) startTimeDropDownBox.getValue());
-//        LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), (LocalTime) endTimeDropDownBox.getValue());
-//        LocalDate datePicked = datePickerBox.getValue();
-//
-//        if (endOfAppt.isBefore(startOfAppt)) {
-//            Alert alertUserMsg14 = new Alert(Alert.AlertType.ERROR);
-//            alertUserMsg14.setTitle("Error!");
-//            alertUserMsg14.setContentText("The appointment end time must be after the start time. Please try again.");
-//            alertUserMsg14.showAndWait();
-//            return false;
-//        }
-//
-//
-//                //Will need to find a way to check to make sure date selected is a future date.
-////        if (datePicked.isBefore(Timestamp.from((Instant.now())))){
-////            Alert alertUserMsg15 = new Alert(Alert.AlertType.ERROR);
-////            alertUserMsg15.setTitle("Error!");
-////            alertUserMsg15.setContentText("The appointment date must be set for a future date. Please try again.");
-////            alertUserMsg15.showAndWait();
-////            return false;
-////        }
-//        return true;
-//    }
-
-
-    /** This method will cancel the "add appointment" action, and send user back to the appointment screen.
-     *
-     * @param event clicking the cancel button
-     * @throws IOException
-     */
-    @FXML
-    void onActionCancelAddAppointment(ActionEvent event) throws IOException {
-
-        Alert alertUserMsg5 = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg5.setHeaderText("ARE YOU SURE?");
-        alertUserMsg5.setContentText("This action will close the add appointment screen, do you want to continue?");
-
-        Optional<ButtonType> result = alertUserMsg5.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-
-        }
-
-    }
 
 
     /** This method will set the pre-determined meeting types for type dropdown box.
@@ -303,6 +263,21 @@ public class addappointmentscreencontroller implements Initializable {
         typeDropDownBox.setItems(optionsForAppts);
 
     }
+
+
+
+    /**
+     * This method will input a value into customer Id text field from a selected customer in the table.
+     *
+     * @param event clicking on customer in the table
+     */
+    @FXML
+    void onMouseClickInputToCustTxtFld(MouseEvent event) {
+
+        customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
+
+    }
+
 
 
     /**
@@ -324,22 +299,10 @@ public class addappointmentscreencontroller implements Initializable {
 
         startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
         endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
+
     }
 
 }
-
-
-               /* Appointment a = new Appointment(0,title, description, location, type,Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt),customer_Id, user.getUser_Id(),contact.getContact_Id());
-
-                if(ValidationForAppt.checkToSeeIfApptsOvelap(a)){
-                    System.out.println("overlap.");
-                    return;
-                }  */
-
-//    Timestamp datePicked = Timestamp.valueOf(String.valueOf(datePickerBox));
-//    if(!datePicked.after(Timestamp.from(Instant.now()))){};
-
-
 
 
 

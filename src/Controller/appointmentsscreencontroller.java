@@ -81,104 +81,6 @@ public class appointmentsscreencontroller implements Initializable {
 
 
     /**
-     * This method will show all appointments in the table.
-     *
-     * @param event clicking on "all" radio button
-     */
-    @FXML
-    void onActionViewAll(ActionEvent event) {
-        appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
-    }
-
-    /**
-     * This method will show current month appointments in the table.
-     *
-     * @param event clicking on "current month" radio button
-     */
-    @FXML
-    void onActionViewByMonth(ActionEvent event) {
-        appointmentsTable.setItems(DBAccessAppointments.getMonthAppointments());
-    }
-
-    /**
-     * This method will show current week appointments in the table.
-     *
-     * @param event clicking on "current week" radio button
-     */
-    @FXML
-    void onActionViewByWeek(ActionEvent event) {
-        appointmentsTable.setItems(DBAccessAppointments.getWeekAppointments());
-    }
-
-    /**
-     * This method will delete an appointment from the database.
-     *
-     * @param event clicking on delete appointment button
-     * @throws IOException
-     */
-    @FXML
-    void onActionGoToDeleteAppointment(ActionEvent event) throws IOException {
-
-        if (appointmentsTable.getSelectionModel().isEmpty()) {
-
-            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
-            alertUserMsg.setContentText("No appointment was selected to delete.");
-            Optional<ButtonType> result = alertUserMsg.showAndWait();
-
-        }
-
-        else {
-            Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
-            alertUserMsg2.setHeaderText("ARE YOU SURE?");
-            alertUserMsg2.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
-            Optional<ButtonType> result = alertUserMsg2.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                int appointId = appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id();
-                String typeIdMsg = appointmentsTable.getSelectionModel().getSelectedItem().getType();
-                String apptIdMessage = String.valueOf(appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id());
-
-                DBAccessAppointments.deleteAppointment(appointId);
-                appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
-
-                Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
-                alertUserMsg3.setHeaderText("DELETED!");
-                alertUserMsg3.setContentText("You have successfully deleted appointment " + typeIdMsg + ", a " + apptIdMessage + " appointment.");
-                alertUserMsg3.showAndWait();
-
-            }
-
-            else {
-                Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
-                alertUserMsg4.setHeaderText("NOT DELETED!");
-                alertUserMsg4.setContentText("The selected appointment was not deleted.");
-                alertUserMsg4.showAndWait();
-            }
-        }
-    }
-
-
-
-    /**
-     * This event will switch to the add appointment screen.
-     *
-     * @param event clicking the add appointment button
-     * @throws IOException
-     */
-    @FXML
-    void onActionGoToAddAppointment(ActionEvent event) throws IOException {
-
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/addappointmentscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
-    }
-
-
-
-    /**
      * This event will switch to the update appointment screen.
      *
      * @param event clicking the update appointment button
@@ -188,6 +90,7 @@ public class appointmentsscreencontroller implements Initializable {
     void onActionGoToUpdateAppointment(ActionEvent event) throws IOException {
 
         if (appointmentsTable.getSelectionModel().isEmpty()) {
+
             Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
             alertUserMsg5.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
             alertUserMsg5.setContentText("No appointment was selected to update.");
@@ -213,6 +116,109 @@ public class appointmentsscreencontroller implements Initializable {
     }
 
 
+
+    /**
+     * This method will show current month appointments in the table.
+     *
+     * @param event clicking on "current month" radio button
+     */
+    @FXML
+    void onActionViewByMonth(ActionEvent event) {
+
+        appointmentsTable.setItems(DBAccessAppointments.getMonthAppointments());
+
+    }
+
+
+
+    /**
+     * This method will delete an appointment from the database.
+     *
+     * @param event clicking on delete appointment button
+     * @throws IOException
+     */
+    @FXML
+    void onActionGoToDeleteAppointment(ActionEvent event) throws IOException {
+
+        if (appointmentsTable.getSelectionModel().isEmpty()) {
+
+            Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
+            alertUserMsg.setHeaderText("PLEASE SELECT AN APPOINTMENT!");
+            alertUserMsg.setContentText("No appointment was selected to delete.");
+            Optional<ButtonType> result = alertUserMsg.showAndWait();
+
+        }
+
+        else {
+
+            Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alertUserMsg2.setHeaderText("ARE YOU SURE?");
+            alertUserMsg2.setContentText("The appointment will be deleted, do you want to continue? This action CANNOT be undone.");
+            Optional<ButtonType> result = alertUserMsg2.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                int appointId = appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id();
+                String typeIdMsg = appointmentsTable.getSelectionModel().getSelectedItem().getType();
+                String apptIdMessage = String.valueOf(appointmentsTable.getSelectionModel().getSelectedItem().getAppointment_Id());
+
+                DBAccessAppointments.deleteAppointment(appointId);
+                appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
+
+                Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg3.setHeaderText("DELETED!");
+                alertUserMsg3.setContentText("You have successfully deleted appointment " + typeIdMsg + ", a " + apptIdMessage + " appointment.");
+                alertUserMsg3.showAndWait();
+
+            }
+
+            else {
+
+                Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
+                alertUserMsg4.setHeaderText("NOT DELETED!");
+                alertUserMsg4.setContentText("The selected appointment was not deleted.");
+                alertUserMsg4.showAndWait();
+
+            }
+
+        }
+
+    }
+
+
+
+    /**
+     * This method will show current week appointments in the table.
+     *
+     * @param event clicking on "current week" radio button
+     */
+    @FXML
+    void onActionViewByWeek(ActionEvent event) {
+
+        appointmentsTable.setItems(DBAccessAppointments.getWeekAppointments());
+
+    }
+
+
+
+    /**
+     * This event will switch to the add appointment screen.
+     *
+     * @param event clicking the add appointment button
+     * @throws IOException
+     */
+    @FXML
+    void onActionGoToAddAppointment(ActionEvent event) throws IOException {
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/addappointmentscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
+    }
+
+
+
     /**
      * This event will switch back to the main screen.
      *
@@ -228,6 +234,22 @@ public class appointmentsscreencontroller implements Initializable {
         stage.show();
 
     }
+
+
+
+    /**
+     * This method will show all appointments in the table.
+     *
+     * @param event clicking on "all" radio button
+     */
+    @FXML
+    void onActionViewAll(ActionEvent event) {
+
+        appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
+
+    }
+
+
 
     /**
      * This method initializes the appointments screen with all appointments..

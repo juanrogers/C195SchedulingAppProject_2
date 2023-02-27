@@ -97,13 +97,37 @@ public class loginscreencontroller implements Initializable {
     };
 
 
+    /** This method exits the application.
+     *
+     * @param event clicking the exit button.
+     */
+    @FXML
+    void onActionExit(ActionEvent event) {
+
+        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg4.setHeaderText(resBundle.getString("sureConfirmation"));
+        alertUserMsg4.setContentText(resBundle.getString("exitConfirmation"));
+        Optional<ButtonType> result = alertUserMsg4.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.exit(0);
+
+            //alertUserMsg4.setHeaderText(sureConfirmation);
+            //alertUserMsg4.setContentText(exitConfirmation);
+            // Optional<ButtonType> result = alertUserMsg4.showAndWait();
+            // if (result.isPresent() && result.get() == ButtonType.OK) {
+            //    ((Button)(event.getSource())).getScene().getWindow().hide();
+        }
+
+    }
+
+
 
     /**
      * This method authenticates the user name and password, and tracks the user activity by recording user login attempts to a text file.
      *
      * This event will sign check the user's credentials, validate, and sign the user in to the application. If credentials are not matched, user will not be signed in.
      *
-     * -----> Lambda comment - I implemented a lambda expression to facilitate the filtering of the appointments list by user id to check for any appointments within 15 minutes of login, for the user that is logging in.
+     * -----> Lambda comment - Used a lambda expression for filtering the appointments list by user_Id, to check for any appointments within 15 minutes of login, for the user that is logging in.
      *
      * @param event clicking the sign in button
      * @throws IOException SQLException
@@ -127,6 +151,7 @@ public class loginscreencontroller implements Initializable {
         PrintWriter outputFile = new PrintWriter(fileWriter);
 
         if (userId > 0) {
+
             outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " Login status: Successful!");
             outputFile.close();
 
@@ -144,20 +169,25 @@ public class loginscreencontroller implements Initializable {
             boolean name = false;
 
             for (Appointment appt : uList) {
+
                 if (appt.getStartOfAppt().toLocalDateTime().isAfter(localDateTime) && appt.getStartOfAppt().toLocalDateTime().isBefore(localDateTimePlus15)) {
                     Alert alertUserMsg = new Alert(Alert.AlertType.INFORMATION);
                     alertUserMsg.setHeaderText("UPCOMING APPOINTMENT!");
                     alertUserMsg.setContentText("You have an appointment scheduled within the next 15 minutes: Appointment " + appt.getAppointment_Id() + " at " + appt.getStartOfAppt().toLocalDateTime().toLocalTime());
                     alertUserMsg.showAndWait();
                     name = true;
+
                 }
+
             }
 
             if (!name) {
+
                 Alert alertUserMsg2 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg2.setHeaderText("YOU HAVE NO UPCOMING APPOINTMENTS!");
                 alertUserMsg2.setContentText("No appointments scheduled within the next 15 minutes.");
                 alertUserMsg2.showAndWait();
+
             }
 
             Locale.setDefault(new Locale("en","US"));
@@ -166,9 +196,11 @@ public class loginscreencontroller implements Initializable {
             scene = FXMLLoader.load(getClass().getResource("../view/mainscreen.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
+
         }
 
         else {
+
             outputFile.println(strDttimeFormt + " " + usernameTxtFld.getText() + " Login status: Unsuccessful!");
             outputFile.close();
 
@@ -176,32 +208,9 @@ public class loginscreencontroller implements Initializable {
             alertUserMsg3.setHeaderText(resBundle.getString("loginDataNotValid"));
             alertUserMsg3.setContentText(resBundle.getString("pleaseEnterValidLoginData"));
             alertUserMsg3.showAndWait();
+
         }
 
-
-    }
-
-
-    /** This method exits the application.
-     *
-     * @param event clicking the exit button.
-     */
-    @FXML
-    void onActionExit(ActionEvent event) {
-
-        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg4.setHeaderText(resBundle.getString("sureConfirmation"));
-        alertUserMsg4.setContentText(resBundle.getString("exitConfirmation"));
-        Optional<ButtonType> result = alertUserMsg4.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            System.exit(0);
-
-            //alertUserMsg4.setHeaderText(sureConfirmation);
-            //alertUserMsg4.setContentText(exitConfirmation);
-            // Optional<ButtonType> result = alertUserMsg4.showAndWait();
-            // if (result.isPresent() && result.get() == ButtonType.OK) {
-            //    ((Button)(event.getSource())).getScene().getWindow().hide();
-        }
     }
 
 
@@ -216,6 +225,7 @@ public class loginscreencontroller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
+
             if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
 
                 schedulingAssistantLabel.setText(resBundle.getString("schedulingAssistantLabel"));
@@ -230,12 +240,17 @@ public class loginscreencontroller implements Initializable {
                 exitConfirmation = resBundle.getString("exitConfirmation");
                 loginDataNotValid = resBundle.getString("loginDataNotValid");
                 pleaseEnterValidLoginData = resBundle.getString("pleaseEnterValidLoginData");
+
             }
 
         }
+
         catch (Exception e) {
+
             System.out.println();
+
         }
+
     }
 
 }

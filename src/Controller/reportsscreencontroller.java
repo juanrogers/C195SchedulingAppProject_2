@@ -120,65 +120,19 @@ public class reportsscreencontroller implements Initializable {
 
 
     /**
-     * This method will run and display the number of appointments by month and type.
+     * This event will switch back to the main menu screen.
      *
-     * @param event clicking the button for generate report
+     * @param event clicking back main menu button
+     * @throws IOException IOException
      */
     @FXML
-    void onActionMonAndTypeGenRep(ActionEvent event) {
+    void onActionGoToMainMenu(ActionEvent event) throws IOException {
 
-        String month = monthDropDownBox.getValue();
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/mainscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
 
-        if (month == null) {
-
-            return;
-        }
-
-        String type = typeDropDownBox.getValue();
-
-        if (type == null) {
-
-            return;
-        }
-
-        int totalAppt = DBAccessAppointments.getTypeAndMonthCount(month, type);
-
-        monAndTypeCustResultLabel.setText(String.valueOf(totalAppt));
-
-    }
-
-
-
-    /**
-     * This method will run and display the appointment and contact info.
-     *
-     * Re-write this comment-----> Discussion of lambda - I implemented a lambda expression to facilitate the filtering of the appointments list by contact id to find all appointments that have the specific contact listed.
-     *
-     * @param event clicking the button for generate report
-     */
-    @FXML
-    void onActionConSceGenRep(ActionEvent event) {
-
-        Contact contact = contactDropDownBox.getValue();
-
-        if (contact == null) {
-
-            return;
-        }
-
-        ObservableList<Appointment> appList = DBAccessAppointments.getAllAppointments();
-        ObservableList<Appointment> conList = appList.filtered(ap -> {
-
-            if (ap.getContact_Id() == contact.getContact_Id()) {
-
-                return true;
-            }
-
-            return false;
-
-        });
-
-        contactSchedulesTable.setItems(conList);
     }
 
 
@@ -198,18 +152,69 @@ public class reportsscreencontroller implements Initializable {
 
 
     /**
-     * This event will switch back to the main menu screen.
+     * This method will run and display the appointment and contact info.
      *
-     * @param event clicking back main menu button
-     * @throws IOException
+     * ----->Lambda comment - Used a lambda expression for filtering the appointments list by contact_Id, to find all appointments by a specific contact.
+     *
+     * @param event clicking the button for generate report
      */
     @FXML
-    void onActionGoToMainMenu(ActionEvent event) throws IOException {
+    void onActionConSceGenRep(ActionEvent event) {
 
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/mainscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        Contact contact = contactDropDownBox.getValue();
+
+        if (contact == null) {
+
+            return;
+
+        }
+
+        ObservableList<Appointment> appList = DBAccessAppointments.getAllAppointments();
+        ObservableList<Appointment> conList = appList.filtered(ap -> {
+
+            if (ap.getContact_Id() == contact.getContact_Id()) {
+
+                return true;
+
+            }
+
+            return false;
+
+        });
+
+        contactSchedulesTable.setItems(conList);
+
+    }
+
+
+
+    /**
+     * This method will run and display the number of appointments by month and type.
+     *
+     * @param event clicking the button for generate report
+     */
+    @FXML
+    void onActionMonAndTypeGenRep(ActionEvent event) {
+
+        String month = monthDropDownBox.getValue();
+
+        if (month == null) {
+
+            return;
+
+        }
+
+        String type = typeDropDownBox.getValue();
+
+        if (type == null) {
+
+            return;
+
+        }
+
+        int totalAppt = DBAccessAppointments.getTypeAndMonthCount(month, type);
+
+        monAndTypeCustResultLabel.setText(String.valueOf(totalAppt));
 
     }
 

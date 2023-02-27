@@ -76,6 +76,7 @@ public class DBAccessAppointments {
     }
 
 
+
     /**
      * This method will return all appointments in the database that are scheduled in the current week.
      *
@@ -121,6 +122,7 @@ public class DBAccessAppointments {
         return weekAppointmentsList;
 
     }
+
 
 
     /**
@@ -169,6 +171,7 @@ public class DBAccessAppointments {
     }
 
 
+
     /**
      * This method adds an appointment to the database.
      *
@@ -203,6 +206,7 @@ public class DBAccessAppointments {
         }
 
     }
+
 
 
     /**
@@ -243,6 +247,7 @@ public class DBAccessAppointments {
     }
 
 
+
     /**
      * This method will delete an appointment from the database.
      *
@@ -260,6 +265,7 @@ public class DBAccessAppointments {
         }
 
     }
+
 
 
     /**
@@ -286,6 +292,7 @@ public class DBAccessAppointments {
         return typesOfApptsList;
 
     }
+
 
 
     /**
@@ -316,6 +323,34 @@ public class DBAccessAppointments {
         return total;
 
     }
+
+
+    /**
+     * This method will check for overlaps with appointments by checking time, time ranges and appointment_Id.
+     *
+     * @param startTime startTime
+     * @param endTime endTime
+     * @param thisAppointmentID thisAppointmentID
+     * @return will return true: if overlap is found, false: if not
+     */
+    public static boolean checkForOverlap(LocalDateTime startTime, LocalDateTime endTime, int thisAppointmentID) throws SQLException {
+        // Prepare SQL statement
+        PreparedStatement preState =  DBConnect.connection.prepareStatement(
+                "SELECT * FROM appointments "
+                        + "WHERE (? BETWEEN Start AND End OR ? BETWEEN Start AND End OR ? < Start AND ? > End) "
+                        + "AND (Appointment_ID != ?)");
+
+        preState.setTimestamp(1, Timestamp.valueOf(startTime));
+        preState.setTimestamp(2, Timestamp.valueOf(endTime));
+        preState.setTimestamp(3, Timestamp.valueOf(startTime));
+        preState.setTimestamp(4, Timestamp.valueOf(endTime));
+        preState.setInt(5, thisAppointmentID);
+        ResultSet resSet = preState.executeQuery();
+
+        return !resSet.next();
+
+    }
+
 
 
     /**
@@ -350,6 +385,7 @@ public class DBAccessAppointments {
     }
 
 
+
     /**
      * This method will get all of the appointments by contact Ids.
      *
@@ -380,6 +416,7 @@ public class DBAccessAppointments {
         return listOfAppointmentsByContactId;
 
     }
+
 
 
     /**
@@ -417,6 +454,7 @@ public class DBAccessAppointments {
     }
 
 
+
     /**
      * This method will get all of the appointments by customer Ids.
      *
@@ -447,6 +485,7 @@ public class DBAccessAppointments {
         return listOfAppointmentsByCustomerId;
 
     }
+
 
 
     /**
@@ -481,6 +520,7 @@ public class DBAccessAppointments {
         return listOfAppointmentsByCustomerName;
 
     }
+
 
 
     /**
@@ -529,50 +569,6 @@ public class DBAccessAppointments {
     }
 
 
-    /**
-     * validateCustomerOverlap
-     * ensures customer does not have overlapping appointments
-     *
-     * @param cust_Id cust_Id
-     * @param sTDateTime sTDateTime
-     * @param eDDateTime eDDateTime
-     * @param apptDate apptDate
-     *
-     * @return will return valid input
-     * @throws SQLException SQLException
-     *
-    public static Boolean overlapAppts(int cust_Id, LocalDateTime sTDateTime, LocalDateTime eDDateTime, LocalDate apptDate) throws SQLException {
-
-        // Get list of appointments that might have conflicts
-        ObservableList<Appointment> overlaps = DBAccessAppointments.getApptsByDate(apptDate, cust_Id);
-        // for each possible conflict, evaluate:
-        // if apptStart is before newApptstart and conflictApptEnd is after newApptStart(starts before ends after)
-        // if apptStart is before newApptEnd & apptStart after newApptStart (startime anywhere in appt)
-        // if endtime is before end and endtime is after start (endtime falls anywhere in appt)
-        if (overlaps.isEmpty()) {
-            return true ;
-        }
-        else {
-            for (Appointment collidingAppt : overlaps) {
-
-                LocalDateTime apptStart = collidingAppt.getStartOfAppt().toLocalDateTime();
-                LocalDateTime apptEnd = collidingAppt.getEndOfAppt().toLocalDateTime();
-
-                // Conflict starts before and Conflict ends any time after new appt ends - overlap
-                if( apptStart.isBefore(sTDateTime) && apptEnd.isAfter(eDDateTime)) {
-                    return false;
-                }
-                // ConflictAppt start time falls anywhere in the new appt
-                if (apptStart.isBefore(eDDateTime) && apptStart.isAfter(sTDateTime)) {
-                    return false;
-                }
-                // ConflictAppt end time falls anywhere in the new appt
-                return !apptEnd.isBefore(eDDateTime) || !apptEnd.isAfter(sTDateTime);
-            }
-        }
-        return true;
-
-    } */
 
     /**
      * This method will check the database for all appointments for a specific customer on a specific date.
@@ -597,7 +593,6 @@ public class DBAccessAppointments {
         ResultSet resSet = preState.executeQuery();
 
         while( resSet.next() ) {
-            // get data from the returned rows
             int appointment_Id = resSet.getInt("Appointment_ID");
             String title = resSet.getString("Title");
             String description = resSet.getString("Description");
@@ -609,160 +604,15 @@ public class DBAccessAppointments {
             int user_Id = resSet.getInt("User_ID");
             int contact_Id = resSet.getInt("Contact_ID");
 
-            // populate into an appt object
             Appointment newAppt = new Appointment(
                     appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
             filteredAppts.add(newAppt);
+
         }
 
         preState.close();
         return filteredAppts;
 
-    }
-
-
-
-    /**
-     * Updates an appointment in the database.
-     *
-     * @param appt An appointment object instantiated from the ModifyAppointments_Controller.
-     *
-    public static boolean updateAppt(Appointment appt) {
-    int appointment_Id = appt.getAppointment_Id();
-    int user_Id = appt.getUser_Id();
-    int customer_Id = appt.getCustomer_Id();
-    String title = appt.getTitle();
-    String description = appt.getDescription();
-    String location = appt.getLocation();
-    int contact_Id = appt.getContact_Id();
-    String type = appt.getType();
-    Timestamp startOfAppt = appt.getStartOfAppt();
-    Timestamp endOfAppt = appt.getEndOfAppt();
-
-    String afterUserLoggedIn = DBAccessUsers.getCurrentUser().getUserName();
-
-    try {
-
-    String sqlDBQuery = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, " +
-    "Start = ?, End = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
-
-    PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
-
-    preState.setString(1, title);
-    preState.setString(2, description);
-    preState.setString(3, location);
-    preState.setString(4, type);
-    preState.setTimestamp(5, startOfAppt);
-    preState.setTimestamp(6, endOfAppt);
-    preState.setString(7, afterUserLoggedIn);
-    preState.setInt(8, customer_Id);
-    preState.setInt(9, user_Id);
-    preState.setInt(10, contact_Id);
-    preState.setInt(11, appointment_Id);
-    preState.executeUpdate();
-    return true;
-
-    } catch (SQLException throwables) {
-    throwables.printStackTrace();
-
-    return false;
-    }
-
-    }  */
-
-
-    /**
-     * Removes an appointment from the database.
-     *
-     * @param appt An appointment object instantiated from the Appointments_Controller.
-     *
-    public static boolean removeAppt(Appointment appt) {
-    int apptID = appt.getApptID();
-
-    try {
-    String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
-
-    PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-
-    ps.setInt(1, apptID);
-
-    ps.executeUpdate();
-
-    return true;
-
-    } catch (SQLException throwables) {
-    throwables.printStackTrace();
-
-    return false;
-    }
-    }  */
-
-
-    /**
-     *  This method will check to see if there are overlapping appointments.
-     *
-     * @param appointment appointment to be checked.
-     * @return If there are overlapping appointments: true, if there are not overlapping appointments: false.
-     *
-    public static Boolean overlappingAppts (Appointment appointment) {
-
-        try {
-
-            String sqlChkOverlapAppts = "SELECT * FROM appointments WHERE ((? <= Start AND ? > Start) OR (? >= Start AND ? < End)) AND Customer_ID = ? AND Appointment_ID <> ?";
-
-            PreparedStatement chkOverlapAppts = DBConnect.connection().prepareStatement(sqlChkOverlapAppts);
-
-            chkOverlapAppts.setTimestamp(1, appointment.getStartOfAppt());
-            chkOverlapAppts.setTimestamp(2, appointment.getEndOfAppt());
-            chkOverlapAppts.setTimestamp(3, appointment.getStartOfAppt());
-            chkOverlapAppts.setTimestamp(4, appointment.getStartOfAppt());
-            chkOverlapAppts.setInt(5, appointment.getCustomer_Id());
-            chkOverlapAppts.setInt(6, appointment.getAppointment_Id());
-
-
-
-            ResultSet resultSet = chkOverlapAppts.executeQuery();
-
-
-            while (resultSet.next()) {
-
-
-                return true;
-            }
-
-
-        }
-        catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-
-        return false;
-    }  */
-
-    /**
-     * The SQL statements is looking for any appointments that are in range of the selected datetime of the current
-     * appointment in question, and will not look at any appointments with the same appointment ID.
-     * @param startTime start time selected
-     * @param endTime end time selected
-     * @param thisAppointmentID appointment ID of the current appointment being added/updated
-     * @return a true or false boolean stating if there are any conflicts in the database
-     */
-    public static boolean checkForOverlap(LocalDateTime startTime, LocalDateTime endTime, int thisAppointmentID) throws SQLException {
-        // Prepare SQL statement
-        PreparedStatement preState =  DBConnect.connection.prepareStatement(
-                "SELECT * FROM appointments "
-                        + "WHERE (? BETWEEN Start AND End OR ? BETWEEN Start AND End OR ? < Start AND ? > End) "
-                        + "AND (Appointment_ID != ?)");
-
-        preState.setTimestamp(1, Timestamp.valueOf(startTime));
-        preState.setTimestamp(2, Timestamp.valueOf(endTime));
-        preState.setTimestamp(3, Timestamp.valueOf(startTime));
-        preState.setTimestamp(4, Timestamp.valueOf(endTime));
-        preState.setInt(5, thisAppointmentID);
-        ResultSet resSet = preState.executeQuery();
-
-        return !resSet.next();
     }
 
 }

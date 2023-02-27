@@ -115,11 +115,92 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
+    /** This method will cancel the add customer action, and send user back to the customer screen.
+     *
+     * @param event clicking the cancel button
+     * @throws IOException
+     */
+    @FXML
+    void onActionCancelAddCustomer(ActionEvent event) throws IOException {
+
+        Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg3.setHeaderText("ARE YOU SURE?");
+        alertUserMsg3.setContentText("This action will close the add customer screen, do you want to continue?");
+
+        Optional<ButtonType> result = alertUserMsg3.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+
+    }
+
+
+
+    /**
+     * This method will choose the division label and populate the divisions dropdown box option, based on the option that was selected in the country dropdown box.
+     *
+     * @param event selection in country dropdown box
+     */
+    @FXML
+    void onActionCoutDropDownBox(ActionEvent event) {
+
+        Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
+
+        if (count.getCountry_Id() == 3) {
+
+            divWSwitchableLabel.setText("Province: ");
+        }
+
+        else if (count.getCountry_Id() == 2) {
+
+            divWSwitchableLabel.setText("Sub-division: ");
+        }
+
+        else if (count.getCountry_Id() == 1) {
+
+            divWSwitchableLabel.setText("State: ");
+
+        }
+
+
+        if (count.getCountry_Id() == 3) {
+
+            divisionDropDownBox.setItems(DBAccessDivisions.getCANDivisions());
+
+        }
+
+        else if (count.getCountry_Id() == 2) {
+
+            divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
+
+        }
+
+        else if (count.getCountry_Id() == 1) {
+
+            divisionDropDownBox.setItems(DBAccessDivisions.getUSDivisions());
+
+        }
+
+        else {
+
+            divisionDropDownBox.isDisabled();
+
+        }
+
+    }
+
+
 
     /** This method will save the customer in database, and after customer is saved, will take user back to the customers screen.
      *
      * @param event clicking the save button.
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionSaveAddCustomer(ActionEvent event) throws IOException {
@@ -158,92 +239,6 @@ public class addcustomerscreencontroller implements Initializable {
                 alertUserMsg2.showAndWait();
 
             }
-
-        }
-
-    }
-
-
-
-    /** This method will cancel the add customer action, and send user back to the customer screen.
-     *
-     * @param event clicking the cancel button
-     * @throws IOException
-     */
-    @FXML
-    void onActionCancelAddCustomer(ActionEvent event) throws IOException {
-
-        Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg3.setHeaderText("ARE YOU SURE?");
-        alertUserMsg3.setContentText("This action will close the add customer screen, do you want to continue?");
-
-        Optional<ButtonType> result = alertUserMsg3.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-
-        }
-
-    }
-
-
-
-    /**
-     * This method will choose the division label and populate the divisions dropdown box option, based on the option that was selected in the country dropdown box.
-     *
-     * @param event selection in country dropdown box
-     */
-    @FXML
-    void onActionCoutDropDownBox(ActionEvent event) {
-
-        Country count = countryDropDownBox.getSelectionModel().getSelectedItem();
-
-        //Will see if a switch statement works better for the code below------------------------
-
-
-
-
-
-
-        if (count.getCountry_Id() == 3) {
-
-            divWSwitchableLabel.setText("Province: ");
-        }
-
-        else if (count.getCountry_Id() == 2) {
-
-            divWSwitchableLabel.setText("Sub-division: ");
-        }
-
-        else if (count.getCountry_Id() == 1) {
-
-            divWSwitchableLabel.setText("State: ");
-
-        }
-
-
-        if (count.getCountry_Id() == 3) {
-
-            divisionDropDownBox.setItems(DBAccessDivisions.getCANDivisions());
-
-        }
-        else if (count.getCountry_Id() == 2) {
-
-            divisionDropDownBox.setItems(DBAccessDivisions.getUKDivisions());
-        }
-
-        else if (count.getCountry_Id() == 1) {
-
-            divisionDropDownBox.setItems(DBAccessDivisions.getUSDivisions());
-
-        }
-        else {
-
-            divisionDropDownBox.isDisabled();
 
         }
 

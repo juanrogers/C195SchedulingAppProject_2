@@ -64,10 +64,45 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
+     * This event will switch to the add customer screen.
+     *
+     * @param event clicking on the add customer button.
+     * @throws IOException IOException
+     */
+    @FXML
+    void onActionGoToAddCustomer(ActionEvent event) throws IOException {
+
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/addcustomerscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
+    }
+
+
+    /**
+     * This event will switch back to the main menu screen.
+     *
+     * @param event clicking the main menu button.
+     * @throws IOException IOException
+     */
+    @FXML
+    void onActionGoToMainMenu(ActionEvent event) throws IOException {
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("../view/mainscreen.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+
+    }
+
+
+
+    /**
      * This method will delete a customer from the database.
      *
      * @param event clicking the delete customer button.
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionDeleteCustomer(ActionEvent event) throws IOException {
@@ -124,28 +159,10 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This event will switch to the add customer screen.
-     *
-     * @param event clicking on the add customer button.
-     * @throws IOException
-     */
-    @FXML
-    void onActionGoToAddCustomer(ActionEvent event) throws IOException {
-
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/addcustomerscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
-
-    }
-
-
-
-    /**
      * This event will switch to the update customer screen.
      *
      * @param event clicking on the update customer button.
-     * @throws IOException
+     * @throws IOException IOException
      */
     @FXML
     void onActionGoToUpdateCustomer(ActionEvent event) throws IOException {
@@ -175,24 +192,6 @@ public class customersscreencontroller implements Initializable {
             stage.show();
 
         }
-
-    }
-
-
-
-    /**
-     * This event will switch back to the main menu screen.
-     *
-     * @param event clicking the main menu button.
-     * @throws IOException
-     */
-    @FXML
-    void onActionGoToMainMenu(ActionEvent event) throws IOException {
-
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/mainscreen.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
 
     }
 

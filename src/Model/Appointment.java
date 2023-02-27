@@ -66,70 +66,90 @@ public class Appointment {
      * @return will return the appointment_Id
      */
     public int getAppointment_Id() {
+
         return appointment_Id;
+
     }
 
     /**
      * @return will return the title
      */
     public String getTitle() {
+
         return title;
+
     }
 
     /**
      * @return will return the description
      */
     public String getDescription() {
+
         return description;
+
     }
 
     /**
      * @return will return the location
      */
     public String getLocation() {
+
         return location;
+
     }
 
     /**
      * @return will return the type
      */
     public String getType() {
+
         return type;
+
     }
 
     /**
      * @return will return the start
      */
     public Timestamp getStartOfAppt() {
+
         return startOfAppt;
+
     }
 
     /**
      * @return will return the end
      */
     public Timestamp getEndOfAppt() {
+
         return endOfAppt;
+
     }
 
     /**
      * @return Getter for the customer_Id
      */
     public int getCustomer_Id() {
+
         return customer_Id;
+
     }
 
     /**
      * @return Getter for the user_Id
      */
     public int getUser_Id() {
+
         return user_Id;
+
     }
 
     /**
      * @return Getter for the contact_Id
      */
     public int getContact_Id() {
+
         return contact_Id;
+
     }
 
     /**
@@ -151,41 +171,52 @@ public class Appointment {
      * @param appointment_Id Setter for the appointment_Id
      */
     public void setAppointment_Id(int appointment_Id) {
+
         this.appointment_Id = appointment_Id;
+
     }
 
     /**
      * @param title Setter for the title
      */
     public void setTitle(String title) {
+
         this.title = title;
+
     }
 
     /**
      * @param description Setter for the description
      */
     public void setDescription(String description) {
+
         this.description = description;
+
     }
 
     /**
      * @param location Setter for the location
      */
     public void setLocation(String location) {
+
         this.location = location;
+
     }
 
     /**
      * @param type Setter for the type
      */
     public void setType(String type) {
+
         this.type = type;
+
     }
 
     /**
      * @param startOfAppt Setter for the start
      */
     public void getStartOfAppt(Timestamp startOfAppt) {
+
         this.startOfAppt = startOfAppt;
 
     }
@@ -194,27 +225,34 @@ public class Appointment {
      * @param endOfAppt Setter for the end
      */
     public void getEndOfAppt(Timestamp endOfAppt) {
+
         this.endOfAppt = endOfAppt;
+
     }
 
     /**
      * @param customer_Id Setter for the customer_Id
      */
     public void setCustomer_Id(int customer_Id) {
+
         this.customer_Id = customer_Id;
+
     }
 
     /**
      * @param user_Id Setter for the user_Id
      */
     public void setUser_Id(int user_Id) {
+
         this.user_Id = user_Id;
+
     }
 
     /**
      * @param contact_Id Setter for the contact_Id
      */
     public void setContact_Id(int contact_Id) {
+
         this.contact_Id = contact_Id;
 
     }

@@ -40,12 +40,15 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 
+/** This class wiil be used to check for validation of added or updated appointments.
+ *
+ * @author Ajuane Rogers*/
 public class ValidationForAppt {
 
-    /** Checks whether an added or modified appointment's timeframe conflicts with an appointment also belonging to either the contact or customer.
+    /** This method will check to see if added or updated appointment's timeframe collides with an appointment also belonging to either the contact or customer.
      *
      * @param appointment appointment
-     * @return Returns true if an added or modified appointment's timeframe conflicts with a pre-existing appointment for the same contact or customer.
+     * @return will return true: if added or updated appointment's timeframe collides with a pre-existing appointment for the same contact or customer
      */
     public static boolean checkToSeeIfApptsOvelap(Appointment appointment) {
         String olaps = "";
@@ -117,6 +120,7 @@ public class ValidationForAppt {
     }
 
 
+
     /** This method will assist in checking to see if the date selected is set for a future date and if the start and end times make logical sense.
      *
      * @param startOfAppt startOfAppt
@@ -147,6 +151,7 @@ public class ValidationForAppt {
         }
 
     } */
+
 
 
     /**

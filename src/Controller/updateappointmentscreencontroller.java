@@ -78,7 +78,7 @@ public class updateappointmentscreencontroller implements Initializable {
     @FXML
     private ComboBox<LocalTime> endTimeDropDownBox;
     @FXML
-    private DatePicker datePicker;
+    private DatePicker datePickerBox;
     @FXML
     private TextField customerIdTxtFld;
     @FXML
@@ -161,6 +161,18 @@ public class updateappointmentscreencontroller implements Initializable {
     Appointment appointment;
 
 
+    /** This method will set the pre-determined meeting types for type dropdown box.
+     *
+     */
+    private void prePopForTypeDropDownBox() {
+
+        ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
+        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
+        typeDropDownBox.setItems(optionsForAppts);
+
+    }
+
+
 
     /**
      * This method will input a value into customer Id text field from a selected customer in the table.
@@ -169,7 +181,87 @@ public class updateappointmentscreencontroller implements Initializable {
      */
     @FXML
     void onMouseClickInputToCustTxtFld(MouseEvent event) {
+
         customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
+
+    }
+
+
+
+    /**
+     * This method will send the appointment selected in table to update appointment screen.
+     *
+     * @param appointment appointment to send
+     */
+    public void appointmentToBeSentToUpdate(Appointment appointment) {
+        this.appointment = appointment;
+
+        appointmentIdTxtFld.setText(Integer.toString(appointment.getAppointment_Id()));
+        titleTxtFld.setText(appointment.getTitle());
+        descriptionTxtFld.setText(appointment.getDescription());
+        locationTxtFld.setText(appointment.getLocation());
+
+        for (Contact cont : contactDropDownBox.getItems()) {
+
+            if (appointment.getContact_Id() == cont.getContact_Id()) {
+
+                contactDropDownBox.setValue(cont);
+                break;
+
+            }
+
+        }
+
+        typeDropDownBox.setValue(appointment.getType());
+
+        LocalTime startOfAppt = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
+        startTimeDropDownBox.setValue(startOfAppt);
+
+        LocalTime endOfAppt = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
+        endTimeDropDownBox.setValue(endOfAppt);
+
+        LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
+        datePickerBox.setValue(appointmentDate);
+
+        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
+
+        for (User user : userIdDropDownBox.getItems()) {
+
+            if (appointment.getUser_Id() == user.getUser_Id()) {
+
+                userIdDropDownBox.setValue(user);
+                break;
+
+            }
+
+        }
+
+    }
+
+
+
+    /** This method will cancel the "update appointment" action, and send user back to the appointments screen.
+     *
+     * @param event clicking cancel button
+     * @throws IOException
+     */
+    @FXML
+    void onActionCancelUpdateAppt(ActionEvent event) throws IOException {
+
+        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
+        alertUserMsg4.setHeaderText("ARE YOU SURE?");
+        alertUserMsg4.setContentText("This action will close the update appointment screen, do you want to continue?");
+        Optional<ButtonType> result = alertUserMsg4.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+        }
+
     }
 
 
@@ -195,16 +287,16 @@ public class updateappointmentscreencontroller implements Initializable {
             String type = typeDropDownBox.getValue();
             LocalTime sTChosen = startTimeDropDownBox.getValue();
             LocalTime eTChosen = endTimeDropDownBox.getValue();
-            LocalDate dateChosen = datePicker.getValue();
+            LocalDate dateChosen = datePickerBox.getValue();
             User user = userIdDropDownBox.getValue();
             int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
                     && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
-                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePicker.getValue() != null))) {
+                    (startTimeDropDownBox.getValue().isBefore(endTimeDropDownBox.getValue()) && (datePickerBox.getValue() != null))) {
 
-                LocalDateTime startOfAppt = LocalDateTime.of(datePicker.getValue(), startTimeDropDownBox.getValue());
-                LocalDateTime endOfAppt = LocalDateTime.of(datePicker.getValue(), endTimeDropDownBox.getValue());
+                LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
+                LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
 
 
                 if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
@@ -216,7 +308,9 @@ public class updateappointmentscreencontroller implements Initializable {
                     stage.setScene(new Scene(scene));
                     stage.show();
 
-                } else {
+                }
+
+                else {
 
                     Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                     alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
@@ -224,10 +318,13 @@ public class updateappointmentscreencontroller implements Initializable {
                     alertUserMsg2.showAndWait();
 
                 }
+
             }
 
 
-        } else{
+        }
+
+        else{
 
             Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
             alertUserMsg2.setHeaderText("Data entered is invalid!");
@@ -238,79 +335,6 @@ public class updateappointmentscreencontroller implements Initializable {
     }
 
 
-    /** This method will cancel the "update appointment" action, and send user back to the appointments screen.
-     *
-     * @param event clicking cancel button
-     * @throws IOException
-     */
-    @FXML
-    void onActionCancelUpdateAppt(ActionEvent event) throws IOException {
-
-        Alert alertUserMsg4 = new Alert(Alert.AlertType.CONFIRMATION);
-        alertUserMsg4.setHeaderText("ARE YOU SURE?");
-        alertUserMsg4.setContentText("This action will close the update appointment screen, do you want to continue?");
-        Optional<ButtonType> result = alertUserMsg4.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-        }
-    }
-
-
-    /**
-     * This method will send the appointment selected in table to update appointment screen.
-     *
-     * @param appointment appointment to send
-     */
-    public void appointmentToBeSentToUpdate(Appointment appointment) {
-        this.appointment = appointment;
-
-        appointmentIdTxtFld.setText(Integer.toString(appointment.getAppointment_Id()));
-        titleTxtFld.setText(appointment.getTitle());
-        descriptionTxtFld.setText(appointment.getDescription());
-        locationTxtFld.setText(appointment.getLocation());
-
-        for (Contact cont : contactDropDownBox.getItems()) {
-            if (appointment.getContact_Id() == cont.getContact_Id()) {
-                contactDropDownBox.setValue(cont);
-                break;
-            }
-
-        }
-        typeDropDownBox.setValue(appointment.getType());
-
-        LocalTime startOfAppt = appointment.getStartOfAppt().toLocalDateTime().toLocalTime();
-        startTimeDropDownBox.setValue(startOfAppt);
-
-        LocalTime endOfAppt = appointment.getEndOfAppt().toLocalDateTime().toLocalTime();
-        endTimeDropDownBox.setValue(endOfAppt);
-
-        LocalDate appointmentDate = appointment.getStartOfAppt().toLocalDateTime().toLocalDate();
-        datePicker.setValue(appointmentDate);
-
-        customerIdTxtFld.setText(String.valueOf(appointment.getCustomer_Id()));
-
-        for (User user : userIdDropDownBox.getItems()) {
-            if (appointment.getUser_Id() == user.getUser_Id()) {
-                userIdDropDownBox.setValue(user);
-                break;
-            }
-        }
-    }
-
-    /** This method will set the pre-determined meeting types for type dropdown box.
-     *
-     */
-    private void prePopForTypeDropDownBox() {
-
-        ObservableList<String> optionsForAppts = FXCollections.observableArrayList();
-        optionsForAppts.addAll("Quick Meeting", "De-Briefing", "Follow-up", "1-on-1", "Open Session", "Group Meeting", "Board Meeting", "Planning Meeting", "Breakfast Meeting", "Brunch Meeting", "Lunch Meeting", "Dinner Meeting");
-        typeDropDownBox.setItems(optionsForAppts);
-
-    }
 
     /**
      * This method initializes the update appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local.
@@ -332,44 +356,6 @@ public class updateappointmentscreencontroller implements Initializable {
 
         startTimeDropDownBox.setItems(TimeUtil.getStartLocalTimes());
         endTimeDropDownBox.setItems(TimeUtil.getEndLocalTimes());
-
-//        LocalTime appointmentStartTimeMinEST = LocalTime.of(8, 0);
-//        LocalDateTime startMinEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMinEST);
-//        ZonedDateTime startMinZDT = startMinEST.atZone(ZoneId.of("America/New_York"));
-//        ZonedDateTime startMinLocal = startMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-//        LocalTime appointmentStartTimeMin = startMinLocal.toLocalTime();
-//
-//        LocalTime appointmentStartTimeMaxEST = LocalTime.of(21, 45);
-//        LocalDateTime startMaxEST = LocalDateTime.of(LocalDate.now(), appointmentStartTimeMaxEST);
-//        ZonedDateTime startMaxZDT = startMaxEST.atZone(ZoneId.of("America/New_York"));
-//        ZonedDateTime startMaxLocal = startMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-//        LocalTime appointmentStartTimeMax = startMaxLocal.toLocalTime();
-//
-//        while (appointmentStartTimeMin.isBefore(appointmentStartTimeMax.plusSeconds(1))) {
-//
-//            startTimeDropDownBox.getItems().add(LocalTime.parse(String.valueOf(appointmentStartTimeMin)));
-//            appointmentStartTimeMin = appointmentStartTimeMin.plusMinutes(15);
-//
-//        }
-//
-//        LocalTime appointmentEndTimeMinEST = LocalTime.of(8, 15);
-//        LocalDateTime endMinEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMinEST);
-//        ZonedDateTime endMinZDT = endMinEST.atZone(ZoneId.of("America/New_York"));
-//        ZonedDateTime endMinLocal = endMinZDT.withZoneSameInstant(ZoneId.systemDefault());
-//        LocalTime appointmentEndTimeMin = endMinLocal.toLocalTime();
-//
-//        LocalTime appointmentEndTimeMaxEST = LocalTime.of(22, 0);
-//        LocalDateTime endMaxEST = LocalDateTime.of(LocalDate.now(), appointmentEndTimeMaxEST);
-//        ZonedDateTime endMaxZDT = endMaxEST.atZone(ZoneId.of("America/New_York"));
-//        ZonedDateTime endMaxLocal = endMaxZDT.withZoneSameInstant(ZoneId.systemDefault());
-//        LocalTime appointmentEndTimeMax = endMaxLocal.toLocalTime();
-//
-//        while (appointmentEndTimeMin.isBefore(appointmentEndTimeMax.plusSeconds(1))) {
-//
-//            endTimeDropDownBox.getItems().add(LocalTime.parse(String.valueOf(appointmentEndTimeMin)));
-//            appointmentEndTimeMin = appointmentEndTimeMin.plusMinutes(15);
-//
-//        }
 
     }
 
