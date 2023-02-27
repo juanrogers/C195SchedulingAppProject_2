@@ -128,7 +128,7 @@ public class loginscreencontroller implements Initializable {
      * This event will sign check the user's credentials, validate, and sign the user in to the application. If credentials are not matched, user will not be signed in.
      *
      * -----> Lambda comment - Used a lambda expression for filtering the appointments list by user_Id, to check for any appointments within 15 minutes of login, for the user that is logging in.
-     *
+     *------> NOTE: Lambda is used in the "onActionSignin" method in the loginscreencontroller
      * @param event clicking the sign in button
      * @throws IOException SQLException
      */

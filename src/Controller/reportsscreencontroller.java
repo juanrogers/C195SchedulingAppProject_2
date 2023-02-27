@@ -155,7 +155,7 @@ public class reportsscreencontroller implements Initializable {
      * This method will run and display the appointment and contact info.
      *
      * ----->Lambda comment - Used a lambda expression for filtering the appointments list by contact_Id, to find all appointments by a specific contact.
-     *
+     *------> NOTE: Lambda is used in the "onActionConSceGenRep" method in the reportsscreencontroller
      * @param event clicking the button for generate report
      */
     @FXML
