@@ -224,13 +224,13 @@ public class reportsscreencontroller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        apptIdColForRep.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        apptIdColForRep.setCellValueFactory(new PropertyValueFactory<>("appointment_Id"));
         titleColForRep.setCellValueFactory(new PropertyValueFactory<>("title"));
         typeColForRep.setCellValueFactory(new PropertyValueFactory<>("description"));
         descriptColForRep.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startColForRep.setCellValueFactory(new PropertyValueFactory<>("start"));
-        endColForRep.setCellValueFactory(new PropertyValueFactory<>("end"));
-        custIdColForRep.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        startColForRep.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
+        endColForRep.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
+        custIdColForRep.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
 
         monthDropDownBox.setItems(FXCollections.observableArrayList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
