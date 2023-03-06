@@ -297,11 +297,10 @@ public class updateappointmentscreencontroller implements Initializable {
 
                 LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
                 LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
-
-
+               // System.out.println("got here");
                 if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
-                    DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
+                    DBAccessAppointments.updateAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id(), appointment.getAppointment_Id());
 
                     stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                     scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
