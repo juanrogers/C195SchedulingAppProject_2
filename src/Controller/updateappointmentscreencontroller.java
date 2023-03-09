@@ -290,7 +290,7 @@ public class updateappointmentscreencontroller implements Initializable {
             LocalTime eTChosen = endTimeDropDownBox.getValue();
             LocalDate dateChosen = datePickerBox.getValue();
             User user = userIdDropDownBox.getValue();
-            int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
+            int customer_Id = Integer.parseInt(customerIdTxtFld.getText());
 
             if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
                     && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
