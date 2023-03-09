@@ -281,6 +281,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             String title = titleTxtFld.getText();
+            int appointment_Id = Integer.parseInt(appointmentIdTxtFld.getText());
             String description = descriptionTxtFld.getText();
             String location = locationTxtFld.getText();
             Contact contact = contactDropDownBox.getValue();
@@ -297,8 +298,8 @@ public class updateappointmentscreencontroller implements Initializable {
 
                 LocalDateTime startOfAppt = LocalDateTime.of(datePickerBox.getValue(), startTimeDropDownBox.getValue());
                 LocalDateTime endOfAppt = LocalDateTime.of(datePickerBox.getValue(), endTimeDropDownBox.getValue());
-               // System.out.println("got here");
-                if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
+
+                if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, appointment_Id)){
 
                     DBAccessAppointments.updateAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id(), appointment.getAppointment_Id());
 
@@ -313,7 +314,7 @@ public class updateappointmentscreencontroller implements Initializable {
 
                     Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                     alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
-                    alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
+                    alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again.");
                     alertUserMsg2.showAndWait();
 
                 }
