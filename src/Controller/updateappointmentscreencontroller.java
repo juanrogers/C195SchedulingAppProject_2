@@ -280,6 +280,7 @@ public class updateappointmentscreencontroller implements Initializable {
         Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
+
             String title = titleTxtFld.getText();
             int appointment_Id = Integer.parseInt(appointmentIdTxtFld.getText());
             String description = descriptionTxtFld.getText();
