@@ -34,7 +34,11 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     private Label viewByLabel;
     @FXML
+    private Label searchForAppointmentsLabel;
+    @FXML
     private Button addAppointmentButton;
+    @FXML
+    private Button findAppointmentsButton;
     @FXML
     private Button updateAppointmentButton;
     @FXML
@@ -49,6 +53,8 @@ public class appointmentsscreencontroller implements Initializable {
     private RadioButton viewAllRadioButton;
     @FXML
     private ToggleGroup radioButtonToggleGroup;
+    @FXML
+    private TextField searchApptsTxtFld;
     @FXML
     private TableView<Appointment> appointmentsTable;
     @FXML
@@ -70,13 +76,27 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> customerIdCol;
 
-
-
     /**
      * Variables for stages and scenes.
      */
     Stage stage;
     Parent scene;
+
+
+    /**
+     * Declared methods (not yet defined)
+     *
+     */
+    @FXML
+    void onActionSearchApptsTxtFld(ActionEvent event) {
+
+    };
+
+
+    @FXML
+    void onActionFindAppointments(ActionEvent event) {
+
+    };
 
 
 

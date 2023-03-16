@@ -42,7 +42,7 @@ public class loginscreencontroller implements Initializable {
      * FX IDs for main menu screen.
      */
     @FXML
-    private Label schedulingAssistantLabel;
+    private Label keepingUpWithKBCLabel;
     @FXML
     private Label loginLabel;
     @FXML
@@ -228,7 +228,7 @@ public class loginscreencontroller implements Initializable {
 
             if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
 
-                schedulingAssistantLabel.setText(resBundle.getString("schedulingAssistantLabel"));
+                keepingUpWithKBCLabel.setText(resBundle.getString("keepingUpWithKBCLabel"));
                 loginLabel.setText(resBundle.getString("loginLabel"));
                 usernameLabel.setText(resBundle.getString("usernameLabel"));
                 passwordLabel.setText(resBundle.getString("passwordLabel"));

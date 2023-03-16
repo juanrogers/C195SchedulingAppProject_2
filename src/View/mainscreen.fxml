@@ -5,29 +5,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="345.0" prefWidth="400.0" style="-fx-border-color: teal; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.mainscreencontroller">
+<AnchorPane prefHeight="345.0" prefWidth="400.0" style="-fx-border-color: brown; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.mainscreencontroller">
     <children>
-        <Button fx:id="viewCustomersButton" layoutX="118.0" layoutY="122.0" mnemonicParsing="false" onAction="#onActionViewCustomers" prefHeight="30.0" prefWidth="164.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="CUSTOMERS">
+        <Button fx:id="viewCustomersButton" layoutX="118.0" layoutY="122.0" mnemonicParsing="false" onAction="#onActionViewCustomers" prefHeight="30.0" prefWidth="164.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="CUSTOMERS">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Label fx:id="schedulingSystemLabel" layoutX="49.0" layoutY="20.0" opacity="0.35" prefWidth="320.0" text="SCHEDULING ASSISTANT">
+        <Label fx:id="worldTourSchedulerLabel" layoutX="66.0" layoutY="20.0" opacity="0.35" prefWidth="320.0" text="World Tour Scheduler">
             <font>
                 <Font name="Cochin" size="27.0" />
             </font>
         </Label>
-        <Button fx:id="viewReportsButton" layoutX="133.0" layoutY="223.0" mnemonicParsing="false" onAction="#onActionViewReports" prefHeight="30.0" prefWidth="138.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="REPORTS">
+        <Button fx:id="viewReportsButton" layoutX="133.0" layoutY="223.0" mnemonicParsing="false" onAction="#onActionViewReports" prefHeight="30.0" prefWidth="138.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="REPORTS">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Button fx:id="viewAppointmentsButton" layoutX="121.0" layoutY="173.0" mnemonicParsing="false" onAction="#onActionViewAppointments" prefHeight="39.0" prefWidth="164.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="APPOINTMENTS">
+        <Button fx:id="viewAppointmentsButton" layoutX="121.0" layoutY="173.0" mnemonicParsing="false" onAction="#onActionViewAppointments" prefHeight="39.0" prefWidth="164.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="APPOINTMENTS">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Button fx:id="logoutButton" layoutX="156.0" layoutY="275.0" mnemonicParsing="false" onAction="#onActionLogout" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="LOGOUT">
+        <Button fx:id="logoutButton" layoutX="156.0" layoutY="275.0" mnemonicParsing="false" onAction="#onActionLogout" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="LOGOUT">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>

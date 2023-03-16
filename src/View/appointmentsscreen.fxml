@@ -5,20 +5,25 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DisplacementMap?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.FloatMap?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxWidth="1000.0" prefHeight="556.0" prefWidth="1000.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.appointmentsscreencontroller">
+<AnchorPane maxWidth="1000.0" prefHeight="556.0" prefWidth="1000.0" style="-fx-background-color: sand; -fx-border-color: brown; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.appointmentsscreencontroller">
     <children>
         <Label fx:id="appointmentsLabel" layoutX="10.0" layoutY="10.0" text="APPOINTMENTS">
             <font>
                 <Font name="Cochin" size="30.0" />
             </font>
         </Label>
-        <Button fx:id="backToMainMenuButton" layoutX="800.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="BACK TO MAIN MENU">
+        <Button fx:id="backToMainMenuButton" layoutX="789.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="BACK TO MAIN MENU">
             <font>
-                <Font name="Cochin" size="14.0" />
+                <Font size="13.0" />
             </font>
         </Button>
         <TableView fx:id="appointmentsTable" layoutX="10.0" layoutY="200.0" prefHeight="338.0" prefWidth="980.0">
@@ -34,17 +39,17 @@
                 <TableColumn fx:id="customerIdCol" prefWidth="108.88" text="Customer ID" />
             </columns>
         </TableView>
-        <Button fx:id="deleteAppointmentButton" layoutX="705.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToDeleteAppointment" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="DELETE APPOINTMENT">
+        <Button fx:id="deleteAppointmentButton" layoutX="534.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToDeleteAppointment" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="DELETE APPOINTMENT">
             <font>
-                <Font name="Cochin" size="12.0" />
+                <Font size="13.0" />
             </font>
         </Button>
-        <Button fx:id="updateAppointmentButton" layoutX="390.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToUpdateAppointment" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="UPDATE APPOINTMENT">
-            <font>
-                <Font name="Cochin" size="14.0" />
-            </font>
+        <Button fx:id="updateAppointmentButton" layoutX="263.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToUpdateAppointment" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="UPDATE APPOINTMENT">
+         <font>
+            <Font size="13.0" />
+         </font>
         </Button>
-        <Button fx:id="addAppointmentButton" layoutX="110.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToAddAppointment" prefHeight="30.0" prefWidth="170.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="ADD APPOINTMENT">
+        <Button fx:id="addAppointmentButton" layoutX="26.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToAddAppointment" prefHeight="30.0" prefWidth="170.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="ADD APPOINTMENT">
             <font>
                 <Font name="Cochin" size="13.0" />
             </font>
@@ -54,7 +59,7 @@
                 <Font name="Cochin" size="16.0" />
             </font>
         </Label>
-        <RadioButton fx:id="viewByWeekRadioButton" layoutX="126.0" layoutY="160.0" mnemonicParsing="false" onAction="#onActionViewByWeek" text="CURRENT WEEK">
+        <RadioButton fx:id="viewByWeekRadioButton" layoutX="160.0" layoutY="160.0" mnemonicParsing="false" onAction="#onActionViewByWeek" text="CURRENT WEEK">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
@@ -62,15 +67,41 @@
                 <ToggleGroup fx:id="viewToggleGroup" />
             </toggleGroup>
         </RadioButton>
-        <RadioButton fx:id="viewByMonthRadioButton" layoutX="410.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewByMonth" text="CURRENT MONTH" toggleGroup="$viewToggleGroup">
+        <RadioButton fx:id="viewByMonthRadioButton" layoutX="486.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewByMonth" text="CURRENT MONTH" toggleGroup="$viewToggleGroup">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </RadioButton>
-        <RadioButton fx:id="viewAllRadioButton" layoutX="711.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewAll" text="ALL" toggleGroup="$viewToggleGroup">
+        <RadioButton fx:id="viewAllRadioButton" layoutX="856.0" layoutY="159.0" mnemonicParsing="false" onAction="#onActionViewAll" text="ALL" toggleGroup="$viewToggleGroup">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </RadioButton>
+      <TextField fx:id="searchApptsTxtFld" layoutX="595.0" layoutY="22.0" onAction="#onActionSearchApptsTxtFld" prefHeight="29.0" prefWidth="301.0" style="-fx-border-color: purple;">
+         <effect>
+            <Reflection fraction="0.0" topOpacity="1.0">
+               <input>
+                  <DropShadow>
+                     <input>
+                        <DisplacementMap>
+                           <mapData>
+                              <FloatMap />
+                           </mapData>
+                        </DisplacementMap>
+                     </input>
+                  </DropShadow>
+               </input>
+            </Reflection>
+         </effect>
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
+      <Label fx:id="searchForAppointmentsLabel" layoutX="404.0" layoutY="26.0" opacity="0.27" prefHeight="20.0" prefWidth="190.0" text="Search for Appointments -&gt;">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="findAppointmentsButton" layoutX="914.0" layoutY="20.0" mnemonicParsing="false" onAction="#onActionFindAppointments" prefHeight="33.0" prefWidth="64.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="FIND" />
     </children>
 </AnchorPane>

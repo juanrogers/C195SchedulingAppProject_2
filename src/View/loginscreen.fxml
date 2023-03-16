@@ -3,39 +3,79 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Light.Spot?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="333.0" prefWidth="496.0" style="-fx-border-width: 5; -fx-border-color: teal;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.loginscreencontroller">
+<AnchorPane prefHeight="333.0" prefWidth="496.0" style="-fx-border-width: 5; -fx-border-color: brown;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.loginscreencontroller">
     <children>
-        <Button fx:id="signinButton" layoutX="193.0" layoutY="214.0" mnemonicParsing="false" onAction="#onActionSignin" prefHeight="31.0" prefWidth="97.0" style="-fx-border-width: 3; -fx-border-color: teal;" text="SIGN IN" />
-        <Label fx:id="schedulingAssistantLabel" layoutX="78.0" layoutY="20.0" opacity="0.35" text="SCHEDULING ASSISTANT">
+        <Button fx:id="signinButton" layoutX="193.0" layoutY="214.0" mnemonicParsing="false" onAction="#onActionSignin" prefHeight="31.0" prefWidth="97.0" style="-fx-border-width: 3; -fx-border-color: brown;" text="SIGN IN" />
+        <Label fx:id="keepingUpWithKBCLabel" layoutX="67.0" layoutY="20.0" opacity="0.86" prefHeight="56.0" prefWidth="388.0" text="Keeping Up with KBC" textOverrun="CENTER_WORD_ELLIPSIS">
             <font>
-                <Font name="Cochin" size="27.0" />
+                <Font size="39.0" />
             </font>
             <effect>
-                <SepiaTone />
+            <Lighting>
+               <light>
+                  <Light.Spot specularExponent="1.87">
+                     <color>
+                        <Color red="0.8157894611358643" green="0.30736881494522095" blue="0.07175926119089127" />
+                     </color>
+                  </Light.Spot>
+               </light>
+               <bumpInput>
+                  <Reflection>
+                     <input>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                           <light>
+                              <Light.Distant />
+                           </light>
+                        </Lighting>
+                     </input>
+                  </Reflection>
+               </bumpInput>
+            </Lighting>
             </effect>
+         <textFill>
+            <LinearGradient cycleMethod="REPEAT" endX="1.0" endY="1.0" startX="0.909952606635071" startY="0.7677725118483413">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.44999998807907104" opacity="0.25999999046325684" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
         </Label>
-        <Button fx:id="exitButton" layoutX="385.0" layoutY="286.0" mnemonicParsing="false" onAction="#onActionExit" prefHeight="37.0" prefWidth="87.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="EXIT">
+        <Button fx:id="exitButton" layoutX="385.0" layoutY="286.0" mnemonicParsing="false" onAction="#onActionExit" prefHeight="37.0" prefWidth="87.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="EXIT">
             <font>
                 <Font name="Cochin" size="15.0" />
             </font></Button>
-        <Label fx:id="loginLabel" layoutX="155.0" layoutY="65.0" prefHeight="47.0" prefWidth="216.0" text="LOGIN">
-            <font>
-                <Font size="29.0" />
-            </font>
-        </Label>
         <Label fx:id="zoneIdLabel" layoutX="14.0" layoutY="292.0" text="YOUR ZONE ID :" />
         <Label fx:id="zoneIdSwitchLabel" layoutX="202.0" layoutY="291.0" text="ZoneID">
             <font>
                 <Font name="Copperplate" size="17.0" />
             </font></Label>
-        <GridPane layoutX="55.0" layoutY="124.0" prefHeight="60.0" prefWidth="317.0">
+        <GridPane layoutX="84.0" layoutY="124.0" prefHeight="60.0" prefWidth="317.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="164.0" minWidth="10.0" prefWidth="164.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0" minWidth="10.0" prefWidth="129.0" />
@@ -59,5 +99,10 @@
                 <TextField fx:id="passwordTxtFld" onAction="#onActionPasswordTxtFld" prefHeight="26.0" prefWidth="147.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </children>
         </GridPane>
+      <Label fx:id="worldTourSchedulerLabel" layoutX="175.0" layoutY="77.0" opacity="0.35" prefHeight="20.0" prefWidth="141.0" text="World Tour Scheduler">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

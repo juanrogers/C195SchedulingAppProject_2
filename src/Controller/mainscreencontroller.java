@@ -28,7 +28,7 @@ public class mainscreencontroller implements Initializable {
      * FX IDs for main menu screen.
      */
     @FXML
-    private Label schedulingSystemLabel;
+    private Label worldTourSchedulerLabel;
     @FXML
     private Label mainMenuLabel;
     @FXML

@@ -21,7 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/loginscreen.fxml"));
-        primaryStage.setTitle("Scheduling Assistant Application");
+        primaryStage.setTitle("Keeping Up with KBC: World Tour Scheduler");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
