@@ -271,6 +271,35 @@ public class appointmentsscreencontroller implements Initializable {
 
 
 
+//    /** Updates Appointment Table based on search text
+//     * @param event ActionEvent when search button is clicked
+//     */
+//    @FXML
+//    void SearchAppointments(ActionEvent event) {
+//        ObservableList<Appointment> updateTable = lookupAppointment(SearchTextField.getText());
+//        AppointmentsTable.setItems(updateTable);
+//    }
+//
+//    /** Helper function for Search Functionality
+//     * Gets Appointment List based on Search input
+//     * @param input String value of search text
+//     * @return ObservableList List of Appointments
+//     */
+//    private static ObservableList<Appointment> lookupAppointment(String input) {
+//        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+//
+//        for (Appointment appointment: appointments) {
+//            if (appointment.getTitle().contains(input)) {
+//                appointmentList.add(appointment);
+//            } else if (Integer.toString(appointment.getAppointmentId()).contains(input)) {
+//                appointmentList.add(appointment);
+//            }
+//        }
+//        return appointmentList;
+//    }
+
+
+
     /**
      * This method initializes the appointments screen with all appointments..
      *
