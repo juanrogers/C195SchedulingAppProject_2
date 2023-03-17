@@ -1,5 +1,8 @@
 package Model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 
 /** This class will be used to handle appointments.
@@ -51,6 +54,12 @@ public class Appointment {
         //this.contactName = contactName;
 
     }
+
+
+    /**
+     * List that holds all appointments.
+     */
+    private static ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
 
 
     //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
@@ -256,6 +265,52 @@ public class Appointment {
         this.contact_Id = contact_Id;
 
     }
+
+
+
+    /**
+     * @return all parts
+     */
+    public static ObservableList<Appointment> getAllAppts() {
+        return allAppts;
+    }
+
+
+
+    /**
+     * @param apptID method searches for a appointment by appt ID number.
+     * @return null if no appt ID is found.
+     */
+    public static Appointment lookupAppt(int apptID) {
+        ObservableList<Appointment> allAppts = getAllAppts();
+
+        for (int i = 0; i < allAppts.size(); i++) {
+            Appointment appt = allAppts.get(i);
+            if (appt.getAppointment_Id() == apptID) {
+                return appt;
+            }
+        }
+        return null;
+    }
+
+
+
+
+    /**
+     * @param titleOfAppt method searches appointment by appt title.
+     * @return filtered appts list
+     */
+    public static ObservableList<Appointment> lookupAppt(String titleOfAppt) {
+        ObservableList<Appointment> filteredAppts = FXCollections.observableArrayList();
+
+        for (Appointment appt : getAllAppts()) {
+            if (appt.getTitle().contains(titleOfAppt)) {
+                filteredAppts.add(appt);
+            }
+        }
+        return filteredAppts;
+    }
+
 
 
 }

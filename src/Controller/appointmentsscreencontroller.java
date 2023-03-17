@@ -1,6 +1,10 @@
 package Controller;
 
 import DBAccessObj.DBAccessAppointments;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -83,14 +87,19 @@ public class appointmentsscreencontroller implements Initializable {
     Parent scene;
 
 
+    /** List of Appointments
+     */
+    static ObservableList<Appointment> appointments;
+
+
     /**
      * Declared methods (not yet defined)
      *
      */
-    @FXML
-    void onActionSearchApptsTxtFld(ActionEvent event) {
-
-    };
+//    @FXML
+//    void onActionSearchApptsTxtFld(ActionEvent event) {
+//
+//    };
 
 
     @FXML
@@ -271,13 +280,62 @@ public class appointmentsscreencontroller implements Initializable {
 
 
 
+//    /**
+//     * @param event This event will search the main parts table by id number or part name.
+//     * @throws Exception
+//     */
+//    @FXML
+//    void onActionFindAppointments(ActionEvent event) throws Exception {
+//
+//        String searchForAppt = searchApptsTxtFld.getText();
+//        try {
+//
+//            ObservableList<Appointment> apptsToSearch = Appointment.lookupAppt(searchForAppt);
+//
+//            if (apptsToSearch.size() == 0) {
+//                int searchID = Integer.parseInt(searchForAppt);
+//                Appointment appt = Appointment.lookupAppt(searchID);
+//                apptsToSearch.add(appt);
+//
+//                if (appt == null) {
+//                    Alert alert = new Alert(Alert.AlertType.ERROR);
+//                    alert.setTitle("Error Message!");
+//                    alert.setContentText("No parts found by ID. Please enter a valid part ID.");
+//                    alert.showAndWait();
+//                }
+//            }
+//            appointmentsTable.setItems(apptsToSearch);
+//        } catch (NumberFormatException e) {
+//            appointmentsTable.setItems(null);
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Error Message!");
+//            alert.setContentText("No parts found by name. Please enter a valid part name.");
+//            alert.showAndWait();
+//        }
+//    }
+
+
+//    /**
+//     * @param id This method selects and returns a part by ID number in the Inventory parts list.
+//     * @return selected part by part ID
+//     */
+//    public Part selectAndReturnPart(int id) {
+//        for (Part selectItem : Inventory.getAllParts()) {
+//            if (selectItem.getId() == id)
+//                return selectItem;
+//        }
+//        return null;
+//    }
+
+
+
 //    /** Updates Appointment Table based on search text
 //     * @param event ActionEvent when search button is clicked
 //     */
 //    @FXML
-//    void SearchAppointments(ActionEvent event) {
-//        ObservableList<Appointment> updateTable = lookupAppointment(SearchTextField.getText());
-//        AppointmentsTable.setItems(updateTable);
+//    void onActionFindAppointments(ActionEvent event) {
+//        ObservableList<Appointment> updateApptsTable = lookupAppointment(searchApptsTxtFld.getText());
+//        appointmentsTable.setItems(updateApptsTable);
 //    }
 //
 //    /** Helper function for Search Functionality
@@ -291,12 +349,112 @@ public class appointmentsscreencontroller implements Initializable {
 //        for (Appointment appointment: appointments) {
 //            if (appointment.getTitle().contains(input)) {
 //                appointmentList.add(appointment);
-//            } else if (Integer.toString(appointment.getAppointmentId()).contains(input)) {
+//            } else if (Integer.toString(appointment.getAppointment_Id()).contains(input)) {
 //                appointmentList.add(appointment);
 //            }
 //        }
 //        return appointmentList;
 //    }
+
+
+
+//    public void onActionFindAppointments(){
+//
+//        ObservableList<Appointment> allAppointments = DBAccessAppointments.getAllAppointments();
+//        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointments, b -> true);
+//
+//        appointmentsTable.setItems(filteredData);
+//        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointment_Id"));
+//        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+//        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+//        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+//        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+//        startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
+//        endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
+//        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+//        contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contact_Id"));
+//
+//        searchApptsTxtFld.textProperty().addListener((observable, oldValue, newValue) -> {
+//
+//            filteredData.setPredicate(Appointment -> {
+//
+//                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+//                    return true;
+//                }
+//
+//                String searchKeyword = newValue.toLowerCase();
+//
+//                if (Appointment.getDescription().toLowerCase().contains(searchKeyword)) {
+//                    return true;
+//                } else if (Appointment.getTitle().toLowerCase().contains(searchKeyword)) {
+//                    return true;
+//                } else if (Appointment.getType().toLowerCase().contains(searchKeyword)) {
+//                    return true;
+//                } else if (Appointment.getLocation().toLowerCase().contains(searchKeyword)) {
+//                    return true;
+////                } else if (Appointment.getContactId().toString.indexOf(searchKeyword) > -1) {
+////                    return true;
+////                } else if (Appointment.getCustomerId().toString.indexOf(searchKeyword) > -1) {
+////                    return true;
+//                } else
+//                    return false;
+//            });
+//        });
+//        SortedList<Appointment> sortedData = new SortedList<>(filteredData);
+//        sortedData.comparatorProperty().bind(appointmentsTable.comparatorProperty());
+//        appointmentsTable.setItems(sortedData);
+//    }
+
+
+    public void onActionSearchApptsTxtFld(){
+
+        ObservableList<Appointment> allAppointments = DBAccessAppointments.getAllAppointments();
+        FilteredList<Appointment> filteredData = new FilteredList<>(allAppointments, a -> true);
+
+        appointmentsTable.setItems(filteredData);
+        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("appointment_Id"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+        contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contact_Id"));
+
+        searchApptsTxtFld.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            filteredData.setPredicate(Appointment -> {
+
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+
+                String searchForInputByUser = newValue.toLowerCase();
+
+                if (Appointment.getDescription().toLowerCase().contains(searchForInputByUser)) {
+                    return true;
+                } else if (Appointment.getTitle().toLowerCase().contains(searchForInputByUser)) {
+                    return true;
+                } else if (Appointment.getType().toLowerCase().contains(searchForInputByUser)) {
+                    return true;
+                } else if (Appointment.getLocation().toLowerCase().contains(searchForInputByUser)) {
+                    return true;
+//                } else if (Appointment.getContact_Id() > -1) {
+//                    return true;
+//                } else if (Appointment.getCustomer_Id() > -1) {
+//                    return true;
+//                } else if (Appointment.getAppointment_Id() > -1) {
+//                    return true;
+                } else
+                    return false;
+
+            });
+        });
+        SortedList<Appointment> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(appointmentsTable.comparatorProperty());
+        appointmentsTable.setItems(sortedData);
+    }
 
 
 
@@ -324,6 +482,7 @@ public class appointmentsscreencontroller implements Initializable {
         appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
 
     }
+
 
 }
 
