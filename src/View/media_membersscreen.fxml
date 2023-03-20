@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxWidth="1000.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: sand; -fx-border-color: brown; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.media_membersscreencontroller">
+    <children>
+        <Button fx:id="addMemberButton" layoutX="110.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionGoToAddMember" prefHeight="30.0" prefWidth="170.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="ADD MEMBER">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </Button>
+        <Label fx:id="mediaMembersLabel" layoutX="10.0" layoutY="10.0" text="MEDIA MEMBERS">
+            <font>
+                <Font name="Cochin" size="30.0" />
+            </font>
+        </Label>
+        <Button fx:id="backToMainMenuButton" layoutX="800.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="BACK TO MAIN MENU">
+            <font>
+                <Font name="Cochin" size="14.0" />
+            </font>
+        </Button>
+        <TableView fx:id="mediaMembersTable" layoutX="10.0" layoutY="200.0" prefHeight="390.0" prefWidth="980.0">
+            <columns>
+                <TableColumn fx:id="memberIdCol" minWidth="100.0" prefWidth="163.33" text="Member ID" />
+                <TableColumn fx:id="memberNameCol" prefWidth="163.33" text="Member Name" />
+                <TableColumn fx:id="addressCol" prefWidth="163.33" text="Address" />
+                <TableColumn fx:id="divisionCol" prefWidth="163.33" text="Division ID" />
+                <TableColumn fx:id="postalCodeCol" prefWidth="163.33" text="Postal Code" />
+                <TableColumn fx:id="phoneCol" prefWidth="163.35" text="Phone" />
+            </columns>
+        </TableView>
+        <Button fx:id="deleteMemberButton" layoutX="700.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionDeleteMember" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="DELETE MEMBER">
+            <font>
+                <Font name="Cochin" size="15.0" />
+            </font>
+        </Button>
+        <Button fx:id="updateMemberButton" layoutX="390.0" layoutY="100.0" mnemonicParsing="false" onAction="#onActionGoToUpdateMember" prefHeight="30.0" prefWidth="200.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="UPDATE MEMBER">
+            <font>
+                <Font name="Cochin" size="16.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

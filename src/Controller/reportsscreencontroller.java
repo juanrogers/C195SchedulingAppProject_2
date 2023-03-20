@@ -48,11 +48,13 @@ public class reportsscreencontroller implements Initializable {
     @FXML
     private Button monAndTypeGenRepButton;
     @FXML
-    private Label monAndTypeCustApptsLabel;
+    private Label monAndTypeMembApptsLabel;
     @FXML
-    private Label monAndTypeCustResultLabel;
+    private Label monAndTypeMembResultLabel;
     @FXML
     private Label contactSchedulesTabLabel;
+//    @FXML
+//    private Label contactSchedulesTab;
     @FXML
     private Label conSceViewReportLabel;
     @FXML
@@ -74,18 +76,17 @@ public class reportsscreencontroller implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalDateTime> endColForRep;
     @FXML
-    private TableColumn<Appointment, Integer> custIdColForRep;
+    private TableColumn<Appointment, Integer> membIdColForRep;
     @FXML
     private Label numOfCustomersTabLabel;
     @FXML
-    private Button numOfCustGenRepButton;
+    private Button numOfMembGenRepButton;
     @FXML
-    private Label numOfTotCustLabel;
+    private Label numOfTotMembLabel;
     @FXML
-    private Label numOfTotCustResultLabel;
+    private Label numOfTotMembResultLabel;
     @FXML
     private Label numOfCustomersTab;
-
 
 
 
@@ -143,9 +144,9 @@ public class reportsscreencontroller implements Initializable {
      * @param event clicking the button for generate report
      */
     @FXML
-    void onActionNumOfCustGenRep(ActionEvent event) {
+    void onActionNumOfMembGenRep(ActionEvent event) {
 
-        numOfTotCustResultLabel.setText(String.valueOf(DBAccessCustomers.getAllCustomers().size()));
+        numOfTotMembResultLabel.setText(String.valueOf(DBAccessMedia_Members.getAllMedia_Members().size()));
 
     }
 
@@ -214,7 +215,7 @@ public class reportsscreencontroller implements Initializable {
 
         int totalAppt = DBAccessAppointments.getTypeAndMonthCount(month, type);
 
-        monAndTypeCustResultLabel.setText(String.valueOf(totalAppt));
+        monAndTypeMembResultLabel.setText(String.valueOf(totalAppt));
 
     }
 
@@ -235,7 +236,7 @@ public class reportsscreencontroller implements Initializable {
         descriptColForRep.setCellValueFactory(new PropertyValueFactory<>("type"));
         startColForRep.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
         endColForRep.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
-        custIdColForRep.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+        membIdColForRep.setCellValueFactory(new PropertyValueFactory<>("member_Id"));
 
         monthDropDownBox.setItems(FXCollections.observableArrayList("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 

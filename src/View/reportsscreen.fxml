@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.reportsscreencontroller">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: sand; -fx-border-color: brown; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.reportsscreencontroller">
     <children>
         <Label fx:id="reportsLabel" layoutX="10.0" layoutY="10.0" prefWidth="140.0" text="REPORTS">
             <font>
@@ -23,14 +23,14 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <Button fx:id="monAndTypeGenRepButton" layoutX="246.0" layoutY="186.0" mnemonicParsing="false" onAction="#onActionMonAndTypeGenRep" prefHeight="43.0" prefWidth="203.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="GENERATE REPORT" textFill="#2cc348" wrapText="true">
+                                <Button fx:id="monAndTypeGenRepButton" layoutX="246.0" layoutY="186.0" mnemonicParsing="false" onAction="#onActionMonAndTypeGenRep" prefHeight="43.0" prefWidth="203.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="GENERATE REPORT" textFill="#c26d2d" wrapText="true">
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Button>
                                 <ComboBox fx:id="monthDropDownBox" layoutX="176.0" layoutY="113.0" onAction="#onActionMonDropDownBox" prefWidth="150.0" promptText="SELECT MONTH" />
                                 <ComboBox fx:id="typeDropDownBox" layoutX="452.0" layoutY="113.0" onAction="#onActionTypeDropDownBox" prefWidth="150.0" promptText="SELECT TYPE" />
-                                <Label fx:id="monAndTypeCustResultLabel" layoutX="317.0" layoutY="356.0" text="____">
+                                <Label fx:id="monAndTypeMembResultLabel" layoutX="317.0" layoutY="356.0" text="____">
                                     <font>
                                         <Font name="Cochin" size="24.0" />
                                     </font>
@@ -43,7 +43,7 @@
                                     <font>
                                         <Font name="Cochin" size="18.0" />
                                     </font></Label>
-                                <Label fx:id="monAndTypeCustApptsLabel" layoutX="176.0" layoutY="284.0" text="CUSTOMER APPOINTMENTS">
+                                <Label fx:id="monAndTypeMembApptsLabel" layoutX="176.0" layoutY="284.0" text="MEDIA MEMBER APPOINTMENTS">
                                     <font>
                                         <Font name="Cochin" size="24.0" />
                                     </font>
@@ -64,7 +64,7 @@
                                         <TableColumn fx:id="descriptColForRep" prefWidth="143.5" text="Description" />
                                         <TableColumn fx:id="startColForRep" prefWidth="79.5" text="Start" />
                                         <TableColumn fx:id="endColForRep" prefWidth="77.5" text="End" />
-                                        <TableColumn fx:id="custIdColForRep" prefWidth="89.5" text="Customer ID" />
+                                        <TableColumn fx:id="membIdColForRep" prefWidth="89.5" text="Member ID" />
                                     </columns>
                                 </TableView>
                                 <Label fx:id="conSceViewReportLabel" layoutX="5.0" layoutY="10.0" text="VIEW REPORT FOR:">
@@ -72,7 +72,7 @@
                                         <Font name="Cochin" size="14.0" />
                                     </font>
                                 </Label>
-                                <Button fx:id="conSceGenRepButton" layoutX="490.0" layoutY="7.0" mnemonicParsing="false" onAction="#onActionConSceGenRep" prefHeight="23.0" prefWidth="130.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="GENERATE REPORT" textFill="#2cc384">
+                                <Button fx:id="conSceGenRepButton" layoutX="490.0" layoutY="7.0" mnemonicParsing="false" onAction="#onActionConSceGenRep" prefHeight="23.0" prefWidth="130.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="GENERATE REPORT" textFill="#c26d2d">
                                     <font>
                                         <Font name="Cochin" size="10.0" />
                                     </font>
@@ -81,21 +81,21 @@
                             </children></AnchorPane>
                     </content>
                 </Tab>
-                <Tab fx:id="" text="NUMBER OF CUSTOMERS">
+                <Tab fx:id="" text="NUMBER OF MEDIA MEMBERS">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="666.0">
                             <children>
-                                <Button fx:id="numOfCustGenRepButton" layoutX="251.0" layoutY="93.0" mnemonicParsing="false" onAction="#onActionNumOfCustGenRep" prefHeight="41.0" prefWidth="158.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="GENERATE REPORT" textFill="#2cc348">
+                                <Button fx:id="numOfMembGenRepButton" layoutX="251.0" layoutY="93.0" mnemonicParsing="false" onAction="#onActionNumOfMembGenRep" prefHeight="41.0" prefWidth="158.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="GENERATE REPORT" textFill="#c26d2d">
                                     <font>
                                         <Font name="Cochin" size="13.0" />
                                     </font>
                                 </Button>
-                                <Label fx:id="numOfTotCustLabel" layoutX="129.0" layoutY="172.0" text="TOTAL NUMBER OF CUSTOMERS:">
+                                <Label fx:id="numOfTotMembLabel" layoutX="129.0" layoutY="172.0" text="TOTAL NUMBER OF MEDIA MEMBERS:">
                                     <font>
                                         <Font name="Cochin" size="24.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="numOfTotCustResultLabel" layoutX="306.0" layoutY="242.0" text="____">
+                                <Label fx:id="numOfTotMembResultLabel" layoutX="310.0" layoutY="242.0" text="____">
                                     <font>
                                         <Font name="Cochin" size="24.0" />
                                     </font>
@@ -105,7 +105,7 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <Button fx:id="backToMainMenuButton" layoutX="500.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: teal; -fx-border-width: 2;" text="BACK TO MAIN MENU">
+        <Button fx:id="backToMainMenuButton" layoutX="500.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionGoToMainMenu" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="BACK TO MAIN MENU">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>

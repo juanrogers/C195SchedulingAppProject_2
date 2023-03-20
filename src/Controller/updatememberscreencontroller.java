@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import Model.Country;
-import Model.Customer;
+import Model.Media_Member;
 import Model.Division;
 
 import DBAccessObj.*;
@@ -21,21 +21,21 @@ import java.util.ResourceBundle;
 
 
 
-/** This controller will be used as the logic for the update customer screen.
+/** This controller will be used as the logic for the update member screen.
  *
  * @author Ajuane Rogers */
-public class updatecustomerscreencontroller implements Initializable {
+public class updatememberscreencontroller implements Initializable {
 
     /**
-     * FX IDs for add customer screen
+     * FX IDs for add member screen
      *
      */
     @FXML
-    private Label updateCustomerLabel;
+    private Label updateMemberLabel;
     @FXML
-    private Label customerIdLabel;
+    private Label memberIdLabel;
     @FXML
-    private Label customerNameLabel;
+    private Label memberNameLabel;
     @FXML
     private Label addressLabel;
     @FXML
@@ -47,9 +47,9 @@ public class updatecustomerscreencontroller implements Initializable {
     @FXML
     private Label phoneLabel;
     @FXML
-    private TextField customerIdTxtFld;
+    private TextField memberIdTxtFld;
     @FXML
-    private TextField customerNameTxtFld;
+    private TextField memberNameTxtFld;
     @FXML
     private TextField addressTxtFld;
     @FXML
@@ -61,9 +61,10 @@ public class updatecustomerscreencontroller implements Initializable {
     @FXML
     private TextField phoneTxtFld;
     @FXML
-    private Button saveUpdateCustomerButton;
+    private Button saveUpdateMemberButton;
     @FXML
-    private Button cancelUpdateCustomerButton;
+    private Button cancelUpdateMemberButton;
+
     //@FXML
     //private Label divisionLabel;
 
@@ -82,12 +83,12 @@ public class updatecustomerscreencontroller implements Initializable {
      *
      */
     @FXML
-    void onActionCustomerIdTxtFld(){
+    void onActionMembIdTxtFld(){
 
     };
 
     @FXML
-    void onActionCustNameTxtFld(){
+    void onActionMembNameTxtFld(){
 
     };
 
@@ -96,10 +97,10 @@ public class updatecustomerscreencontroller implements Initializable {
 
     };
 
-    @FXML
-    void onActionCoutDropDownBox(){
-
-    };
+//    @FXML
+//    void onActionCoutDropDownBox(){
+//
+//    };
 
     @FXML
     void onActionDivDropDownBox(){
@@ -116,7 +117,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
     };
 
-    Customer customer;
+    Media_Member member;
 
 
 
@@ -178,21 +179,21 @@ public class updatecustomerscreencontroller implements Initializable {
 
 
     /**
-     * This method will send the customer selected in table to update customer screen.
+     * This method will send the member selected in table to update member screen.
      *
-     * @param customer customer to send
+     * @param member member to send
      */
-    public void customerToBeSentToUpdate(Customer customer) {
+    public void memberToBeSentToUpdate(Media_Member member) {
 
-        this.customer = customer;
+        this.member = member;
 
-        customerIdTxtFld.setText(Integer.toString(customer.getCustomer_Id()));
-        customerNameTxtFld.setText(customer.getCustomerName());
-        addressTxtFld.setText(customer.getAddress());
+        memberIdTxtFld.setText(Integer.toString(member.getMember_Id()));
+        memberNameTxtFld.setText(member.getMemberName());
+        addressTxtFld.setText(member.getAddress());
         Country country = null;
         for (Country cout : countryDropDownBox.getItems()) {
 
-            if(customer.country_Id == cout.getCountry_Id()) {
+            if(member.country_Id == cout.getCountry_Id()) {
                 country = cout;
                 countryDropDownBox.setValue(cout);
 
@@ -224,7 +225,7 @@ public class updatecustomerscreencontroller implements Initializable {
         }
 
         for(Division div : divisionDropDownBox.getItems()) {
-            if(customer.division_Id == div.getDivision_Id()) {
+            if(member.division_Id == div.getDivision_Id()) {
 
                 divisionDropDownBox.setValue(div);
 
@@ -233,41 +234,41 @@ public class updatecustomerscreencontroller implements Initializable {
 
         }
 
-        postalCodeTxtFld.setText(customer.getPostalCode());
-        phoneTxtFld.setText(customer.getPhone());
+        postalCodeTxtFld.setText(member.getPostalCode());
+        phoneTxtFld.setText(member.getPhone());
 
     }
 
 
 
-    /** This method will update the customer in database, and after customer is updated, will take user back to the customers screen.
+    /** This method will update the member in database, and after member is updated, will take user back to the media_members screen.
      *
      * @param event clicking the save button
      * @throws IOException
      */
     @FXML
-    void onActionSaveUpdateCustomer(ActionEvent event) throws IOException {
+    void onActionSaveUpdateMember(ActionEvent event) throws IOException {
 
         Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("The customer will be updated, do you want to continue?");
+        alertUserMsg.setContentText("The member will be updated, do you want to continue?");
 
         Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
-            String customerName = customerNameTxtFld.getText();
+            String memberName = memberNameTxtFld.getText();
             String address = addressTxtFld.getText();
             String postalCode = postalCodeTxtFld.getText();
             String phone = phoneTxtFld.getText();
             Division division = divisionDropDownBox.getValue();
 
-            if (!customerName.isEmpty() && !address.isEmpty() && !postalCode.isEmpty() && !phone.isEmpty() && !(division == null)) {
+            if (!memberName.isEmpty() && !address.isEmpty() && !postalCode.isEmpty() && !phone.isEmpty() && !(division == null)) {
 
-                DBAccessCustomers.updateCustomer(customerName, address, postalCode, phone, division.getDivision_Id(), customer.getCustomer_Id());
+                DBAccessMedia_Members.updateMedia_Member(memberName, address, postalCode, phone, division.getDivision_Id(), member.getMember_Id());
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+                scene = FXMLLoader.load(getClass().getResource("../View/media_membersscreen.fxml"));
                 stage.setScene(new Scene(scene));
                 stage.show();
 
@@ -288,24 +289,24 @@ public class updatecustomerscreencontroller implements Initializable {
 
 
 
-    /** This method will cancel the "update customer" action, and send user back to the customers screen.
+    /** This method will cancel the "update member" action, and send user back to the media_members screen.
      *
      * @param event clicking cancel button
      * @throws IOException
      */
     @FXML
-    void onActionCancelUpdateCustomer(ActionEvent event) throws IOException {
+    void onActionCancelUpdateMember(ActionEvent event) throws IOException {
 
         Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg3.setHeaderText("ARE YOU SURE?");
-        alertUserMsg3.setContentText("This action will close the update customer screen, do you want to continue?");
+        alertUserMsg3.setContentText("This action will close the update member screen, do you want to continue?");
 
         Optional<ButtonType> result = alertUserMsg3.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+            scene = FXMLLoader.load(getClass().getResource("../View/media_membersscreen.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
 
@@ -316,7 +317,7 @@ public class updatecustomerscreencontroller implements Initializable {
 
 
     /**
-     * This method initializes the update customer screen and populate counttry dropdown box options.
+     * This method initializes the update member screen and populate country dropdown box options.
      *
      * @param url the location
      * @param resourceBundle the resources

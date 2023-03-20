@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import Model.Customer;
+import Model.Media_Member;
 
 import DBAccessObj.*;
 
@@ -20,38 +20,38 @@ import java.util.ResourceBundle;
 
 
 
-/** This controller will be used as the logic for the customers screen.
+/** This controller will be used as the logic for the media_members screen.
  *
  * @author Ajuane Rogers*/
-public class customersscreencontroller implements Initializable {
+public class media_membersscreencontroller implements Initializable {
 
     /**
      * FX IDs for main menu screen.
      */
     @FXML
-    private Label customersLabel;
+    private Label mediaMembersLabel;
     @FXML
-    private Button addCustomerButton;
+    private Button addMemberButton;
     @FXML
-    private Button updateCustomerButton;
+    private Button updateMemberButton;
     @FXML
-    private Button deleteCustomerButton;
+    private Button deleteMemberButton;
     @FXML
     private Button backToMainMenuButton;
     @FXML
-    private TableView<Customer> customerTable;
+    private TableView<Media_Member> mediaMembersTable;
     @FXML
-    private TableColumn<Customer, Integer> customerIdCol;
+    private TableColumn<Media_Member, Integer> memberIdCol;
     @FXML
-    private TableColumn<Customer, String> customerNameCol;
+    private TableColumn<Media_Member, String> memberNameCol;
     @FXML
-    private TableColumn<Customer, String> addressCol;
+    private TableColumn<Media_Member, String> addressCol;
     @FXML
-    private TableColumn<Customer, Integer> divisionCol;
+    private TableColumn<Media_Member, Integer> divisionCol;
     @FXML
-    private TableColumn<Customer, String> postalCodeCol;
+    private TableColumn<Media_Member, String> postalCodeCol;
     @FXML
-    private TableColumn<Customer, String> phoneCol;
+    private TableColumn<Media_Member, String> phoneCol;
 
 
 
@@ -64,16 +64,16 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This event will switch to the add customer screen.
+     * This event will switch to the add member screen.
      *
-     * @param event clicking on the add customer button.
+     * @param event clicking on the add member button.
      * @throws IOException IOException
      */
     @FXML
-    void onActionGoToAddCustomer(ActionEvent event) throws IOException {
+    void onActionGoToAddMember(ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/addcustomerscreen.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("../view/addmemberscreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 
@@ -99,19 +99,19 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This method will delete a customer from the database.
+     * This method will delete a member from the database.
      *
-     * @param event clicking the delete customer button.
+     * @param event clicking the delete member button.
      * @throws IOException IOException
      */
     @FXML
-    void onActionDeleteCustomer(ActionEvent event) throws IOException {
+    void onActionDeleteMember(ActionEvent event) throws IOException {
 
-        if (customerTable.getSelectionModel().isEmpty()) {
+        if (mediaMembersTable.getSelectionModel().isEmpty()) {
 
             Alert alertUserMsg = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg.setHeaderText("PLEASE SELECT A CUSTOMER TO DELETE.");
-            alertUserMsg.setContentText("No customer was selected to delete.");
+            alertUserMsg.setHeaderText("PLEASE SELECT A MEMBER TO DELETE.");
+            alertUserMsg.setContentText("No member was selected to delete.");
 
             Optional<ButtonType> result = alertUserMsg.showAndWait();
 
@@ -121,22 +121,22 @@ public class customersscreencontroller implements Initializable {
 
             Alert alertUserMsg2 = new Alert(Alert.AlertType.CONFIRMATION);
             alertUserMsg2.setHeaderText("ARE YOU SURE?");
-            alertUserMsg2.setContentText("The customer selected will be deleted, do you want to complete this action? This action CANNOT be undone.");
+            alertUserMsg2.setContentText("The member selected will be deleted, do you want to complete this action? This action CANNOT be undone.");
 
             Optional<ButtonType> result = alertUserMsg2.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                int customerId = customerTable.getSelectionModel().getSelectedItem().getCustomer_Id();
+                int memberId = mediaMembersTable.getSelectionModel().getSelectedItem().getMember_Id();
 
-                DBAccessCustomers.deleteCustomer(customerId);
+                DBAccessMedia_Members.deleteMedia_Member(memberId);
 
-                customerTable.setItems(DBAccessCustomers.getAllCustomers());
+                mediaMembersTable.setItems(DBAccessMedia_Members.getAllMedia_Members());
 
 
                 Alert alertUserMsg3 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg3.setHeaderText("DELETED!");
-                alertUserMsg3.setContentText("Customer deleted.");
+                alertUserMsg3.setContentText("Member deleted.");
 
                 alertUserMsg3.showAndWait();
 
@@ -146,7 +146,7 @@ public class customersscreencontroller implements Initializable {
 
                 Alert alertUserMsg4 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg4.setHeaderText("NOT DELETED!");
-                alertUserMsg4.setContentText("Customer not deleted.");
+                alertUserMsg4.setContentText("Member not deleted.");
 
                 alertUserMsg4.showAndWait();
 
@@ -159,19 +159,19 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This event will switch to the update customer screen.
+     * This event will switch to the update member screen.
      *
-     * @param event clicking on the update customer button.
+     * @param event clicking on the update member button.
      * @throws IOException IOException
      */
     @FXML
-    void onActionGoToUpdateCustomer(ActionEvent event) throws IOException {
+    void onActionGoToUpdateMember(ActionEvent event) throws IOException {
 
-        if (customerTable.getSelectionModel().isEmpty()) {
+        if (mediaMembersTable.getSelectionModel().isEmpty()) {
 
             Alert alertUserMsg5 = new Alert(Alert.AlertType.ERROR);
-            alertUserMsg5.setHeaderText("PLEASE SELECT A CUSTOMER.");
-            alertUserMsg5.setContentText("No customer was selected to update.");
+            alertUserMsg5.setHeaderText("PLEASE SELECT A MEMBER.");
+            alertUserMsg5.setContentText("No member was selected to update.");
 
             Optional<ButtonType> result = alertUserMsg5.showAndWait();
 
@@ -180,11 +180,11 @@ public class customersscreencontroller implements Initializable {
         else {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("../view/updatecustomerscreen.fxml"));
+            loader.setLocation(getClass().getResource("../view/updatememberscreen.fxml"));
             loader.load();
 
-            updatecustomerscreencontroller ADMController = loader.getController();
-            ADMController.customerToBeSentToUpdate(customerTable.getSelectionModel().getSelectedItem());
+            updatememberscreencontroller ADMController = loader.getController();
+            ADMController.memberToBeSentToUpdate(mediaMembersTable.getSelectionModel().getSelectedItem());
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             Parent scene = loader.getRoot();
@@ -198,21 +198,21 @@ public class customersscreencontroller implements Initializable {
 
 
     /**
-     * This method initializes the customers screen, populated with all customers.
+     * This method initializes the members screen, populated with all members.
      * @param url the location.
      * @param resourceBundle the resources.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        memberIdCol.setCellValueFactory(new PropertyValueFactory<>("member_Id"));
+        memberNameCol.setCellValueFactory(new PropertyValueFactory<>("memberName"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division_Id"));
         postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        customerTable.setItems(DBAccessCustomers.getAllCustomers());
+        mediaMembersTable.setItems(DBAccessMedia_Members.getAllMedia_Members());
 
     }
 

@@ -28,7 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import Model.Contact;
-import Model.Customer;
+import Model.Media_Member;
 import Model.User;
 import DBAccessObj.*;
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class ValidationForAppt {
         boolean apptsOverlap = false;
 
         for(Appointment appt : DBAccessAppointments.getAllAppointments()) {
-            if(appointment.getAppointment_Id() == appt.getAppointment_Id() || appointment.getCustomer_Id() != appt.getCustomer_Id()) {
+            if(appointment.getAppointment_Id() == appt.getAppointment_Id() || appointment.getMember_Id() != appt.getMember_Id()) {
                 continue;
             }
                 if (appt.getStartOfAppt().equals(appointment.getStartOfAppt()) && appt.getEndOfAppt().equals(appointment.getEndOfAppt())){
@@ -210,13 +210,4 @@ public class ValidationForAppt {
 
 
 }
-
-
-
-
-
-
-
-
-
 

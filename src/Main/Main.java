@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * @author Ajuane Rogers-----
  *
- * This Class contains the main method for the Scheduling Application.
+ * This Class contains the main method for the press World Press Tour Scheduler Application.
  */
 public class Main extends Application {
 
@@ -21,7 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/mainscreen.fxml"));
-        primaryStage.setTitle("Keeping Up with KBC: World Tour Scheduler");
+        primaryStage.setTitle("Keeping Up with KBC: World Press Tour Scheduler");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
@@ -30,7 +30,7 @@ public class Main extends Application {
 
 
     /**
-     * This is the main method for the Scheduling Assistant Application.
+     * This is the main method for the World Press Tour Scheduler Application.
      * This method gets call when the application starts.
      */
     public static void main(String[] args) {

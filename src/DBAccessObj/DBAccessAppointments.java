@@ -10,7 +10,7 @@ import java.sql.*;
 
 import Model.Appointment;
 import Model.Contact;
-import Model.Customer;
+import Model.Media_Member;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -40,8 +40,8 @@ public class DBAccessAppointments {
 
         try {
 
-            String sqlGetAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, customers.Customer_ID, users.User_ID " +
-                    "FROM appointments, contacts, customers, users WHERE appointments.Customer_ID = customers.Customer_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID  ORDER BY Appointment_ID";
+            String sqlGetAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, media_members.Member_ID, users.User_ID " +
+                    "FROM appointments, contacts, media_members, users WHERE appointments.Member_ID = media_members.Member_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID  ORDER BY Appointment_ID";
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlGetAppts);
             ResultSet resSet = preState.executeQuery();
 
@@ -54,13 +54,13 @@ public class DBAccessAppointments {
                 String type = resSet.getString("Type");
                 Timestamp startOfAppt = resSet.getTimestamp("Start");
                 Timestamp endOfAppt = resSet.getTimestamp("End");
-                int customer_Id = resSet.getInt("Customer_ID");
+                int member_Id = resSet.getInt("Member_ID");
                 int user_Id = resSet.getInt("User_ID");
                 int contact_Id = resSet.getInt("Contact_ID");
                 //String contactName = rs.getString("Contact_Name");
 
 
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
+                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, member_Id, user_Id, contact_Id);
                 listOfAppointments.add(appt);
 
             }
@@ -88,7 +88,7 @@ public class DBAccessAppointments {
 
         try {
 
-            String sqlGetWeekAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, customers.Customer_ID, users.User_ID FROM appointments, contacts, customers, users WHERE appointments.Customer_ID = customers.Customer_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID AND week(Start, 0) = week(curdate(), 0) ORDER BY Appointment_ID";
+            String sqlGetWeekAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, media_members.Member_ID, users.User_ID FROM appointments, contacts, media_members, users WHERE appointments.Member_ID = media_members.Member_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID AND week(Start, 0) = week(curdate(), 0) ORDER BY Appointment_ID";
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlGetWeekAppts);
             ResultSet resultSet = preState.executeQuery();
 
@@ -101,13 +101,13 @@ public class DBAccessAppointments {
                 String type = resultSet.getString("Type");
                 Timestamp startOfAppt = resultSet.getTimestamp("Start");
                 Timestamp endOfAppt = resultSet.getTimestamp("End");
-                int customer_Id = resultSet.getInt("Customer_ID");
+                int member_Id = resultSet.getInt("Member_ID");
                 int user_Id = resultSet.getInt("User_ID");
                 int contact_Id = resultSet.getInt("Contact_ID");
                 //String contactName = rs.getString("Contact_Name");
 
 
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
+                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, member_Id, user_Id, contact_Id);
 
                 weekAppointmentsList.add(appt);
 
@@ -136,7 +136,7 @@ public class DBAccessAppointments {
 
         try {
 
-            String sqlGetMonthAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, customers.Customer_ID, users.User_ID FROM appointments, contacts, customers, users WHERE appointments.Customer_ID = customers.Customer_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID AND month(Start) = month(curdate()) ORDER BY Appointment_ID";
+            String sqlGetMonthAppts = "SELECT Appointment_ID, Title, Description, Location, contacts.Contact_ID, contacts.Contact_Name, Type, Start, End, media_members.Member_ID, users.User_ID FROM appointments, contacts, media_members, users WHERE appointments.Member_ID = media_members.Member_ID AND appointments.User_ID = users.User_ID AND appointments.Contact_ID = contacts.Contact_ID AND month(Start) = month(curdate()) ORDER BY Appointment_ID";
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlGetMonthAppts);
             ResultSet resSet = preState.executeQuery();
 
@@ -149,13 +149,13 @@ public class DBAccessAppointments {
                 String type = resSet.getString("Type");
                 Timestamp startOfAppt = resSet.getTimestamp("Start");
                 Timestamp endOfAppt = resSet.getTimestamp("End");
-                int customer_Id = resSet.getInt("Customer_ID");
+                int member_Id = resSet.getInt("Member_ID");
                 int user_Id = resSet.getInt("User_ID");
                 int contact_Id = resSet.getInt("Contact_ID");
                 //String contactName = rs.getString("Contact_Name");
 
 
-                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
+                Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, member_Id, user_Id, contact_Id);
                 monthAppointmentsList.add(appt);
 
             }
@@ -181,11 +181,11 @@ public class DBAccessAppointments {
      * @param type        type of appointment.
      * @param startOfAppt       start time, date of appointment.
      * @param endOfAppt         end time, date of appointment.
-     * @param customer_Id customerID for appointment.
+     * @param member_Id     memberID for appointment.
      * @param user_Id     userID for appointment.
      * @param contact_Id  contact for appointment.
      */
-    public static void addAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id) {
+    public static void addAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int member_Id, int user_Id, int contact_Id) {
 
         try {
             String sqlAddAppt = "INSERT INTO appointments VALUES (NULL, ?, ?, ?, ?, ?, ?, NOW(), 'RZ', NOW(), 'RZ', ?, ?, ?)";
@@ -196,7 +196,7 @@ public class DBAccessAppointments {
             addAppt.setString(4, type);
             addAppt.setTimestamp(5, startOfAppt);
             addAppt.setTimestamp(6, endOfAppt);
-            addAppt.setInt(7, customer_Id);
+            addAppt.setInt(7, member_Id);
             addAppt.setInt(8, user_Id);
             addAppt.setInt(9, contact_Id);
             addAppt.execute();
@@ -218,15 +218,15 @@ public class DBAccessAppointments {
      * @param type           type of appointment.
      * @param startOfAppt    start time, date of appointment.
      * @param endOfAppt      end time, date of appointment.
-     * @param customer_Id    customerID for appointment.
+     * @param member_Id    memberID for appointment.
      * @param user_Id        userID for appointment.
      * @param contact_Id     contact Id of appointment.
      * @param appointment_Id Id of appointment.
      */
-    public static void updateAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id, int appointment_Id) {
+    public static void updateAppointment(String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int member_Id, int user_Id, int contact_Id, int appointment_Id) {
         try {
 
-            String sqlUpdateAppt = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+            String sqlUpdateAppt = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Member_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
             PreparedStatement updateAppt = DBConnect.connection().prepareStatement(sqlUpdateAppt);
             updateAppt.setString(1, title);
             updateAppt.setString(2, description);
@@ -234,7 +234,7 @@ public class DBAccessAppointments {
             updateAppt.setString(4, type);
             updateAppt.setTimestamp(5, startOfAppt);
             updateAppt.setTimestamp(6, endOfAppt);
-            updateAppt.setInt(7, customer_Id);
+            updateAppt.setInt(7, member_Id);
             updateAppt.setInt(8, user_Id);
             updateAppt.setInt(9, contact_Id);
             updateAppt.setInt(10, appointment_Id);
@@ -456,12 +456,12 @@ public class DBAccessAppointments {
 
 
     /**
-     * This method will get all of the appointments by customer Ids.
+     * This method will get all of the appointments by media_member Ids.
      *
-     * @return will return a list of all appointments by customer Ids
+     * @return will return a list of all appointments by media_member Ids
      */
-    public static ObservableList<Integer> getAllAppointmentsByCustomerId() {
-        ObservableList<Integer> listOfAppointmentsByCustomerId = FXCollections.observableArrayList();
+    public static ObservableList<Integer> getAllAppointmentsByMediaMemberId() {
+        ObservableList<Integer> listOfAppointmentsByMemberId = FXCollections.observableArrayList();
 
         try {
 
@@ -473,8 +473,8 @@ public class DBAccessAppointments {
 
             while (resSet.next()) {
 
-                int customerID = resSet.getInt("Customer_ID");
-                listOfAppointmentsByCustomerId.add(customerID);
+                int memberID = resSet.getInt("Member_ID");
+                listOfAppointmentsByMemberId.add(memberID);
 
             }
 
@@ -482,22 +482,22 @@ public class DBAccessAppointments {
             throwables.printStackTrace();
         }
 
-        return listOfAppointmentsByCustomerId;
+        return listOfAppointmentsByMemberId;
 
     }
 
 
 
     /**
-     * This method will get all of the appointments by customer names.
+     * This method will get all of the appointments by media_member names.
      *
-     * @return will return a list of all appointments by customer names
+     * @return will return a list of all appointments by media_member names
      */
-    public static ObservableList<String> getAllAppointmentByCustomerName() {
-        ObservableList<String> listOfAppointmentsByCustomerName = FXCollections.observableArrayList();
+    public static ObservableList<String> getAllAppointmentByMemberName() {
+        ObservableList<String> listOfAppointmentsByMemberName = FXCollections.observableArrayList();
 
         try {
-            String sqlDBQuery = "SELECT * FROM customers";
+            String sqlDBQuery = "SELECT * FROM media_members";
 
             PreparedStatement preState = DBConnect.connection().prepareStatement(sqlDBQuery);
 
@@ -505,9 +505,9 @@ public class DBAccessAppointments {
 
             while (resSet.next()) {
 
-                if (getAllAppointmentsByCustomerId().contains(resSet.getInt("Customer_ID"))) {
-                    String custName = resSet.getString("Customer_ID") + ": " + resSet.getString("Customer_Name");
-                    listOfAppointmentsByCustomerName.add(custName);
+                if (getAllAppointmentsByMediaMemberId().contains(resSet.getInt("Member_ID"))) {
+                    String membName = resSet.getString("Member_ID") + ": " + resSet.getString("Member_Name");
+                    listOfAppointmentsByMemberName.add(membName);
 
                 }
 
@@ -517,7 +517,7 @@ public class DBAccessAppointments {
             throwables.printStackTrace();
         }
 
-        return listOfAppointmentsByCustomerName;
+        return listOfAppointmentsByMemberName;
 
     }
 
@@ -549,10 +549,10 @@ public class DBAccessAppointments {
                     String type = resSet.getString("Type");
                     Timestamp startOfAppt = resSet.getTimestamp("Start");
                     Timestamp endOfAppt = resSet.getTimestamp("End");
-                    int customer_Id = resSet.getInt("Customer_ID");
+                    int member_Id = resSet.getInt("Member_ID");
                     int user_Id = resSet.getInt("User_ID");
                     int contact_Id = resSet.getInt("Contact_ID");
-                    Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id,
+                    Appointment appt = new Appointment(appointment_Id, title, description, location, type, startOfAppt, endOfAppt, member_Id,
                             user_Id, contact_Id);
                     listOfAppointmentsPerContact.add(appt);
 
@@ -571,22 +571,22 @@ public class DBAccessAppointments {
 
 
     /**
-     * This method will check the database for all appointments for a specific customer on a specific date.
+     * This method will check the database for all appointments for a specific media_member on a specific date.
      *
      * @param apptDate apptDate
-     * @param cust_Id cust_Id
-     * @return willl return list of appointment for a specific customer
+     * @param memb_Id memb_Id
+     * @return willl return list of appointment for a specific media_member
      * @throws SQLException SQLException
      */
-    public static ObservableList<Appointment> getApptsByDate(LocalDate apptDate, Integer cust_Id) throws SQLException {
+    public static ObservableList<Appointment> getApptsByDate(LocalDate apptDate, Integer memb_Id) throws SQLException {
         // Prepare SQL statement
         ObservableList<Appointment> filteredAppts = FXCollections.observableArrayList();
         PreparedStatement preState = DBConnect.connection().prepareStatement(
                 "SELECT * FROM appointments as a LEFT OUTER JOIN contacts as c " +
-                        "ON a.Contact_ID = c.Contact_ID WHERE datediff(a.Start, ?) = 0 AND Customer_ID = ?;"
+                        "ON a.Contact_ID = c.Contact_ID WHERE datediff(a.Start, ?) = 0 AND Member_ID = ?;"
         );
 
-        preState.setInt(2, cust_Id);
+        preState.setInt(2, memb_Id);
 
         preState.setString(1, apptDate.toString());  //Giving a "Null point error"
 
@@ -600,12 +600,12 @@ public class DBAccessAppointments {
             String type = resSet.getString("Type");
             Timestamp startOfAppt = resSet.getTimestamp("Start");
             Timestamp endOfAppt = resSet.getTimestamp("End");
-            int customer_Id = resSet.getInt("Customer_ID");
+            int member_Id = resSet.getInt("Member_ID");
             int user_Id = resSet.getInt("User_ID");
             int contact_Id = resSet.getInt("Contact_ID");
 
             Appointment newAppt = new Appointment(
-                    appointment_Id, title, description, location, type, startOfAppt, endOfAppt, customer_Id, user_Id, contact_Id);
+                    appointment_Id, title, description, location, type, startOfAppt, endOfAppt, member_Id, user_Id, contact_Id);
             filteredAppts.add(newAppt);
 
         }
@@ -616,60 +616,3 @@ public class DBAccessAppointments {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

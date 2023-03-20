@@ -7,12 +7,12 @@
 
 <AnchorPane prefHeight="345.0" prefWidth="400.0" style="-fx-border-color: brown; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.mainscreencontroller">
     <children>
-        <Button fx:id="viewCustomersButton" layoutX="118.0" layoutY="122.0" mnemonicParsing="false" onAction="#onActionViewCustomers" prefHeight="30.0" prefWidth="164.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="CUSTOMERS">
+        <Button fx:id="viewMediaMembersButton" layoutX="118.0" layoutY="122.0" mnemonicParsing="false" onAction="#onActionViewMediaMembers" prefHeight="30.0" prefWidth="164.0" style="-fx-border-color: brown; -fx-border-width: 2;" text="MEDIA MEMBERS">
             <font>
                 <Font name="Cochin" size="16.0" />
             </font>
         </Button>
-        <Label fx:id="worldTourSchedulerLabel" layoutX="66.0" layoutY="20.0" opacity="0.35" prefWidth="320.0" text="World Tour Scheduler">
+        <Label fx:id="worldTourSchedulerLabel" layoutX="39.0" layoutY="20.0" opacity="0.35" prefHeight="39.0" prefWidth="335.0" text="World Press Tour Scheduler">
             <font>
                 <Font name="Cochin" size="27.0" />
             </font>

@@ -40,7 +40,7 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private Label addAppointmentLabel;
     @FXML
-    private Label selectCustomerLabel;
+    private Label selectMediaMemberLabel;
     @FXML
     private Label appointmentIdLabel;
     @FXML
@@ -60,7 +60,7 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private Label dateLabel;
     @FXML
-    private Label customerIdLabel;
+    private Label memberIdLabel;
     @FXML
     private Label userIdLabel;
     @FXML
@@ -82,15 +82,15 @@ public class addappointmentscreencontroller implements Initializable {
     @FXML
     private DatePicker datePickerBox;
     @FXML
-    private TextField customerIdTxtFld;
+    private TextField memberIdTxtFld;
     @FXML
     private ComboBox<User> userIdDropDownBox;
     @FXML
-    private TableView<Customer> customerTable;
+    private TableView<Media_Member> mediaMembersTable;
     @FXML
-    private TableColumn<Customer, Integer> customerIdCol;
+    private TableColumn<Media_Member, Integer> memberIdCol;
     @FXML
-    private TableColumn<Customer, String> customerNameCol;
+    private TableColumn<Media_Member, String> memberNameCol;
     @FXML
     private Button saveAddAppointmentButton;
     @FXML
@@ -147,7 +147,7 @@ public class addappointmentscreencontroller implements Initializable {
     };
 
     @FXML
-    void onActionCustomerIdTxtFld (ActionEvent event){
+    void onActionMemberIdTxtFld (ActionEvent event){
     };
 
     @FXML
@@ -209,7 +209,7 @@ public class addappointmentscreencontroller implements Initializable {
                 LocalTime eTChosen = endTimeDropDownBox.getValue();
                 LocalDate dateChosen = datePickerBox.getValue();
                 User user = userIdDropDownBox.getValue();
-                int customer_Id = Integer.parseInt(customerIdTxtFld.getText());//Customer.getCustomer_Id();
+                int member_Id = Integer.parseInt(memberIdTxtFld.getText());//Media_Member.getMember_Id();
 
                 if (!title.isEmpty() && !description.isEmpty() && !location.isEmpty() && (contact != null) && !type.isEmpty()
                         && (sTChosen != null) && (eTChosen != null) && (dateChosen != null) && (user != null) &&
@@ -220,7 +220,7 @@ public class addappointmentscreencontroller implements Initializable {
 
                             if(DBAccessAppointments.checkForOverlap(startOfAppt, endOfAppt, 0)){
 
-                                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), customer_Id, user.getUser_Id(), contact.getContact_Id());
+                                DBAccessAppointments.addAppointment(title, description, location, type, Timestamp.valueOf(startOfAppt), Timestamp.valueOf(endOfAppt), member_Id, user.getUser_Id(), contact.getContact_Id());
 
                                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                                 scene = FXMLLoader.load(getClass().getResource("../view/appointmentsscreen.fxml"));
@@ -232,7 +232,7 @@ public class addappointmentscreencontroller implements Initializable {
 
                                 Alert alertUserMsg2 = new Alert(Alert.AlertType.ERROR);
                                 alertUserMsg2.setHeaderText("OVERLAPPING APPOINTMENT(S)!");
-                                alertUserMsg2.setContentText("Overlapping appointments with existing customers detected! Please try again");
+                                alertUserMsg2.setContentText("Overlapping appointments with existing media_members detected! Please try again");
                                 alertUserMsg2.showAndWait();
                             }
 
@@ -269,19 +269,19 @@ public class addappointmentscreencontroller implements Initializable {
     /**
      * This method will input a value into customer Id text field from a selected customer in the table.
      *
-     * @param event clicking on customer in the table
+     * @param event clicking on member in the table
      */
     @FXML
-    void onMouseClickInputToCustTxtFld(MouseEvent event) {
+    void onMouseClickInputToMembTxtFld(MouseEvent event) {
 
-        customerIdTxtFld.setText(String.valueOf(customerTable.getSelectionModel().getSelectedItem().getCustomer_Id()));
+        memberIdTxtFld.setText(String.valueOf(mediaMembersTable.getSelectionModel().getSelectedItem().getMember_Id()));
 
     }
 
 
 
     /**
-     * This method initializes the add appointment screen and populates customer table, contact and user dropdown boxes, and convert time between local time and EST.
+     * This method initializes the add appointment screen and populates media_members table, contact and user dropdown boxes, and convert time between local time and EST.
      *
      * @param url the location
      * @param resourceBundle the resources
@@ -290,10 +290,10 @@ public class addappointmentscreencontroller implements Initializable {
     public void initialize (URL url, ResourceBundle resourceBundle) {
 
         prePopForTypeDropDownBox();
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        memberIdCol.setCellValueFactory(new PropertyValueFactory<>("member_Id"));
+        memberNameCol.setCellValueFactory(new PropertyValueFactory<>("memberName"));
 
-        customerTable.setItems(DBAccessCustomers.getAllCustomers());
+        mediaMembersTable.setItems(DBAccessMedia_Members.getAllMedia_Members());
         contactDropDownBox.setItems(DBAccessContacts.getAllContacts());
         userIdDropDownBox.setItems(DBAccessUsers.getAllUsers());
 

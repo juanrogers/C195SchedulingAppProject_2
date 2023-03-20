@@ -12,7 +12,7 @@ import Model.Country;
 import Model.Division;
 
 import DBAccessObj.DBAccessCountries;
-import DBAccessObj.DBAccessCustomers;
+import DBAccessObj.DBAccessMedia_Members;
 import DBAccessObj.DBAccessDivisions;
 
 import java.io.IOException;
@@ -22,21 +22,21 @@ import java.util.ResourceBundle;
 
 
 
-/** This controller will be used as the logic for the add customer screen.
+/** This controller will be used as the logic for the add member screen.
  *
  * @author Ajuane Rogers*/
-public class addcustomerscreencontroller implements Initializable {
+public class addmemberscreencontroller implements Initializable {
 
     /**
      * FX IDs for add customer screen
      *
      */
     @FXML
-    private Label addCustomerLabel;
+    private Label addMemberLabel;
     @FXML
-    private Label customerIdLabel;
+    private Label memberIdLabel;
     @FXML
-    private Label customerNameLabel;
+    private Label memberNameLabel;
     @FXML
     private Label addressLabel;
     @FXML
@@ -48,9 +48,13 @@ public class addcustomerscreencontroller implements Initializable {
     @FXML
     private Label phoneLabel;
     @FXML
-    private TextField customerIdTxtFld;
+    private Button saveAddMemberButton;
     @FXML
-    private TextField customerNameTxtFld;
+    private Button cancelAddMemberButton;
+    @FXML
+    private TextField memberIdTxtFld;
+    @FXML
+    private TextField memberNameTxtFld;
     @FXML
     private TextField addressTxtFld;
     @FXML
@@ -61,6 +65,7 @@ public class addcustomerscreencontroller implements Initializable {
     private TextField postalCodeTxtFld;
     @FXML
     private TextField phoneTxtFld;
+
     //@FXML
     //private Label divisionLabel;
 
@@ -79,22 +84,17 @@ public class addcustomerscreencontroller implements Initializable {
      *
      */
     @FXML
-    void onActionCustdTxtFld (){
+    void onActionMembIdTxtFld (){
 
     };
 
     @FXML
-    void onActionCustNameTxtFld(){
+    void onActionMembNameTxtFld(){
 
     };
 
     @FXML
     void onActionAddrTxtFld (){
-
-    };
-
-    @FXML
-    void onActionCoutDropDownBox (){
 
     };
 
@@ -115,24 +115,26 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
-    /** This method will cancel the add customer action, and send user back to the customer screen.
+
+
+    /** This method will cancel the add member action, and send user back to the media_members screen.
      *
      * @param event clicking the cancel button
      * @throws IOException
      */
     @FXML
-    void onActionCancelAddCustomer(ActionEvent event) throws IOException {
+    void onActionCancelAddMember(ActionEvent event) throws IOException {
 
         Alert alertUserMsg3 = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg3.setHeaderText("ARE YOU SURE?");
-        alertUserMsg3.setContentText("This action will close the add customer screen, do you want to continue?");
+        alertUserMsg3.setContentText("This action will close the add member screen, do you want to continue?");
 
         Optional<ButtonType> result = alertUserMsg3.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+            scene = FXMLLoader.load(getClass().getResource("../View/media_membersscreen.fxml"));
             stage.setScene(new Scene(scene));
             stage.show();
 
@@ -197,35 +199,35 @@ public class addcustomerscreencontroller implements Initializable {
 
 
 
-    /** This method will save the customer in database, and after customer is saved, will take user back to the customers screen.
+    /** This method will save the member in database, and after member is saved, will take user back to the media_members screen.
      *
      * @param event clicking the save button.
      * @throws IOException IOException
      */
     @FXML
-    void onActionSaveAddCustomer(ActionEvent event) throws IOException {
+    void onActionSaveAddMember(ActionEvent event) throws IOException {
 
         Alert alertUserMsg = new Alert(Alert.AlertType.CONFIRMATION);
         alertUserMsg.setHeaderText("ARE YOU SURE?");
-        alertUserMsg.setContentText("A new customer will be added.");
+        alertUserMsg.setContentText("A new member will be added.");
 
         Optional<ButtonType> result = alertUserMsg.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
-            String customerName = customerNameTxtFld.getText();
+            String memberName = memberNameTxtFld.getText();
             String address = addressTxtFld.getText();
             String postalCode = postalCodeTxtFld.getText();
             String phone = phoneTxtFld.getText();
             Division division = divisionDropDownBox.getValue();
 
-            if (!customerName.isEmpty() && !address.isEmpty() && !postalCode.isEmpty() && !phone.isEmpty() && !(division == null)) {
+            if (!memberName.isEmpty() && !address.isEmpty() && !postalCode.isEmpty() && !phone.isEmpty() && !(division == null)) {
 
-                DBAccessCustomers.addCustomer(customerName, address, postalCode, phone, division.getDivision_Id());
+                DBAccessMedia_Members.addMedia_Member(memberName, address, postalCode, phone, division.getDivision_Id());
 
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+                scene = FXMLLoader.load(getClass().getResource("../View/media_membersscreen.fxml"));
                 stage.setScene(new Scene(scene));
                 stage.show();
 
@@ -247,7 +249,7 @@ public class addcustomerscreencontroller implements Initializable {
 
 
     /**
-     * This method initializes the add customer screen and populates the country dropdown box, clears option in division dropdown box.
+     * This method initializes the add member screen and populates the country dropdown box, clears option in division dropdown box.
      *
      * @param url the location
      * @param resourceBundle the resources

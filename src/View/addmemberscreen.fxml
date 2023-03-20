@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.addcustomerscreencontroller">
+<AnchorPane prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: sand; -fx-border-color: brown; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.addmemberscreencontroller">
     <children>
-        <Label fx:id="addCustomerLabel" layoutX="85.0" layoutY="20.0" prefWidth="240.0" text="ADD CUSTOMER">
+        <Label fx:id="addMemberLabel" layoutX="116.0" layoutY="20.0" prefHeight="40.0" prefWidth="184.0" text="ADD MEMBER">
             <font>
                 <Font name="Cochin" size="28.0" />
             </font>
         </Label>
         <VBox alignment="CENTER_RIGHT" layoutX="61.0" layoutY="117.0" prefHeight="200.0" prefWidth="121.0" spacing="25.0">
             <children>
-                <Label fx:id="customerIdLabel" prefHeight="25.0" text="Customer ID:">
+                <Label fx:id="memberIdLabel" prefHeight="25.0" text="Member ID:">
                     <font>
                         <Font name="Cochin" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="customerNameLabel" prefHeight="25.0" text="Customer Name:">
+                <Label fx:id="memberNameLabel" prefHeight="25.0" text="Member Name:">
                     <font>
                         <Font name="Cochin" size="16.0" />
                     </font>
@@ -54,18 +54,18 @@
                 </Label>
             </children>
         </VBox>
-        <Button fx:id="saveAddCustomerButton" layoutX="75.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionSaveAddCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="SAVE">
+        <Button fx:id="saveAddMemberButton" layoutX="75.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionSaveAddMember" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="SAVE">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="cancelAddCustomerButton" layoutX="245.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionCancelAddCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="CANCEL">
+        <Button fx:id="cancelAddMemberButton" layoutX="245.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionCancelAddMember" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="CANCEL">
             <font>
                 <Font name="Cochin" size="13.0" />
             </font>
         </Button>
-        <TextField fx:id="customerIdTxtFld" disable="true" editable="false" layoutX="189.0" layoutY="117.0" onAction="#onActionCustdTxtFld" promptText="AUTO CREATED" />
-        <TextField fx:id="customerNameTxtFld" layoutX="189.0" layoutY="170.0" onAction="#onActionCustNameTxtFld" promptText="ex. First Last" />
+        <TextField fx:id="memberIdTxtFld" disable="true" editable="false" layoutX="189.0" layoutY="117.0" onAction="#onActionMembIdTxtFld" promptText="AUTO CREATED" />
+        <TextField fx:id="memberNameTxtFld" layoutX="189.0" layoutY="170.0" onAction="#onActionMembNameTxtFld" promptText="ex. First Last" />
         <TextField fx:id="addressTxtFld" layoutX="189.0" layoutY="218.0" onAction="#onActionAddrTxtFld" promptText="ex. 123 ABC Street, City" />
         <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="269.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="149.0" promptText="Pick Ctry before Div" />
         <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="318.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="149.0" />

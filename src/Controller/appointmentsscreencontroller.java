@@ -42,8 +42,6 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     private Button addAppointmentButton;
     @FXML
-    private Button findAppointmentsButton;
-    @FXML
     private Button updateAppointmentButton;
     @FXML
     private Button deleteAppointmentButton;
@@ -57,6 +55,8 @@ public class appointmentsscreencontroller implements Initializable {
     private RadioButton viewAllRadioButton;
     @FXML
     private ToggleGroup radioButtonToggleGroup;
+    @FXML
+    private ToggleGroup viewToggleGroup;
     @FXML
     private TextField searchApptsTxtFld;
     @FXML
@@ -78,7 +78,7 @@ public class appointmentsscreencontroller implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalDateTime> endCol;
     @FXML
-    private TableColumn<Appointment, Integer> customerIdCol;
+    private TableColumn<Appointment, Integer> memberIdCol;
 
     /**
      * Variables for stages and scenes.
@@ -92,20 +92,14 @@ public class appointmentsscreencontroller implements Initializable {
     static ObservableList<Appointment> appointments;
 
 
-    /**
-     * Declared methods (not yet defined)
-     *
-     */
+//    /**
+//     * Declared methods (not yet defined)
+//     *
+//     */
 //    @FXML
 //    void onActionSearchApptsTxtFld(ActionEvent event) {
 //
 //    };
-
-
-    @FXML
-    void onActionFindAppointments(ActionEvent event) {
-
-    };
 
 
 
@@ -419,7 +413,7 @@ public class appointmentsscreencontroller implements Initializable {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+        memberIdCol.setCellValueFactory(new PropertyValueFactory<>("member_Id"));
         contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contact_Id"));
 
         searchApptsTxtFld.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -477,7 +471,7 @@ public class appointmentsscreencontroller implements Initializable {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startOfAppt"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endOfAppt"));
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customer_Id"));
+        memberIdCol.setCellValueFactory(new PropertyValueFactory<>("member_Id"));
 
         appointmentsTable.setItems(DBAccessAppointments.getAllAppointments());
 

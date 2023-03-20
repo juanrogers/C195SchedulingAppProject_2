@@ -32,7 +32,7 @@ public class mainscreencontroller implements Initializable {
     @FXML
     private Label mainMenuLabel;
     @FXML
-    private Button viewCustomersButton;
+    private Button viewMediaMembersButton;
     @FXML
     private Button viewAppointmentsButton;
     @FXML
@@ -55,10 +55,10 @@ public class mainscreencontroller implements Initializable {
      * @throws IOException IOException
      */
     @FXML
-    void onActionViewCustomers(ActionEvent event) throws IOException {
+    void onActionViewMediaMembers(ActionEvent event) throws IOException {
 
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("../view/customersscreen.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("../View/media_membersscreen.fxml"));
         stage.setScene(new Scene(scene));
         stage.show();
 

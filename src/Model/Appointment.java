@@ -17,7 +17,7 @@ public class Appointment {
     private String type;
     private Timestamp startOfAppt;
     private Timestamp endOfAppt;
-    private int customer_Id;
+    private int member_Id;
     private int user_Id;
     private int contact_Id;
     //private Date dateForCloseAppts;
@@ -34,12 +34,12 @@ public class Appointment {
      * @param type           This holds the type of appointment.
      * @param startOfAppt    This holds the start time and date of the appointment.
      * @param endOfAppt      This holds the end time and date of the appointment.
-     * @param customer_Id    This holds the customer Id for the appointment.
+     * @param member_Id      This holds the member Id for the appointment.
      * @param user_Id        This holds the user Id for with the appointment.
      * @param contact_Id     This holds the contact Id for the appointment.
      *                       // @param contactName This holds the contact name for the appointment.
      */
-    public Appointment(int appointment_Id, String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int customer_Id, int user_Id, int contact_Id) {
+    public Appointment(int appointment_Id, String title, String description, String location, String type, Timestamp startOfAppt, Timestamp endOfAppt, int member_Id, int user_Id, int contact_Id) {
 
         this.appointment_Id = appointment_Id;
         this.title = title;
@@ -48,7 +48,7 @@ public class Appointment {
         this.type = type;
         this.startOfAppt = startOfAppt;
         this.endOfAppt = endOfAppt;
-        this.customer_Id = customer_Id;
+        this.member_Id = member_Id;
         this.user_Id = user_Id;
         this.contact_Id = contact_Id;
         //this.contactName = contactName;
@@ -62,7 +62,7 @@ public class Appointment {
     private static ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
 
 
-    //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int custId, int user_id) {
+    //public Appointment(int appointment_id, String title, String description, String location, int contact_id, String contactName, String type, Timestamp startTime, Timestamp endTime, int memberId, int user_id) {
     //}
 
 
@@ -135,11 +135,11 @@ public class Appointment {
     }
 
     /**
-     * @return Getter for the customer_Id
+     * @return Getter for the member_Id
      */
-    public int getCustomer_Id() {
+    public int getMember_Id() {
 
-        return customer_Id;
+        return member_Id;
 
     }
 
@@ -240,11 +240,11 @@ public class Appointment {
     }
 
     /**
-     * @param customer_Id Setter for the customer_Id
+     * @param member_Id Setter for the member_Id
      */
-    public void setCustomer_Id(int customer_Id) {
+    public void setMember_Id(int member_Id) {
 
-        this.customer_Id = customer_Id;
+        this.member_Id = member_Id;
 
     }
 
@@ -272,6 +272,7 @@ public class Appointment {
      * @return all parts
      */
     public static ObservableList<Appointment> getAllAppts() {
+
         return allAppts;
     }
 

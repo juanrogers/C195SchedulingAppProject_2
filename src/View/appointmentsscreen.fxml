@@ -36,7 +36,7 @@
                 <TableColumn fx:id="typeCol" prefWidth="108.89" text="Type" />
                 <TableColumn fx:id="startCol" prefWidth="108.89" text="Start" />
                 <TableColumn fx:id="endCol" prefWidth="108.89" text="End" />
-                <TableColumn fx:id="customerIdCol" prefWidth="108.88" text="Customer ID" />
+                <TableColumn fx:id="memberIdCol" prefWidth="108.88" text="Member ID" />
             </columns>
         </TableView>
         <Button fx:id="deleteAppointmentButton" layoutX="534.0" layoutY="85.0" mnemonicParsing="false" onAction="#onActionGoToDeleteAppointment" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="DELETE APPOINTMENT">
@@ -77,7 +77,7 @@
                 <Font name="Cochin" size="16.0" />
             </font>
         </RadioButton>
-      <TextField fx:id="searchApptsTxtFld" layoutX="595.0" layoutY="22.0" onAction="#onActionSearchApptsTxtFld" prefHeight="29.0" prefWidth="301.0" style="-fx-border-color: purple;">
+      <TextField fx:id="searchApptsTxtFld" layoutX="595.0" layoutY="22.0" onAction="#onActionSearchApptsTxtFld" prefHeight="29.0" prefWidth="383.0" style="-fx-border-color: purple;">
          <effect>
             <Reflection fraction="0.0" topOpacity="1.0">
                <input>
@@ -102,6 +102,5 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="findAppointmentsButton" layoutX="914.0" layoutY="20.0" mnemonicParsing="false" onAction="#onActionFindAppointments" prefHeight="33.0" prefWidth="64.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="FIND" />
     </children>
 </AnchorPane>

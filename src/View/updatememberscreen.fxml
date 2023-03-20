@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: sand; -fx-border-color: teal; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updatecustomerscreencontroller">
+<AnchorPane prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: sand; -fx-border-color: brown; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.updatememberscreencontroller">
     <children>
-        <Label fx:id="updateCustomerLabel" layoutX="85.0" layoutY="20.0" prefWidth="240.0" text="UPDATE CUSTOMER">
+        <Label fx:id="updateMemberLabel" layoutX="115.0" layoutY="20.0" prefHeight="32.0" prefWidth="178.0" text="UPDATE MEMBER">
             <font>
                 <Font name="Cochin" size="22.0" />
             </font>
         </Label>
         <VBox alignment="CENTER_RIGHT" layoutX="61.0" layoutY="117.0" prefHeight="200.0" prefWidth="121.0" spacing="25.0">
             <children>
-                <Label fx:id="customerIdLabel" prefHeight="25.0" text="Customer ID:">
+                <Label fx:id="memberIdLabel" prefHeight="25.0" text="Member ID:">
                     <font>
                         <Font name="Cochin" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="customerNameLabel" prefHeight="25.0" text="Customer Name:">
+                <Label fx:id="memberNameLabel" prefHeight="25.0" text="Member Name:">
                     <font>
                         <Font name="Cochin" size="16.0" />
                     </font>
@@ -54,18 +54,18 @@
                 </Label>
             </children>
         </VBox>
-        <Button fx:id="saveUpdateCustomerButton" layoutX="75.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionSaveUpdateCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="SAVE">
+        <Button fx:id="saveUpdateMemberButton" layoutX="75.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionSaveUpdateMember" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="SAVE">
             <font>
                 <Font name="Cochin" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="cancelUpdateCustomerButton" layoutX="245.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionCancelUpdateCustomer" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: teal; -fx-border-width: 3;" text="CANCEL">
+        <Button fx:id="cancelUpdateMemberButton" layoutX="245.0" layoutY="475.0" mnemonicParsing="false" onAction="#onActionCancelUpdateMember" prefHeight="40.0" prefWidth="80.0" style="-fx-border-color: brown; -fx-border-width: 3;" text="CANCEL">
             <font>
                 <Font name="Cochin" size="13.0" />
             </font>
         </Button>
-        <TextField fx:id="customerIdTxtFld" disable="true" layoutX="189.0" layoutY="117.0" onAction="#onActionCustomerIdTxtFld" promptText="AUTO CREATED" />
-        <TextField fx:id="customerNameTxtFld" layoutX="189.0" layoutY="171.0" onAction="#onActionCustNameTxtFld" promptText="ex. First Last" />
+        <TextField fx:id="memberIdTxtFld" disable="true" layoutX="189.0" layoutY="117.0" onAction="#onActionMembIdTxtFld" promptText="AUTO CREATED" />
+        <TextField fx:id="memberNameTxtFld" layoutX="189.0" layoutY="171.0" onAction="#onActionMembNameTxtFld" promptText="ex. First Last" />
         <TextField fx:id="addressTxtFld" layoutX="189.0" layoutY="220.0" onAction="#onActionAddrTxtFld" promptText="ex. 123 ABC Street, City" />
         <ComboBox fx:id="countryDropDownBox" layoutX="189.0" layoutY="271.0" onAction="#onActionCoutDropDownBox" prefHeight="26.0" prefWidth="149.0" />
         <ComboBox fx:id="divisionDropDownBox" layoutX="189.0" layoutY="321.0" onAction="#onActionDivDropDownBox" prefHeight="26.0" prefWidth="149.0" />
