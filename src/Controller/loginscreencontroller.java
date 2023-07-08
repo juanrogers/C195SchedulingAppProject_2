@@ -44,7 +44,7 @@ public class loginscreencontroller implements Initializable {
     @FXML
     private Label keepingUpWithKBCLabel;
     @FXML
-    private Label loginLabel;
+    private Label worldTourSchedulerLabel;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -136,7 +136,7 @@ public class loginscreencontroller implements Initializable {
     void onActionSignin(ActionEvent event) throws IOException, SQLException {
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDateTime localDateTimePlus15 = localDateTime.plusMinutes(15);
+        LocalDateTime localDateTimePlus60 = localDateTime.plusMinutes(60);
 
         String username = usernameTxtFld.getText();
         String password = passwordTxtFld.getText();
@@ -170,10 +170,10 @@ public class loginscreencontroller implements Initializable {
 
             for (Appointment appt : uList) {
 
-                if (appt.getStartOfAppt().toLocalDateTime().isAfter(localDateTime) && appt.getStartOfAppt().toLocalDateTime().isBefore(localDateTimePlus15)) {
+                if (appt.getStartOfAppt().toLocalDateTime().isAfter(localDateTime) && appt.getStartOfAppt().toLocalDateTime().isBefore(localDateTimePlus60)) {
                     Alert alertUserMsg = new Alert(Alert.AlertType.INFORMATION);
                     alertUserMsg.setHeaderText("UPCOMING APPOINTMENT!");
-                    alertUserMsg.setContentText("You have an appointment scheduled within the next 15 minutes: Appointment " + appt.getAppointment_Id() + " at " + appt.getStartOfAppt().toLocalDateTime().toLocalTime());
+                    alertUserMsg.setContentText("You have an appointment scheduled within the next hour: Appointment " + appt.getAppointment_Id() + " at " + appt.getStartOfAppt().toLocalDateTime().toLocalTime());
                     alertUserMsg.showAndWait();
                     name = true;
 
@@ -185,7 +185,7 @@ public class loginscreencontroller implements Initializable {
 
                 Alert alertUserMsg2 = new Alert(Alert.AlertType.INFORMATION);
                 alertUserMsg2.setHeaderText("YOU HAVE NO UPCOMING APPOINTMENTS!");
-                alertUserMsg2.setContentText("No appointments scheduled within the next 15 minutes.");
+                alertUserMsg2.setContentText("No appointments scheduled within the next hour.");
                 alertUserMsg2.showAndWait();
 
             }
@@ -229,7 +229,7 @@ public class loginscreencontroller implements Initializable {
             if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
 
                 keepingUpWithKBCLabel.setText(resBundle.getString("keepingUpWithKBCLabel"));
-                loginLabel.setText(resBundle.getString("loginLabel"));
+                worldTourSchedulerLabel.setText(resBundle.getString("worldTourSchedulerLabel"));
                 usernameLabel.setText(resBundle.getString("usernameLabel"));
                 passwordLabel.setText(resBundle.getString("passwordLabel"));
                 zoneIdLabel.setText(resBundle.getString("zoneIdLabel"));

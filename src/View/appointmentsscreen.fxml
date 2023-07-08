@@ -77,7 +77,7 @@
                 <Font name="Cochin" size="16.0" />
             </font>
         </RadioButton>
-      <TextField fx:id="searchApptsTxtFld" layoutX="595.0" layoutY="22.0" onAction="#onActionSearchApptsTxtFld" prefHeight="29.0" prefWidth="383.0" style="-fx-border-color: purple;">
+      <TextField fx:id="searchApptsTxtFld" layoutX="595.0" layoutY="22.0" onAction="#onActionSearchApptsTxtFld" prefHeight="29.0" prefWidth="383.0" promptText="Search by title, description, location or type" style="-fx-border-color: purple;">
          <effect>
             <Reflection fraction="0.0" topOpacity="1.0">
                <input>

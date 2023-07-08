@@ -20,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/mainscreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/loginscreen.fxml"));
         primaryStage.setTitle("Keeping Up with KBC: World Press Tour Scheduler");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
